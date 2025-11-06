@@ -7,6 +7,7 @@ class Servo:
 
         self._pin = Pin(pin_id, mode = Pin.OUT)
         self._pwm = PWM(self._pin)
+        self._pwm.freq(50)
 
     def set_angle(self, angle):
         duty_min = self._duty_min

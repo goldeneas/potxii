@@ -1,11 +1,12 @@
 from machine import Pin, PWM
 import time
 
-class BUZZER:
-    def __init__(self, sig_pin):
-        self.pwm = PWM(Pin(sig_pin, Pin.OUT))
+class Buzzer:
+    def __init__(self, pin_id):
+        self.pwm = PWM(Pin(pin_id, Pin.OUT))
         self.pwm.duty(0)  # Inizialmente spento
 
+    # max duty is 1023
     def play(self, melodies, wait, duty):
         for note in melodies:
             if note == 0:
