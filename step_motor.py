@@ -35,34 +35,34 @@ class StepMotor:
         ]
 
 
-        #direction = +1 (antiorario), -1 (orario)
-        #steps = numero di passi da eseguire. max 2048
-        #delay = tempo tra un passo e l'altro. tra 0.1, 0.01 e 0.005
-        #step_index tiene traccia della posizione corrente nella sequenza di attivazione (fase) del motore.
+    #direction = +1 (antiorario), -1 (orario)
+    #steps = numero di passi da eseguire. max 2048
+    #delay = tempo tra un passo e l'altro. tra 0.1, 0.01 e 0.005
+    #step_index tiene traccia della posizione corrente nella sequenza di attivazione (fase) del motore.
+    
+    def step(self, direction, steps, delay):
+        global step_index 
         
-        def step(self, direction, steps, delay):
-            global step_index 
-            
-            step_sequence = self.step_sequence
-            stepper_pins = self.stepper_pins
+        step_sequence = self.step_sequence
+        stepper_pins = self.stepper_pins
 
-            for i in range(steps):
-                # l'operatore % garantisce che step_index rimanga all'interno dell'intervallo valido (in questo caso [0-3]),
-                # assicurando che la sequenza dei passi venga ripetuta ciclicamente.
-                # indica la riga quindi quale passo
-                step_index = (step_index + direction) % len(step_sequence) # se la sequenza ha 4 stati è come fare mod 4
-        
-                #pin_index determina la colonna (quindi la bobbina)
-                for pin_index in range(len(stepper_pins)):
-                    #Esempio: se step_index = 2, la sequenza è [0, 1, 1, 0]
-                    # Se pin_index = 0 → pin_value = 0
-                    # Se pin_index = 1 → pin_value = 1
-                    # Se pin_index = 2 → pin_value = 1
-                    # Se pin_index = 3 → pin_value = 0
-                    pin_value = step_sequence[step_index][pin_index]
-                    #Scrive il valore sul pin fisico, accendendo o spegnendo la bobina
-                    stepper_pins[pin_index].value(pin_value)
-        
-                #Aspetta il tempo delay prima di passare al prossimo passo.
-                #Pausa più corta → motore più veloce. Pausa più lunga → motore più lento.
-                utime.sleep(delay)
+        for i in range(steps):
+            # l'operatore % garantisce che step_index rimanga all'interno dell'intervallo valido (in questo caso [0-3]),
+            # assicurando che la sequenza dei passi venga ripetuta ciclicamente.
+            # indica la riga quindi quale passo
+            step_index = (step_index + direction) % len(step_sequence) # se la sequenza ha 4 stati è come fare mod 4
+    
+            #pin_index determina la colonna (quindi la bobbina)
+            for pin_index in range(len(stepper_pins)):
+                #Esempio: se step_index = 2, la sequenza è [0, 1, 1, 0]
+                # Se pin_index = 0 → pin_value = 0
+                # Se pin_index = 1 → pin_value = 1
+                # Se pin_index = 2 → pin_value = 1
+                # Se pin_index = 3 → pin_value = 0
+                pin_value = step_sequence[step_index][pin_index]
+                #Scrive il valore sul pin fisico, accendendo o spegnendo la bobina
+                stepper_pins[pin_index].value(pin_value)
+    
+            #Aspetta il tempo delay prima di passare al prossimo passo.
+            #Pausa più corta → motore più veloce. Pausa più lunga → motore più lento.
+            utime.sleep(delay)
