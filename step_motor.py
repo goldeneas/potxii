@@ -40,7 +40,7 @@ class StepMotor:
         #delay = tempo tra un passo e l'altro. tra 0.1, 0.01 e 0.005
         #step_index tiene traccia della posizione corrente nella sequenza di attivazione (fase) del motore.
         
-        def step(direction, steps, delay):
+        def step(self, direction, steps, delay):
             global step_index 
             
             step_sequence = self.step_sequence
