@@ -15,20 +15,20 @@ class Photoresistor:
 
         # initialize ADC (analog to digital conversion)
         # create an object ADC
-        self.adc = ADC(Pin(pin))
-        self.min_value = min_value
-        self.max_value = max_value
+        self._adc = ADC(Pin(pin))
+        self._min_value = min_value
+        self._max_value = max_value
 
     def read(self):
         """
         Read a raw value from the LDR.
         :return a value from 0 to 4095.
         """
-        return self.adc.read()
+        return self._adc.read()
 
     def value(self):
         """
         Read a value from the LDR in the specified range.
         :return a value from the specified [min, max] range.
         """
-        return (self.max_value - self.min_value) * self.read() / 4095
+        return (self._max_value - self._min_value) * self.read() / 4095

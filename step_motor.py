@@ -8,13 +8,14 @@ class StepMotor:
         self.IN3 = Pin(pin_id3, Pin.OUT)
         self.IN4 = Pin(pin_id4, Pin.OUT)
 
-        self.stepper_pins = [self.IN1, self.IN2, self.IN3, self.IN4]
+        self.step_index = 0
+        self._stepper_pins = [self.IN1, self.IN2, self.IN3, self.IN4]
 
 
         # full-step con 2 bobbine attive per ogni step
         # due bobbine accese per ogni step -> più coppia
         #il valore (0=spento, 1=acceso) da dare a quel pin nel passo corrente.
-        self.step_sequence = [
+        self._step_sequence = [
             [1, 0, 0, 1], 
             [1, 1, 0, 0], 
             [0, 1, 1, 0], 
@@ -23,7 +24,7 @@ class StepMotor:
         
         #la half-step corrispondente (8 stati) è questa:
         # Half-step (mezzo passo): alterna 1 bobina e 2 bobine
-        self.step_sequence_half = [
+        self._step_sequence_half = [
             [1,0,0,0],
             [1,0,0,1],
             [0,0,0,1],
@@ -41,10 +42,9 @@ class StepMotor:
     #step_index tiene traccia della posizione corrente nella sequenza di attivazione (fase) del motore.
     
     def step(self, direction, steps, delay):
-        global step_index 
-        
-        step_sequence = self.step_sequence
-        stepper_pins = self.stepper_pins
+        step_sequence = self._step_sequence
+        stepper_pins = self._stepper_pins
+        step_index = self.step_index
 
         for i in range(steps):
             # l'operatore % garantisce che step_index rimanga all'interno dell'intervallo valido (in questo caso [0-3]),
