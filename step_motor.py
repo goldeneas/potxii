@@ -1,7 +1,7 @@
 import utime
 from machine import Pin
 
-class StepMotor:
+class Stepmotor:
     def __init__(self, pin_id1, pin_id2, pin_id3, pin_id4):
         self.IN1 = Pin(pin_id1, Pin.OUT)
         self.IN2 = Pin(pin_id2, Pin.OUT)
