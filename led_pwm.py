@@ -5,6 +5,7 @@ class LedPWM:
         self._pin = Pin(pin_id, Pin.OUT)
         self._max_pwm_value = max_pwm_value
         self._pwm = PWM(self._pin)
+        self.set_brightness(0)
 
     def off(self):
         self.set_brightness(0)
