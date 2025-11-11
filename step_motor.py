@@ -36,7 +36,7 @@ class StepMotor:
 
 
         #direction = +1 (antiorario), -1 (orario)
-        #steps = numero di passi da eseguire
+        #steps = numero di passi da eseguire. max 2048
         #delay = tempo tra un passo e l'altro. tra 0.1, 0.01 e 0.005
         #step_index tiene traccia della posizione corrente nella sequenza di attivazione (fase) del motore.
         
