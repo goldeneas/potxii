@@ -5,11 +5,12 @@ REQUIRED_ACTIVE_TICKS = 4
 BOUNCING_MAX_DELTA_MS = 200
 
 class DebouncedButton():
-    def __init__(self, id, pull, trigger, callback):
+    def __init__(self, id, pull):
         self._pin = Pin(id, Pin.IN, pull)
-        self._callback = callback
+        self._last_pressed_timestamp = 0
 
-        self._last_pressed_timestamp = time.ticks_ms()
+    def set_irq(self, callback, trigger):
+        self._callback = callback
         self._pin.irq(lambda btn: self._on_press(btn), trigger)
 
     def _on_press(self, btn):
