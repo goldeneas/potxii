@@ -1,5 +1,6 @@
 from machine import Pin, ADC
 
+# Usa una resistenza in serie con il fotoresistore di 2kOHM
 class Photoresistor:
     """This class read a value from a light dependent resistor (LDR)"""
 
