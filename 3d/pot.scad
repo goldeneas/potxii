@@ -74,6 +74,12 @@ module lid() {
     }
 }
 
+module esp_plane() {
+    translate([0, 12, 10]) {
+		cube([20, 7, 1]);
+    }
+}
+
 union () {
     difference() {
         tank([pot_width - 0.9, 5, 0], [tank_width, tank_depth, tank_height]);
@@ -87,6 +93,11 @@ union () {
     
     difference() {
         pot([0, 0, 0], [pot_width, pot_depth, pot_height]);
+        holes();
+    }
+	
+	difference() {
+        esp_plane();
         holes();
     }
 }
