@@ -56,6 +56,10 @@ module holes() {
             sphere(1);
         }   
     }
+	
+	translate([8.5, 18.5, 15]) {
+		cube([2.174, 1.806, 2]);
+	}
 }
 
 module lid() {
