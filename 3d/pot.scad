@@ -1,6 +1,6 @@
 pot_width = 20;
 pot_depth = 20;
-pot_height = 20;
+pot_height = 10;
 
 tank_width = 10;
 tank_depth = 10;
@@ -29,7 +29,7 @@ module pot(position, dimensions) {
 module tank(position, dimensions) {
     translate([20, 10, 0]) {
         difference () {
-            cylinder(10, 10, 10);
+            cylinder(7, 10, 10);
             translate([-10, 0, 9]) {
                 cube(20, center = true);
             };
@@ -47,19 +47,19 @@ module esp_container() {
 module holes() {
     translate([19.5, 15, 16]) {
         rotate([0, 90, 0]) {
-            sphere(1);
+            sphere(1.5);
         }
-    }
-    
-    translate([19.5, 5, 10]) {
-        rotate([0, 90, 0]) {
-            sphere(1);
-        }   
     }
 	
 	translate([8.5, 18.5, 15]) {
 		cube([2.174, 1.806, 2]);
 	}
+	
+	translate([13, 12.3, 15]) {
+        rotate([0, 90, 0]) {
+            sphere(1.5);
+        }
+    }
 }
 
 module lid() {
