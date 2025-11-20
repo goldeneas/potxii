@@ -6,6 +6,10 @@ tank_width = 10;
 tank_depth = 10;
 tank_height = 10;
 
+module hexagon() {
+	cylinder(r=10, h=5, $fn=6);
+}
+
 module pot(position, dimensions) {
     diff_position = [for (i = position) i + 1];
         
@@ -107,5 +111,4 @@ union () {
 }
 
 lid();
-
  
