@@ -109,7 +109,7 @@ class SSD1306(framebuf.FrameBuffer):
         self.write_cmd(self.pages - 1)
         self.write_data(self.buffer)
 
-    def draw_image(self, buffer, x, y):
+    def draw_image(self, buffer, w, h, x, y):
         #Crea un oggetto FrameBuffer, una struttura dati che contiene i pixel di una immagine:
         #buffer → i dati binari dell’immagine,
         #128, 64 → larghezza e altezza in pixel,
@@ -118,7 +118,7 @@ class SSD1306(framebuf.FrameBuffer):
         #MONO → immagine monocromatica (bianco/nero)
         #H → Horizontal: i bit scorrono orizzontalmente lungo le righe)
         #LSB → Least Significant Bit first: da sin a destra 
-        fb = framebuf.FrameBuffer(buffer, 128, 64, framebuf.MONO_HLSB)
+        fb = framebuf.FrameBuffer(buffer, w, h, framebuf.MONO_HLSB)
         self.fill(0) #pulisce lo schermo
         #Copia (o “incolla”) l’immagine (fb) sul display a partire dalla posizione
         #(x=8, y=0). Per centrare l'immagine
