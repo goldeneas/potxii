@@ -117,7 +117,7 @@ module smart_vase_final() {
 
         // Elettronica -> Acqua
         // FIX: Alzato per allinearsi col nuovo pavimento elettronica
-        translate([water_tank_width + wall_thick/2 + 1, front_compartment_depth/2, electronics_floor_z + 20])
+        translate([water_tank_width + wall_thick/2 + 1, front_compartment_depth/2, electronics_floor_z + 50])
             rotate([0, 90, 0])
             cylinder(h=10, r=3, center=true);
             
@@ -167,6 +167,30 @@ module electronics_lid() {
     cube([electronics_width - wall_thick - tolerance, front_compartment_depth - tolerance, 2]);
 }
 
+module us_support() {
+    width = 45;
+    depth = 40;
+    height = 5;
+    
+    holes_radius = 10;
+        
+    translate ([100, 0.5, 110]) {
+        rotate([0, 0, 90]) {
+            cube([width, depth, height]);
+        }
+        
+        translate ([-20, 0, 0]) {
+            translate ([0, 13, 0]) {
+                sphere(holes_radius);
+            }
+            
+            translate ([0, 33, 0]) {
+                sphere(holes_radius);
+            }
+        }
+    }
+}
+
 // ==============================================================================
 // GENERAZIONE SCENA
 // ==============================================================================
@@ -174,6 +198,7 @@ module electronics_lid() {
 if (show_main_body) {
     color("Teal", 0.8) 
     smart_vase_final();
+    us_support();
 }
 
 if (show_drainage_tray) {
@@ -188,4 +213,4 @@ if (show_lid) {
     color("DarkSlateGray")
     translate([water_tank_width + wall_thick*2 + tolerance/2, wall_thick + tolerance/2, vase_height])
         electronics_lid();
-}   
+}
