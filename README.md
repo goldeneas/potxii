@@ -8,13 +8,14 @@
 - Grafico per indicare il livello dell'acqua nel tempo
 
 ## Sensori/Componenti da Utilizzare
-- Pompa per acqua
+- Pompa add immersione per acqua
 - Sensore ad ultrasuoni
 - Sensore per temperatura ed umidità
 - Fotoresistore
 - SSD1306
 - Buzzer
 - Led per allarme
+- Power supply
 
 ## Features
 - Start at boot
@@ -37,4 +38,4 @@
 - Mostrare errore se manca acqua, se non ci connettiamo al wifi
 - Mostrare warning se c'è troppa luce, se l'acqua sta per finire, se la temperatura non è adatta
 - Mostrare icona per indicare l'irrigazione in corso della pianta
-- Sull'oled cosa dobbiamo mostrare? Tipo i valori misurati ora?
+- Mostrare gli ultimi valori misurati sull'OLED
