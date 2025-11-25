@@ -167,28 +167,42 @@ module electronics_lid() {
     cube([electronics_width - wall_thick - tolerance, front_compartment_depth - tolerance, 2]);
 }
 
+// ultrasound sensor
 module us_support() {
     width = 45;
     depth = 40;
     height = 5;
     
     holes_radius = 10;
-        
-    translate ([100, 0.5, 110]) {
-        rotate([0, 0, 90]) {
-            cube([width, depth, height]);
-        }
-        
-        translate ([-20, 0, 0]) {
-            translate ([0, 13, 0]) {
-                sphere(holes_radius);
-            }
+	
+	union() {
+		translate ([100, 0.5, 110]) {
+			// vertical holder
+			translate([-depth, 0, 0]) {
+				rotate([0, 0, 90]) {
+					cube([width, height- 3, depth - 30]);
+				}
+			}
+		
+			difference() {
+				// main body
+				rotate([0, 0, 90]) {
+					cube([width, depth, height]);
+				}
+			
+				// eye holes
+				translate ([-20, 0, 0]) {
+					translate ([0, 13, 0]) {
+						sphere(holes_radius);
+					}
             
-            translate ([0, 33, 0]) {
-                sphere(holes_radius);
-            }
-        }
-    }
+					translate ([0, 33, 0]) {
+						sphere(holes_radius);
+					}
+				}
+			}
+		}
+	}
 }
 
 // ==============================================================================
@@ -197,8 +211,10 @@ module us_support() {
 
 if (show_main_body) {
     color("Teal", 0.8) 
-    smart_vase_final();
-    us_support();
+	union() {
+		smart_vase_final();
+		us_support();
+	}
 }
 
 if (show_drainage_tray) {
