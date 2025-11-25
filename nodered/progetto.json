@@ -1,0 +1,366 @@
+[
+    {
+        "id": "34d478f6cbb8753a",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "42f6df196dd72d4c",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "3dbd742063594ab4",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "label": "Temperature °C",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 520,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8fcc25f7a51ee641",
+        "type": "inject",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "a94c0146f60e4769"
+            ]
+        ]
+    },
+    {
+        "id": "a94c0146f60e4769",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "function 1",
+        "func": "console.log(msg);\n\n// Genera un numero casuale tra 20 (min) e 30 (max)\nlet min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\n// Imposta il payload che sarà il valore mostrato nel grafico\nmsg.payload = value;\n\n// Aggiungi un timestamp per assicurare che il grafico riceva il tempo corrente\n// (il nodo inject lo fa già, ma è una buona pratica)\nmsg.topic = \"Temperatura Fittizia\";\nmsg.timestamp = Date.now();\n\nconsole.log(value);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "42f6df196dd72d4c",
+                "3578f7c607ca29b1"
+            ]
+        ]
+    },
+    {
+        "id": "3578f7c607ca29b1",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "media",
+        "func": "const max_values = 10;\n\n// 1. Assicurati che il valore in ingresso sia un NUMERO REALE\nlet value = parseFloat(msg.payload);\n\n// Se non è un numero (NaN), ferma tutto per non sporcare la media\nif (isNaN(value)) return null;\n\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\n// Calcolo somma (più conciso usando reduce, ma il tuo for loop va benissimo)\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\n// 2. Arrotonda il risultato finale (es. 2 decimali) per non avere numeri tipo 23.3333333333\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "7191f3305b6e375e"
+            ]
+        ]
+    },
+    {
+        "id": "7191f3305b6e375e",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "3dbd742063594ab4",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "label": "Avg Temperature °C",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 520,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "227184f3d9990528",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "60357de18034327d",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "label": "Humidity",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 500,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca3004bf410c1e07",
+        "type": "inject",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 460,
+        "wires": [
+            [
+                "498dd53eb32c9d53"
+            ]
+        ]
+    },
+    {
+        "id": "498dd53eb32c9d53",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "function 2",
+        "func": "console.log(msg);\n\n// Genera un numero casuale tra 20 (min) e 30 (max)\nlet min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\n// Imposta il payload che sarà il valore mostrato nel grafico\nmsg.payload = value;\n\n// Aggiungi un timestamp per assicurare che il grafico riceva il tempo corrente\n// (il nodo inject lo fa già, ma è una buona pratica)\nmsg.topic = \"Umidità Fittizia\";\nmsg.timestamp = Date.now();\n\nconsole.log(value);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 460,
+        "wires": [
+            [
+                "227184f3d9990528",
+                "a015631a545e31e4"
+            ]
+        ]
+    },
+    {
+        "id": "a015631a545e31e4",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "media",
+        "func": "const max_values = 10;\n\n// 1. Assicurati che il valore in ingresso sia un NUMERO REALE\nlet value = parseFloat(msg.payload);\n\n// Se non è un numero (NaN), ferma tutto per non sporcare la media\nif (isNaN(value)) return null;\n\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\n// Calcolo somma (più conciso usando reduce, ma il tuo for loop va benissimo)\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\n// 2. Arrotonda il risultato finale (es. 2 decimali) per non avere numeri tipo 23.3333333333\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 560,
+        "wires": [
+            [
+                "3a38d29792bf03f1"
+            ]
+        ]
+    },
+    {
+        "id": "3a38d29792bf03f1",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "60357de18034327d",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "label": "Avg Humidity",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 500,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3dbd742063594ab4",
+        "type": "ui_group",
+        "name": "measurements",
+        "tab": "0cdba00dd121a6f6",
+        "order": 1,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "60357de18034327d",
+        "type": "ui_group",
+        "name": "humidity",
+        "tab": "827722bd9bf31d4a",
+        "order": 2,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0cdba00dd121a6f6",
+        "type": "ui_tab",
+        "name": "temperature",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "827722bd9bf31d4a",
+        "type": "ui_tab",
+        "name": "humidity",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "6f289eb917d11c3c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
