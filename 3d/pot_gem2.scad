@@ -26,6 +26,8 @@ esp32_bay_depth = 40;
 // Questo riduce la distanza dai sensori e dal display
 electronics_floor_z = 80; 
 
+inner_corner_radius = 6;
+
 // --- CONFIGURAZIONE RENDERING ---
 show_main_body = 1;
 show_drainage_tray = 1;
@@ -34,6 +36,19 @@ show_lid = 0;
 // ==============================================================================
 // LOGICA DI COSTRUZIONE
 // ==============================================================================
+
+module lid_generic(w, d) {
+    lid_h = 2;
+    // Raggio leggermente ridotto per tolleranza
+    lid_r = max(1, inner_corner_radius - tolerance); 
+    
+    union() {
+        rounded_cube([w, d, lid_h], lid_r);
+        // Maniglietta
+        translate([w/2, d/2, lid_h])
+            cylinder(h=5, r1=4, r2=6);
+    }
+}
 
 module rounded_cube(size, r) {
     hull() {
@@ -69,28 +84,28 @@ module smart_vase_final() {
 
         // --- NEGATIVO: Comparto ACQUA (B) ---
         translate([wall_thick, wall_thick, floor_z])
-            cube([
+            rounded_cube([
                 water_tank_width - wall_thick, 
                 front_compartment_depth, 
                 vase_height
-            ]);
+            ], inner_corner_radius);
 
         // --- NEGATIVO: Comparto ELETTRONICA (C) ---
         // FIX: Ora inizia molto più in alto (electronics_floor_z)
         translate([water_tank_width + wall_thick*2, wall_thick, electronics_floor_z])
-            cube([
+            rounded_cube([
                 electronics_width - wall_thick, 
                 front_compartment_depth, 
                 vase_height // Taglia fino in cima
-            ]);
+            ], inner_corner_radius);
 
         // --- NEGATIVO: Vano Vassoio Drenaggio (D) ---
         translate([wall_thick, front_compartment_depth + wall_thick*2, wall_thick])
-            cube([
+            rounded_cube([
                 vase_width - wall_thick*2, 
                 soil_depth + 10, 
                 tray_height
-            ]);
+            ], inner_corner_radius);
             
         // --- DETTAGLI FUNZIONALI ---
         
@@ -226,7 +241,20 @@ if (show_drainage_tray) {
 
 if (show_lid) {
     water_tank_width = (vase_width / 2) - wall_thick;
-    color("DarkSlateGray")
-    translate([water_tank_width + wall_thick*2 + tolerance/2, wall_thick + tolerance/2, vase_height])
-        electronics_lid();
+    electronics_width = (vase_width / 2) - wall_thick;
+    
+    // Dimensioni coperchi (spazio interno - tolleranza)
+    lid_w_water = water_tank_width - wall_thick - tolerance;
+    lid_w_elec = electronics_width - wall_thick - tolerance;
+    lid_d = esp32_bay_depth - tolerance;
+    
+    color("DarkSlateGray") {
+        // Coperchio ACQUA
+        translate([wall_thick + tolerance/2, wall_thick + tolerance/2, vase_height])
+            lid_generic(lid_w_water, lid_d);
+            
+        // Coperchio ELETTRONICA
+        translate([water_tank_width + wall_thick*2 + tolerance/2, wall_thick + tolerance/2, vase_height])
+            lid_generic(lid_w_elec, lid_d);
+    }
 }
