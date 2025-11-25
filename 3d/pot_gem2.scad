@@ -1,6 +1,6 @@
 // ==============================================================================
 // PROGETTO: All-in-One Smart Vase (ESP32 IoT)
-// VERSIONE: 1.2.0 (Raised Electronics Floor)
+// VERSIONE: 1.4.0 (Water Level Sensor Correction)
 // ==============================================================================
 
 // --- PARAMETRI GENERALI ---
@@ -19,11 +19,10 @@ oled_width = 27;
 oled_height = 27; 
 oled_screen_w = 23; 
 oled_screen_h = 12; 
-esp32_bay_depth = 40; 
+
+esp32_bay_depth = 50; 
 
 // --- CONFIGURAZIONE NUOVA: PAVIMENTO ELETTRONICA ---
-// Alziamo il fondo del vano elettronica a 80mm da terra
-// Questo riduce la distanza dai sensori e dal display
 electronics_floor_z = 80; 
 
 inner_corner_radius = 6;
@@ -32,6 +31,7 @@ inner_corner_radius = 6;
 show_main_body = 1;
 show_drainage_tray = 1;
 show_lid = 0; 
+show_sensor = 1; 
 
 // ==============================================================================
 // LOGICA DI COSTRUZIONE
@@ -39,12 +39,10 @@ show_lid = 0;
 
 module lid_generic(w, d) {
     lid_h = 2;
-    // Raggio leggermente ridotto per tolleranza
     lid_r = max(1, inner_corner_radius - tolerance); 
     
     union() {
         rounded_cube([w, d, lid_h], lid_r);
-        // Maniglietta
         translate([w/2, d/2, lid_h])
             cylinder(h=5, r1=4, r2=6);
     }
@@ -68,7 +66,7 @@ module smart_vase_final() {
     
     soil_depth = vase_depth - front_compartment_depth - (wall_thick * 3);
     tray_height = 20;
-    floor_z = tray_height + wall_thick + 2; // Pavimento standard (Acqua/Suolo)
+    floor_z = tray_height + wall_thick + 2; 
 
     difference() {
         // --- POSITIVO: Guscio Esterno ---
@@ -91,19 +89,18 @@ module smart_vase_final() {
             ], inner_corner_radius);
 
         // --- NEGATIVO: Comparto ELETTRONICA (C) ---
-        // FIX: Ora inizia molto più in alto (electronics_floor_z)
         translate([water_tank_width + wall_thick*2, wall_thick, electronics_floor_z])
             rounded_cube([
                 electronics_width - wall_thick, 
                 front_compartment_depth, 
-                vase_height // Taglia fino in cima
+                vase_height 
             ], inner_corner_radius);
 
         // --- NEGATIVO: Vano Vassoio Drenaggio (D) ---
         translate([wall_thick, front_compartment_depth + wall_thick*2, wall_thick])
             rounded_cube([
                 vase_width - wall_thick*2, 
-                soil_depth + 10, 
+                soil_depth + 20, 
                 tray_height
             ], inner_corner_radius);
             
@@ -124,28 +121,29 @@ module smart_vase_final() {
                 cube([oled_width, 5, oled_height], center=true);
         }
         
-        // 3. Passaggi Cavi (Cavidotti interni)
-        // Elettronica -> Suolo (per sensori)
+        // 3. Passaggi Cavi
+        // Elettronica -> Suolo
         translate([water_tank_width + wall_thick*2 + (electronics_width/2) - 15, front_compartment_depth - 5, vase_height - 25])
             rotate([-90, 0, 0]) 
             cylinder(h=25, r=4); 
 
-        // Elettronica -> Acqua
-        // FIX: Alzato per allinearsi col nuovo pavimento elettronica
-        translate([water_tank_width + wall_thick/2 + 1, front_compartment_depth/2, electronics_floor_z + 50])
+        // Elettronica -> Acqua (Sensore Livello / Pompa)
+        // Questo foro collega la parte alta del serbatoio con la parte alta dell'elettronica
+        translate([water_tank_width + wall_thick*1.5, front_compartment_depth/2, vase_height - 20])
             rotate([0, 90, 0])
-            cylinder(h=10, r=3, center=true);
+            cylinder(h=wall_thick*4, r=4, center=true);
             
         // 4. Foro USB 
-        // FIX: Alzato per entrare nel nuovo vano (altrimenti bucherebbe il pieno)
         translate([vase_width - 10, front_compartment_depth/2, electronics_floor_z + 15])
             rotate([0, 90, 0])
             cylinder(h=20, r=5); 
             
-        // 5. Foro Tubo Acqua (Elettronica -> Suolo)
+        // 5. Foro Tubo Acqua
         translate([water_tank_width + wall_thick*2 + (electronics_width/2) + 15, front_compartment_depth - 5, vase_height - 25])
             rotate([-90, 0, 0])
             cylinder(h=25, r=5); 
+            
+        // 6. Rimosso vecchi fori sensore frontali (inutili)
     }
 }
 
@@ -182,38 +180,31 @@ module electronics_lid() {
     cube([electronics_width - wall_thick - tolerance, front_compartment_depth - tolerance, 2]);
 }
 
-// ultrasound sensor
 module us_support() {
-    width = 45;
-    depth = 40;
-    height = 5;
+    // Dimensioni standard HC-SR04 approssimative
+    us_pcb_w = 45; 
+    us_pcb_h = 20;
     
-    holes_radius = 10;
+    holder_w = 55;
+    holder_d = 20; 
+    holder_h = 30; // Leggermente più compatto
+    
+    holes_radius = 8.2;
 	
-	union() {
-		translate ([100, 0.5, 110]) {
-			// vertical holder
-			translate([-depth, 0, 0]) {
-				rotate([0, 0, 90]) {
-					cube([width, height- 3, depth - 30]);
-				}
-			}
-		
+	rotate([90, 0, 90]) {
+		translate([-15, 30, -17]) {
 			difference() {
-				// main body
-				rotate([0, 0, 90]) {
-					cube([width, depth, height]);
-				}
-			
-				// eye holes
-				translate ([-20, 0, 0]) {
-					translate ([0, 13, 0]) {
-						sphere(holes_radius);
-					}
-            
-					translate ([0, 33, 0]) {
-						sphere(holes_radius);
-					}
+				// Corpo principale
+				cube([holder_w, holder_d, holder_h]);
+				
+				// Scasso PCB
+				translate([(holder_w - us_pcb_w)/2, 2, (holder_h - us_pcb_h)/2 + 2])
+					cube([us_pcb_w, holder_d, us_pcb_h]);
+					
+				// Fori occhi (passanti)
+				translate([holder_w/2, -1, (holder_h/2)]) {
+					translate([-13, 0, 0]) rotate([-90,0,0]) cylinder(h=holder_d+2, r=holes_radius);
+					translate([13, 0, 0]) rotate([-90,0,0]) cylinder(h=holder_d+2, r=holes_radius);
 				}
 			}
 		}
@@ -226,10 +217,28 @@ module us_support() {
 
 if (show_main_body) {
     color("Teal", 0.8) 
-	union() {
-		smart_vase_final();
-		us_support();
-	}
+    smart_vase_final();
+}
+
+if (show_sensor) {
+    // LOGICA DI POSIZIONAMENTO CORRETTA PER LIVELLO ACQUA
+    // Deve stare sopra il comparto ACQUA, puntando GIÙ (-Z)
+    
+    water_tank_w = (vase_width / 2) - wall_thick;
+    
+    // Posizione X: Centrato nel comparto acqua
+    sens_x = wall_thick + (water_tank_w/2) - (55/2); // 55 è width del supporto
+    
+    // Posizione Y: Centrato in profondità
+    sens_y = wall_thick + (esp32_bay_depth/2) - (25/2); // 25 è (ora) height del supporto che diventa profondità ruotato
+    
+    // Posizione Z: In cima al vaso, appena sotto il bordo
+    sens_z = vase_height;
+
+    color("Gold")
+    translate([sens_x + 55, sens_y, sens_z - 20]) // Aggiustamenti fini per rotazione
+        rotate([0, 180, 0]) // Capovolto a testa in giù (cavi in alto, occhi in basso)
+        us_support();
 }
 
 if (show_drainage_tray) {
@@ -242,18 +251,14 @@ if (show_drainage_tray) {
 if (show_lid) {
     water_tank_width = (vase_width / 2) - wall_thick;
     electronics_width = (vase_width / 2) - wall_thick;
-    
-    // Dimensioni coperchi (spazio interno - tolleranza)
     lid_w_water = water_tank_width - wall_thick - tolerance;
     lid_w_elec = electronics_width - wall_thick - tolerance;
     lid_d = esp32_bay_depth - tolerance;
     
     color("DarkSlateGray") {
-        // Coperchio ACQUA
         translate([wall_thick + tolerance/2, wall_thick + tolerance/2, vase_height])
             lid_generic(lid_w_water, lid_d);
             
-        // Coperchio ELETTRONICA
         translate([water_tank_width + wall_thick*2 + tolerance/2, wall_thick + tolerance/2, vase_height])
             lid_generic(lid_w_elec, lid_d);
     }
