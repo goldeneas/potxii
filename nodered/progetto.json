@@ -123,6 +123,15 @@
         "hidden": false
     },
     {
+        "id": "3900d40c1756d9b6",
+        "type": "ui_tab",
+        "name": "water_level",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
         "id": "3dbd742063594ab4",
         "type": "ui_group",
         "name": "measurements",
@@ -143,15 +152,6 @@
         "width": "13",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "3900d40c1756d9b6",
-        "type": "ui_tab",
-        "name": "water_level",
-        "icon": "dashboard",
-        "order": 3,
-        "disabled": false,
-        "hidden": false
     },
     {
         "id": "69c85ae031957054",
@@ -196,50 +196,6 @@
         "width": "13",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "42f6df196dd72d4c",
-        "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "group": "3dbd742063594ab4",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "label": "Temperature (°C)",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "bezier",
-        "nodata": "No Data",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "10",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": true,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 610,
-        "y": 160,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "8fcc25f7a51ee641",
@@ -305,6 +261,162 @@
             [
                 "7191f3305b6e375e"
             ]
+        ]
+    },
+    {
+        "id": "ca3004bf410c1e07",
+        "type": "inject",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "498dd53eb32c9d53"
+            ]
+        ]
+    },
+    {
+        "id": "498dd53eb32c9d53",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "random_humidity",
+        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nmsg.topic = \"humidity\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 300,
+        "wires": [
+            [
+                "227184f3d9990528",
+                "a015631a545e31e4"
+            ]
+        ]
+    },
+    {
+        "id": "a015631a545e31e4",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "average",
+        "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 360,
+        "wires": [
+            [
+                "3a38d29792bf03f1"
+            ]
+        ]
+    },
+    {
+        "id": "856c3e3e3ae4fdbd",
+        "type": "inject",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 440,
+        "wires": [
+            [
+                "98d2216dd5644797"
+            ]
+        ]
+    },
+    {
+        "id": "98d2216dd5644797",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "random_water_level",
+        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nmsg.topic = \"water_level\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 440,
+        "wires": [
+            [
+                "be5652e7290804be",
+                "f8d8216dd9146556"
+            ]
+        ]
+    },
+    {
+        "id": "42f6df196dd72d4c",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "3dbd742063594ab4",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "label": "Temperature (°C)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "bezier",
+        "nodata": "No Data",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 610,
+        "y": 160,
+        "wires": [
+            []
         ]
     },
     {
@@ -396,72 +508,6 @@
         ]
     },
     {
-        "id": "ca3004bf410c1e07",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "2",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 300,
-        "wires": [
-            [
-                "498dd53eb32c9d53"
-            ]
-        ]
-    },
-    {
-        "id": "498dd53eb32c9d53",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_humidity",
-        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nmsg.topic = \"humidity\";\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 370,
-        "y": 300,
-        "wires": [
-            [
-                "227184f3d9990528",
-                "a015631a545e31e4"
-            ]
-        ]
-    },
-    {
-        "id": "a015631a545e31e4",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "average",
-        "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 440,
-        "y": 360,
-        "wires": [
-            [
-                "3a38d29792bf03f1"
-            ]
-        ]
-    },
-    {
         "id": "3a38d29792bf03f1",
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
@@ -511,7 +557,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "69c85ae031957054",
-        "order": 1,
+        "order": 2,
         "width": "0",
         "height": "0",
         "label": "Water Level (mm)",
@@ -550,52 +596,61 @@
         ]
     },
     {
-        "id": "856c3e3e3ae4fdbd",
-        "type": "inject",
+        "id": "f8d8216dd9146556",
+        "type": "ui_gauge",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
+        "group": "69c85ae031957054",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Water Gauge",
+        "label": "mm",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
         ],
-        "repeat": "3600",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 440,
-        "wires": [
-            [
-                "98d2216dd5644797"
-            ]
-        ]
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 590,
+        "y": 480,
+        "wires": []
     },
     {
-        "id": "98d2216dd5644797",
-        "type": "function",
+        "id": "ccc74ce47892d404",
+        "type": "ui_button",
         "z": "34d478f6cbb8753a",
-        "name": "random_water_level",
-        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nmsg.topic = \"water_level\";\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 440,
+        "name": "",
+        "group": "4de629c8464f8fcf",
+        "order": 1,
+        "width": "5",
+        "height": "1",
+        "passthru": false,
+        "label": "Water Pump Override",
+        "tooltip": "Enables the water pump for 5 seconds",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "water_pump_override",
+        "topicType": "msg",
+        "x": 200,
+        "y": 520,
         "wires": [
-            [
-                "be5652e7290804be"
-            ]
+            []
         ]
     },
     {
-        "id": "55026fc71b8cb3f8",
+        "id": "35e120bfd2a94ac7",
         "type": "global-config",
         "env": [],
         "modules": {
