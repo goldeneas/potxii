@@ -29,7 +29,7 @@ inner_corner_radius = 6;
 
 // --- CONFIGURAZIONE RENDERING ---
 show_main_body = 1;
-show_drainage_tray = 1;
+show_drainage_tray = 0;
 show_lid = 0; 
 show_sensor = 1; 
 
