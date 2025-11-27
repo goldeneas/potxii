@@ -117,7 +117,7 @@
         "type": "ui_tab",
         "name": "temperature",
         "icon": "dashboard",
-        "order": 2,
+        "order": 3,
         "disabled": false,
         "hidden": false
     },
@@ -126,7 +126,7 @@
         "type": "ui_tab",
         "name": "humidity",
         "icon": "dashboard",
-        "order": 3,
+        "order": 4,
         "disabled": false,
         "hidden": false
     },
@@ -135,7 +135,7 @@
         "type": "ui_tab",
         "name": "water_level",
         "icon": "dashboard",
-        "order": 4,
+        "order": 5,
         "disabled": false,
         "hidden": false
     },
@@ -219,6 +219,26 @@
         "type": "ui_group",
         "name": "info",
         "tab": "d99d632f072107bd",
+        "order": 1,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "da78d601782c531b",
+        "type": "ui_tab",
+        "name": "general",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "2d67e269d40763c1",
+        "type": "ui_group",
+        "name": "analysis",
+        "tab": "da78d601782c531b",
         "order": 1,
         "disp": true,
         "width": "13",
@@ -611,8 +631,8 @@
         "dot": false,
         "ymin": "",
         "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "10",
+        "removeOlder": "10",
+        "removeOlderPoints": "",
         "removeOlderUnit": "3600",
         "cutout": 0,
         "useOneColor": true,
@@ -671,24 +691,26 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "4de629c8464f8fcf",
-        "order": 1,
+        "order": 2,
         "width": "5",
         "height": "1",
         "passthru": false,
-        "label": "Water Pump Override",
-        "tooltip": "Enables the water pump for 5 seconds",
+        "label": "Activate Water Pump",
+        "tooltip": "Enables the water pump for",
         "color": "",
         "bgcolor": "",
         "className": "",
         "icon": "",
         "payload": "true",
         "payloadType": "bool",
-        "topic": "water_pump_override",
+        "topic": "payload",
         "topicType": "msg",
-        "x": 200,
-        "y": 680,
+        "x": 180,
+        "y": 960,
         "wires": [
-            []
+            [
+                "9d4d346ac2a16160"
+            ]
         ]
     },
     {
@@ -856,6 +878,248 @@
         ]
     },
     {
+        "id": "61ec79c4b9916808",
+        "type": "mqtt out",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "water_pump_override",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "",
+        "x": 680,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "e6604fb8ebc63a5a",
+        "type": "ui_numeric",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "label": "Activate Water Pump For",
+        "tooltip": "Activate Water Pump For",
+        "group": "4de629c8464f8fcf",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": true,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}} seconds",
+        "min": 0,
+        "max": "20",
+        "step": 1,
+        "className": "",
+        "x": 190,
+        "y": 900,
+        "wires": [
+            [
+                "5959fb8463bcc23b"
+            ]
+        ]
+    },
+    {
+        "id": "5959fb8463bcc23b",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "Set Water Pump Duration",
+        "func": "flow.set(\"water_pump_duration\", msg.payload)\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d4d346ac2a16160",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "Get Water Pump Duration",
+        "func": "let value = flow.get(\"water_pump_duration\")\n\nmsg.payload = value;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 960,
+        "wires": [
+            [
+                "61ec79c4b9916808"
+            ]
+        ]
+    },
+    {
+        "id": "27429957a57f172d",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "VPD",
+        "func": "// msg.payload.temp (Celsius) and msg.payload.humidity (%)\nlet T = msg.payload.temperature;\nlet RH = msg.payload.humidity;\n\n// 1. Calculate SVP (Tetens equation)\n// Result is in kPa (kilopascals)\nlet SVP = 0.61078 * Math.exp((17.27 * T) / (T + 237.3));\n\n// 2. Calculate VPD\nlet VPD = SVP * (1 - (RH / 100));\n\n// Output formatting\nmsg.payload = {\n    vpd: parseFloat(VPD.toFixed(2)),\n    status: VPD > 1.2 ? \"Dry/High Stress\" : (VPD < 0.4 ? \"Mold Risk\" : \"Good\")\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 60,
+        "wires": [
+            [
+                "c93de5560976103f",
+                "b819238f0ef23cef"
+            ]
+        ]
+    },
+    {
+        "id": "92e72763c9f29829",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "2d67e269d40763c1",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "VPD",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1670,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c93de5560976103f",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "2d67e269d40763c1",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "VPD Status: ",
+        "format": "{{msg.payload.status}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 1550,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "1ab3e2e5f47596a4",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "random_temp_humidity",
+        "func": "let min = 20;\nlet max = 30;\n\nlet randomTemp = Math.random() * (max - min) + min;\nlet randomHumidity = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet valueTemp = parseFloat(randomTemp.toFixed(2));\nlet valueHumidity = parseFloat(randomHumidity.toFixed(2));\n\nmsg.payload = {\n    \"temperature\": valueTemp,\n    \"humidity\": valueHumidity,\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 60,
+        "wires": [
+            [
+                "27429957a57f172d"
+            ]
+        ]
+    },
+    {
+        "id": "990f565b56fae053",
+        "type": "inject",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "props": [
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.5",
+        "topic": "",
+        "x": 990,
+        "y": 60,
+        "wires": [
+            [
+                "1ab3e2e5f47596a4"
+            ]
+        ]
+    },
+    {
+        "id": "b819238f0ef23cef",
+        "type": "change",
+        "z": "34d478f6cbb8753a",
+        "name": "Get Vpd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.vpd",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1540,
+        "y": 60,
+        "wires": [
+            [
+                "92e72763c9f29829"
+            ]
+        ]
+    },
+    {
         "id": "85c79f8369a4d688",
         "type": "ui_text",
         "z": "c753122a205bffa9",
@@ -907,7 +1171,7 @@
         ]
     },
     {
-        "id": "33a49534e8ca15ed",
+        "id": "977bf13edc2e9ef1",
         "type": "global-config",
         "env": [],
         "modules": {
