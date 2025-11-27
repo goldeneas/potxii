@@ -12,6 +12,6 @@ wifi = Wifi()
 wifi.connect("PicaNET_5G", "asdasda")
 
 wifi_screen = WifiConnectionScreen(display)
-wifi_screen.wait_for_connection("Connecting...", "Connected!", wifi)
+wifi_screen.wait_for_connection("Connecting to", "Connected to", wifi)
 
 time.sleep(3)
