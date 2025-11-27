@@ -123,7 +123,7 @@ class SSD1306(framebuf.FrameBuffer):
         
         self.blit(fb, x, y) #centra l'immagine sia in verticale che in orizzontale 
         self.show()
-        utime.sleep_ms(2000)
+        utime.sleep_ms(100)
 
     def draw_logo(self):
         logo = bytearray([
