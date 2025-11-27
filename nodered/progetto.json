@@ -2,7 +2,15 @@
     {
         "id": "34d478f6cbb8753a",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "measurement and analysis",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c753122a205bffa9",
+        "type": "tab",
+        "label": "home",
         "disabled": false,
         "info": "",
         "env": []
@@ -109,7 +117,7 @@
         "type": "ui_tab",
         "name": "temperature",
         "icon": "dashboard",
-        "order": 1,
+        "order": 2,
         "disabled": false,
         "hidden": false
     },
@@ -118,7 +126,7 @@
         "type": "ui_tab",
         "name": "humidity",
         "icon": "dashboard",
-        "order": 2,
+        "order": 3,
         "disabled": false,
         "hidden": false
     },
@@ -127,7 +135,7 @@
         "type": "ui_tab",
         "name": "water_level",
         "icon": "dashboard",
-        "order": 3,
+        "order": 4,
         "disabled": false,
         "hidden": false
     },
@@ -198,13 +206,40 @@
         "className": ""
     },
     {
+        "id": "d99d632f072107bd",
+        "type": "ui_tab",
+        "name": "home",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5d441a915c5d51f3",
+        "type": "ui_group",
+        "name": "info",
+        "tab": "d99d632f072107bd",
+        "order": 1,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "8fcc25f7a51ee641",
         "type": "inject",
         "z": "34d478f6cbb8753a",
         "name": "",
         "props": [
             {
-                "p": "payload"
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "date",
+                "v": "object",
+                "vt": "date"
             }
         ],
         "repeat": "2",
@@ -212,9 +247,7 @@
         "once": true,
         "onceDelay": "0.5",
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
+        "x": 150,
         "y": 160,
         "wires": [
             [
@@ -239,7 +272,9 @@
         "wires": [
             [
                 "42f6df196dd72d4c",
-                "3578f7c607ca29b1"
+                "3578f7c607ca29b1",
+                "d84df22c477c8b88",
+                "dd0a8517cf8c8cc3"
             ]
         ]
     },
@@ -255,7 +290,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
+        "x": 580,
         "y": 220,
         "wires": [
             [
@@ -270,7 +305,14 @@
         "name": "",
         "props": [
             {
-                "p": "payload"
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            },
+            {
+                "p": "date",
+                "v": "object",
+                "vt": "date"
             }
         ],
         "repeat": "2",
@@ -278,10 +320,8 @@
         "once": true,
         "onceDelay": "0.5",
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 300,
+        "x": 150,
+        "y": 420,
         "wires": [
             [
                 "498dd53eb32c9d53"
@@ -301,11 +341,13 @@
         "finalize": "",
         "libs": [],
         "x": 370,
-        "y": 300,
+        "y": 420,
         "wires": [
             [
                 "227184f3d9990528",
-                "a015631a545e31e4"
+                "a015631a545e31e4",
+                "ed13c6809e7717c8",
+                "df17f5b9454415da"
             ]
         ]
     },
@@ -322,7 +364,7 @@
         "finalize": "",
         "libs": [],
         "x": 440,
-        "y": 360,
+        "y": 480,
         "wires": [
             [
                 "3a38d29792bf03f1"
@@ -336,7 +378,9 @@
         "name": "",
         "props": [
             {
-                "p": "payload"
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
             }
         ],
         "repeat": "3600",
@@ -344,10 +388,8 @@
         "once": true,
         "onceDelay": "0.5",
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 440,
+        "x": 150,
+        "y": 600,
         "wires": [
             [
                 "98d2216dd5644797"
@@ -367,7 +409,7 @@
         "finalize": "",
         "libs": [],
         "x": 380,
-        "y": 440,
+        "y": 600,
         "wires": [
             [
                 "be5652e7290804be",
@@ -425,7 +467,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "cf90c337e99acd39",
-        "order": 2,
+        "order": 3,
         "width": "0",
         "height": "0",
         "label": "Avg Temperature (°C)",
@@ -457,7 +499,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 620,
+        "x": 760,
         "y": 220,
         "wires": [
             []
@@ -502,7 +544,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 610,
-        "y": 300,
+        "y": 420,
         "wires": [
             []
         ]
@@ -513,7 +555,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "ab882737ee8c3239",
-        "order": 2,
+        "order": 3,
         "width": "0",
         "height": "0",
         "label": "Avg Humidity (kg/m^3)",
@@ -546,7 +588,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 620,
-        "y": 360,
+        "y": 480,
         "wires": [
             []
         ]
@@ -590,7 +632,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 610,
-        "y": 440,
+        "y": 600,
         "wires": [
             []
         ]
@@ -620,7 +662,7 @@
         "diff": false,
         "className": "",
         "x": 590,
-        "y": 480,
+        "y": 640,
         "wires": []
     },
     {
@@ -644,13 +686,228 @@
         "topic": "water_pump_override",
         "topicType": "msg",
         "x": 200,
-        "y": 520,
+        "y": 680,
         "wires": [
             []
         ]
     },
     {
-        "id": "35e120bfd2a94ac7",
+        "id": "ab220919f250e4eb",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "cf90c337e99acd39",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Max Temperature:",
+        "format": "{{msg.payload}} @ {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 770,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8280581bc87fc4f5",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "cf90c337e99acd39",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Min Temperature:",
+        "format": "{{msg.payload}} @ {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 770,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "dd0a8517cf8c8cc3",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "max",
+        "func": "let max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\n\nmsg.payload = max;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 100,
+        "wires": [
+            [
+                "ab220919f250e4eb"
+            ]
+        ]
+    },
+    {
+        "id": "d84df22c477c8b88",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "min",
+        "func": "let min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\n\nmsg.payload = min;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 60,
+        "wires": [
+            [
+                "8280581bc87fc4f5"
+            ]
+        ]
+    },
+    {
+        "id": "6bf500247d122c0e",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "ab882737ee8c3239",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Max Humidity:",
+        "format": "{{msg.payload}} @ {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 760,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "050653bc1899f72e",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "ab882737ee8c3239",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Min Humidity:",
+        "format": "{{msg.payload}} @ {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 760,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ed13c6809e7717c8",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "max",
+        "func": "let max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\n\nmsg.payload = max;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "6bf500247d122c0e"
+            ]
+        ]
+    },
+    {
+        "id": "df17f5b9454415da",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "min",
+        "func": "let min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\n\nmsg.payload = min;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            [
+                "050653bc1899f72e"
+            ]
+        ]
+    },
+    {
+        "id": "85c79f8369a4d688",
+        "type": "ui_text",
+        "z": "c753122a205bffa9",
+        "group": "5d441a915c5d51f3",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "",
+        "format": "System Startup @ {{msg.date}}",
+        "layout": "row-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 330,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "bc8bac361121f705",
+        "type": "inject",
+        "z": "c753122a205bffa9",
+        "name": "startup_date",
+        "props": [
+            {
+                "p": "date",
+                "v": "object",
+                "vt": "date"
+            },
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "85c79f8369a4d688"
+            ]
+        ]
+    },
+    {
+        "id": "33a49534e8ca15ed",
         "type": "global-config",
         "env": [],
         "modules": {
