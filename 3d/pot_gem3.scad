@@ -9,8 +9,8 @@ wall_thick = 3.0;
 tolerance = 0.5; 
 
 // --- DIMENSIONI VASO ---
-vase_width = 200;
-vase_depth = 200;
+vase_width = 250;
+vase_depth = 300;
 vase_height = 180;
 corner_radius = 10;
 
@@ -20,7 +20,7 @@ oled_height = 16;
 oled_screen_w = oled_width; 
 oled_screen_h = oled_height; 
 
-esp32_bay_depth = 100; 
+esp32_bay_depth = 170; 
 
 // --- CONFIGURAZIONE NUOVA: PAVIMENTO ELETTRONICA ---
 electronics_floor_z = 80; 
@@ -28,10 +28,10 @@ electronics_floor_z = 80;
 inner_corner_radius = 6;
 
 // --- CONFIGURAZIONE RENDERING ---
-show_main_body = 1;
+show_main_body = 0;
 show_drainage_tray = 0;
-show_lid = 0; 
-show_sensor = 1; 
+show_lid = 1; 
+show_sensor = 0; 
 
 // ==============================================================================
 // LOGICA DI COSTRUZIONE
@@ -83,17 +83,17 @@ module smart_vase_final() {
         // --- NEGATIVO: Comparto ACQUA (B) ---
         translate([wall_thick, wall_thick, floor_z])
             rounded_cube([
-                water_tank_width - wall_thick, 
+                water_tank_width - wall_thick - 10, 
                 front_compartment_depth, 
                 vase_height
             ], inner_corner_radius);
 
         // --- NEGATIVO: Comparto ELETTRONICA (C) ---
-        translate([water_tank_width + wall_thick*2, wall_thick, electronics_floor_z])
+        translate([water_tank_width + wall_thick*2 - 10, wall_thick, electronics_floor_z])
             rounded_cube([
-                electronics_width - wall_thick, 
-                front_compartment_depth, 
-                vase_height 
+                electronics_width - wall_thick + 10, 
+                front_compartment_depth,
+                vase_height
             ], inner_corner_radius);
 
         // --- NEGATIVO: Vano Vassoio Drenaggio (D) ---
@@ -107,12 +107,14 @@ module smart_vase_final() {
         // --- DETTAGLI FUNZIONALI ---
         
         // 1. Fori di drenaggio
+		/*
         for(x = [20 : 20 : vase_width-20]) {
             for(y = [front_compartment_depth + 30 : 20 : vase_depth-20]) {
                 translate([x, y, floor_z - 5])
                     cylinder(h=10, r=2.5); 
             }
         }
+		*/
 
         // 2. Finestra OLED
         translate([water_tank_width + wall_thick*2 + (electronics_width/2), -1, vase_height - 40]) {
@@ -131,7 +133,7 @@ module smart_vase_final() {
         // Questo foro collega la parte alta del serbatoio con la parte alta dell'elettronica
         translate([water_tank_width + wall_thick*1.5, front_compartment_depth/2, vase_height - 20])
             rotate([0, 90, 0])
-            cylinder(h=wall_thick*4, r=10, center=true);
+            cylinder(h=wall_thick*4+20, r=10, center=true);
             
         // 4. Foro USB 
         translate([vase_width - 10, front_compartment_depth/2, electronics_floor_z + 15])
@@ -190,7 +192,7 @@ module us_support() {
     holes_radius = 8.2;
 	
 	rotate([90, 0, 90]) {
-		translate([-37.5, 30, -17]) {
+		translate([-72, 30, -20]) {
 			translate([0, -10, holder_h - 5]) {
 				cube([esp32_bay_depth, 10, 5]);
 			}
@@ -259,9 +261,9 @@ if (show_lid) {
     
     color("DarkSlateGray") {
         translate([wall_thick + tolerance/2, wall_thick + tolerance/2, vase_height])
-            lid_generic(lid_w_water, lid_d);
+            lid_generic(lid_w_water - 10, lid_d);
             
-        translate([water_tank_width + wall_thick*2 + tolerance/2, wall_thick + tolerance/2, vase_height])
-            lid_generic(lid_w_elec, lid_d);
+        translate([water_tank_width + wall_thick*2 + tolerance/2 - 10, wall_thick + tolerance/2, vase_height])
+            lid_generic(lid_w_elec + 10, lid_d);
     }
 }
