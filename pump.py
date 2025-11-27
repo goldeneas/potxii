@@ -1,6 +1,7 @@
 from machine import Pin
 from time import sleep_ms
 
+# ATTIVA BASSA
 class Pump:
     def __init__(self, in_pin):
         self.pin = Pin(in_pin, Pin.OUT)
