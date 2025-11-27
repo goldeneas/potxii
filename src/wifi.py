@@ -9,8 +9,11 @@ class Wifi:
         self.station.active(is_active)
 
     def connect(self, ssid, password):
-        self.station.active(True)
+        self.set_active(False)
+        time.sleep_ms(100)
+        self.set_active(True)
+
         self.station.connect(ssid, password)
 
     def is_connected(self):
-        return self.station.is_connected()
+        return self.station.isconnected()

@@ -71,6 +71,9 @@ class SSD1306(framebuf.FrameBuffer):
         self.fill(0)
         self.show()
 
+    def clear(self):
+        self.fill(0)
+
     def poweroff(self):
         self.write_cmd(SET_DISP | 0x00)
 
@@ -118,11 +121,11 @@ class SSD1306(framebuf.FrameBuffer):
         #H → Horizontal: i bit scorrono orizzontalmente lungo le righe)
         #LSB → Least Significant Bit first: da sin a destra 
         fb = framebuf.FrameBuffer(buffer, w, h, framebuf.MONO_HLSB)
-        self.fill(0) #pulisce lo schermo
+        # self.fill(0) #pulisce lo schermo
         #Copia (o “incolla”) l’immagine (fb) sul display a partire dalla posizione
         
         self.blit(fb, x, y) #centra l'immagine sia in verticale che in orizzontale 
-        self.show()
+        # self.show()
         utime.sleep_ms(100)
 
     def draw_logo(self):
