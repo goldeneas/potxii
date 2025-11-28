@@ -1,0 +1,37 @@
+SENSORE DI UMIDITA (SENSORE + CHIP)
+
+Il chip  LM393 (quello blu) ha due pin:
+	1. D0 (Digital Out): È gestito dal chip LM393.
+	2. A0 (Analog Out): Questo pin NON passa attraverso il chip LM393, ma lo aggira completamente. È un collegamento diretto ("pass-through") tra la sonda e il tuo ESP32.
+	3. VCC a 3.3V
+
+
+L'LM393 non è un microprocessore (non ha memoria, non esegue codice). È un Comparatore di Voltaggio.
+Immaginalo come un giudice con una bilancia a due piatti.
+• Piatto A: La tensione che arriva dalla sonda nel terreno.
+• Piatto B: La tensione di riferimento impostata da te girando la vite blu (il trimmer).
+	
+Il chip fa una sola cosa tutto il giorno: guarda quale piatto pesa di più e alza o abbassa una bandierina (il pin D0).
+
+
+
+Cosa esce dal Pin D0 (Digital Output)?
+Il pin D0 restituisce un segnale Binario (solo due stati possibili). Essendo collegato all'uscita dell'LM393, il suo comportamento è questo:
+• Valore 1 (ALTO / 3.3V): Significa "Terreno SECCO".
+		○ Succede quando la resistenza del terreno è alta, quindi la tensione della sonda supera la soglia che hai impostato col trimmer.
+• Valore 0 (BASSO / GND): Significa "Terreno UMIDO".
+		○ Succede quando l'acqua conduce elettricità, la tensione della sonda scende sotto la soglia del trimmer.
+A cosa serve D0? Serve se vuoi fare un sistema stupido/semplice senza programmazione complessa. Esempio: "Se D0 va a 0, accendi la pompa". Non sai quanto è bagnato, sai solo che ha superato il limite.
+
+
+
+Cosa esce dal Pin A0 (Analog Output)?
+Attenzione: Questo segnale ignora completamente l'LM393.
+È un collegamento diretto ("pass-through") tra la sonda e il tuo ESP32.
+È il risultato di un circuito chiamato Partitore di Tensione:
+	1. C'è una resistenza fissa sulla scheda (spesso 10k Ohm).
+	2. C'è la resistenza variabile del terreno (la sonda).
+Il valore che leggi su A0 è una tensione variabile tra 0V e VCC (3.3V).
+	• Terreno Zuppo d'acqua: La resistenza è bassa -> La tensione su A0 scende verso 0V (es. 0.5V, 1.0V).
+	• Terreno Arido (o sensore in aria): La resistenza è infinita -> La tensione su A0 sale verso VCC (es. 3.0V, 3.3V).
+Perché A0 è meglio per l'ESP32? Perché l'ESP32 può convertire questa tensione in un numero (0-4095). Ti permette di dire: "Il terreno è al 45%". Con D0 potresti dire solo "È bagnato" o "È secco".
