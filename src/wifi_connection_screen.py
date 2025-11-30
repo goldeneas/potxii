@@ -23,6 +23,7 @@ class WifiConnectionScreen:
         self.draw_wifi_high()
         self.display.text(connected_message, 0, 4, 1)
         self.display.text("[" + wifi.get_ssid() + "]", 0, 14, 1)
+        self.display.show()
             
     def toggle_icon(self):
         if self.drawn_low:
