@@ -3,8 +3,9 @@ import time
 import machine
 
 class Micro_MQTT:
-    def __init__(self, name_client):
+    def __init__(self, name_client, display):
         self.name_client = name_client
+        self.display = display
         
         #da modificare con il nostro server
         self.broker_ip = "test.mosquitto.org" 
@@ -13,7 +14,7 @@ class Micro_MQTT:
         self.password = None
         
         #Client MQTT
-        self.client = MQTTClient(self.name, self.broker_ip, self.port, self.user, self.password)
+        self.client = MQTTClient(self.name_client, self.broker_ip, self.port, self.user, self.password)
         
         #Callback dei metodi
         self.client.set_callback(self.sub_cb)
@@ -22,27 +23,64 @@ class Micro_MQTT:
         self.subscriptions = []
         
     def connect_and_subscribe(self, topic= None):
+        self.display.fill(0) 
+        self.display.text("Connessione a:", 0, 0)
+        self.display.text(self.broker_ip, 0, 10) 
+        self.display.show()
+        
+        #Tutte le print sono stampe di test da eliminare
         print("\nConnessione a " + self.broker_ip + "...")
         try:
             self.client.connect()
+            self.display.fill(0)
+            self.display.text("MQTT connesso", 0, 0)
+            self.display.show()
+            
             print("Connesso")
             
             if topic:
                 self.client.subscribe(topic)
                 self.subscriptions.append(topic)
-                print("Iscritto a: " + topic)
+                
+                self.display.text("Iscritto a:", 0, 10) 
+                self.display.text(topic, 0, 20)
+                self.display.show()
+                
+                print("Iscritto al topic: " + topic)
                 
         except OSError as e:
+            self.display.fill(0)
+            self.display.text("Errore Connessione:", 0, 0)
+            self.display.text(str(e), 0, 15) 
+            self.display.show()
+            
             print("Errore connessione: ", e)
+            
             self.restart_and_reconnect()
         
     def restart_and_reconnect(self):
+        self.display.fill(0)
+        self.display.text("Riconnessione", 0, 0)
+        self.display.show()
+        
         print("\Riconnessione")
         time.sleep(10)
         machine.reset()
         
     def sub_cb(self, topic, msg):
         print((topic, msg))
+        
+        topic_str = topic.decode()
+        msg_str = msg.decode()
+        
+        self.display.fill(0)             
+        self.display.text("Topic:", 0, 0)
+        self.display.text(topic_str, 0, 10)
+        
+        self.display.text("Msg:", 0, 20)
+        self.display.text(msg_str, 0, 30)
+        
+        self.display.show()
     
     def check_msg(self):
         try:
