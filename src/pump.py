@@ -1,7 +1,7 @@
 from machine import Pin
 from time import sleep_ms
 
-#Il relè va collegato alla 3.3V
+# Il relè va collegato alla 3.3V
 # ATTIVA BASSA
 class Pump:
     def __init__(self, in_pin):

@@ -2,19 +2,20 @@ from umqtt.simple import MQTTClient
 import time
 import machine
 
-class Micro_MQTT:
-    def __init__(self, name_client, display):
-        self.name_client = name_client
-        self.display = display
+class MicroMQTT:
+    def __init__(self, client_name, broker_ip, broker_port, ssd1306):
+        self.client_name = client_name
+        self.display = ssd1306
         
         #da modificare con il nostro server
-        self.broker_ip = "test.mosquitto.org" 
-        self.port = 1883
+        self.broker_ip = broker_ip 
+        self.port = broker_port
         self.user = None     
         self.password = None
+        self.__is_connected = False
         
         #Client MQTT
-        self.client = MQTTClient(self.name_client, self.broker_ip, self.port, self.user, self.password)
+        self.client = MQTTClient(self.client_name, self.broker_ip, self.port, self.user, self.password)
         
         #Callback dei metodi
         self.client.set_callback(self.sub_cb)
@@ -35,6 +36,8 @@ class Micro_MQTT:
             self.display.fill(0)
             self.display.text("MQTT connesso", 0, 0)
             self.display.show()
+
+            self.__is_connected = True
             
             print("Connesso")
             
@@ -53,6 +56,8 @@ class Micro_MQTT:
             self.display.text("Errore Connessione:", 0, 0)
             self.display.text(str(e), 0, 15) 
             self.display.show()
+
+            self.__is_connected = False
             
             print("Errore connessione: ", e)
             
@@ -81,10 +86,14 @@ class Micro_MQTT:
         self.display.text(msg_str, 0, 30)
         
         self.display.show()
+
+    def is_connected(self):
+        return self.__is_connected
     
     def check_msg(self):
         try:
             self.client.check_msg()
         except OSError:
+            self.__is_connected = False
             self.restart_and_reconnect()
     
