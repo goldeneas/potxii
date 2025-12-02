@@ -13,8 +13,13 @@ class HomeScreen:
         self.humidity = humidity
 
         self.check_icon = bytearray([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x00, 0x0f, 0x00, 0x1f, 0x70, 0x3e, 0x78, 0x7c, 0x7c, 0xf8, 0x1f, 0xf0, 0x0f, 0xe0, 0x07, 0xc0, 0x03, 0x80, 0x00, 0x00, 0x00, 0x00])
+        self.warning_icon = bytearray([0x00, 0x80, 0x01, 0xc0, 0x01, 0xc0, 0x03, 0xe0, 0x03, 0x60, 0x07, 0x70, 0x06, 0x30, 0x0e, 0xb8, 0x0c, 0x98, 0x1c, 0x9c, 0x18, 0x8c, 0x38, 0x0e, 0x30, 0x86, 0x7f, 0xff, 0x7f, 0xff, 0x00, 0x00])
 
     def show(self):
+        self.display.clear()
+
+        warning_messages = []
+
         light_value = self.photoresistor.value()
         water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
         wifi_connected = self.wifi.is_connected()
@@ -26,6 +31,10 @@ class HomeScreen:
 
         terrain_humidity = self.humidity.value()
 
+        if (len(warning_messages) > 0):
+            self.show_warnings(warning_messages)
+            return
+
         messages = [
                 "Light: " + str(light_value) + "%",
                 "Water: " + str(water_height) + " mm",
@@ -36,9 +45,13 @@ class HomeScreen:
                 "Dirt Hum: " + str(terrain_humidity)
         ]
 
-        self.display.clear()
         self.display.draw_image(self.check_icon, 16, 16, 128-16, 0)
         self.text_all(messages)
+        self.display.show()
+
+    def show_warnings(self, warning_messages):
+        self.display.draw_image(self.warning_icon, 16, 16, 128-16, 0)
+        self.text_all(warning_messages)
         self.display.show()
 
     def text_all(self, messages):
