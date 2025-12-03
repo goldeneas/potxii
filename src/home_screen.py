@@ -1,9 +1,17 @@
+from hcsr04 import HCSR04
 from ssd1306 import SSD1306_I2C
+from hcsr04 import HCSR04
+from micro_mqtt import MicroMQTT
+from wifi import Wifi
+from machine import DHT22
+from photoresistor import Photoresistor
+from humidity import Humidity
 
 WATER_TANK_EMPTY_DISTANCE = 0
 
 class HomeScreen:
-    def __init__(self, hcsr, mqtt, ssd1306, wifi, dht, photoresistor, humidity):
+    def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
+                 dht: DHT22, photoresistor: Photoresistor, humidity: Humidity):
         self.hcsr = hcsr
         self.mqtt = mqtt
         self.display = ssd1306
