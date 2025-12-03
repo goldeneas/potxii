@@ -22,8 +22,14 @@ class HomeScreen:
 
         light_value = self.photoresistor.value()
         water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
+
         wifi_connected = self.wifi.is_connected()
+        if (not wifi_connected):
+            warning_messages.append("Wifi disconnesso!!")
+
         mqtt_connected = self.mqtt.is_connected()
+        if (not mqtt_connected):
+            warning_messages.append("MQTT disconnesso!!")
         
         self.dht.measure()
         air_temperature = self.dht.temperature()
