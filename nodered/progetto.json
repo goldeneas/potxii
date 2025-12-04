@@ -277,6 +277,37 @@
         "className": ""
     },
     {
+        "id": "90bf6dc88fc77b25",
+        "type": "mqtt-broker",
+        "name": "mosquitto/test",
+        "broker": "test.mosquitto.org",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
         "id": "8fcc25f7a51ee641",
         "type": "inject",
         "z": "34d478f6cbb8753a",
@@ -1174,7 +1205,7 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "",
+        "broker": "90bf6dc88fc77b25",
         "x": 1520,
         "y": 280,
         "wires": []
@@ -1566,6 +1597,43 @@
         ]
     },
     {
+        "id": "2efcd43237f037e2",
+        "type": "mqtt in",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/air/temperature",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 1140,
+        "wires": [
+            [
+                "e2342666606347d3"
+            ]
+        ]
+    },
+    {
+        "id": "e2342666606347d3",
+        "type": "debug",
+        "z": "34d478f6cbb8753a",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 1140,
+        "wires": []
+    },
+    {
         "id": "bc8bac361121f705",
         "type": "inject",
         "z": "c753122a205bffa9",
@@ -1617,7 +1685,7 @@
         ]
     },
     {
-        "id": "88a0b6b6fd66e6c1",
+        "id": "7ffe69f60975e6e5",
         "type": "global-config",
         "env": [],
         "modules": {
