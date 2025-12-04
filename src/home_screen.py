@@ -38,44 +38,34 @@ class HomeScreen:
 
         warning_messages = []
 
-        light_value = self.photoresistor.value()
-        water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
-        if (water_height < 0):
+        if (self.water_height < 0):
             warning_messages.append("Ricalibrare sensore acqua")
 
-        wifi_connected = self.wifi.is_connected()
-        if (not wifi_connected):
+        if (not self.wifi_connected):
             warning_messages.append("Wifi disconnesso!!")
 
-        mqtt_connected = self.mqtt.is_connected()
-        if (not mqtt_connected):
+        if (not self.mqtt_connected):
             warning_messages.append("MQTT disconnesso!!")
-        
-        self.dht.measure()
-        air_temperature = self.dht.temperature()
-        air_humidity = self.dht.humidity()
-
-        terrain_humidity = self.humidity.value()
 
         if (len(warning_messages) > 0):
             self.show_warnings(warning_messages)
             return
 
         messages = [
-                "Light: " + str(light_value) + "%",
-                "Water: " + str(water_height) + " mm",
-                "Wifi: " + str(wifi_connected),
-                "MQTT: " + str(mqtt_connected),
-                "Air Temp: " + str(air_temperature) + "C",
-                "Air Hum: " + str(air_humidity),
-                "Dirt Hum: " + str(terrain_humidity)
+                "Light: " + str(self.light_value) + "%",
+                "Water: " + str(self.water_height) + " mm",
+                "Wifi: " + str(self.wifi_connected),
+                "MQTT: " + str(self.mqtt_connected),
+                "Air Temp: " + str(self.air_temperature) + "C",
+                "Air Hum: " + str(self.air_humidity),
+                "Dirt Hum: " + str(self.terrain_humidity)
         ]
 
         self.display.draw_image(self.check_icon, 16, 16, 128-16, 0)
         self.text_all(messages)
         self.display.show()
 
-    def measure():
+    def measure(self):
         self.light_value = self.photoresistor.value()
         self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
         self.wifi_connected = self.wifi.is_connected()
