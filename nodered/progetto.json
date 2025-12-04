@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "9c66d3b55ea7cb36",
+        "type": "tab",
+        "label": "Pompa",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "a5c024831da04011",
         "type": "ui_base",
         "theme": {
@@ -308,59 +316,6 @@
         "sessionExpiry": ""
     },
     {
-        "id": "8fcc25f7a51ee641",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "date",
-                "v": "object",
-                "vt": "date"
-            }
-        ],
-        "repeat": "2",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 150,
-        "y": 160,
-        "wires": [
-            [
-                "a94c0146f60e4769"
-            ]
-        ]
-    },
-    {
-        "id": "a94c0146f60e4769",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_temperature",
-        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 380,
-        "y": 160,
-        "wires": [
-            [
-                "42f6df196dd72d4c",
-                "3578f7c607ca29b1",
-                "d84df22c477c8b88",
-                "dd0a8517cf8c8cc3"
-            ]
-        ]
-    },
-    {
         "id": "3578f7c607ca29b1",
         "type": "function",
         "z": "34d478f6cbb8753a",
@@ -377,59 +332,6 @@
         "wires": [
             [
                 "7191f3305b6e375e"
-            ]
-        ]
-    },
-    {
-        "id": "ca3004bf410c1e07",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "date",
-                "v": "object",
-                "vt": "date"
-            }
-        ],
-        "repeat": "2",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 150,
-        "y": 420,
-        "wires": [
-            [
-                "498dd53eb32c9d53"
-            ]
-        ]
-    },
-    {
-        "id": "498dd53eb32c9d53",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_humidity",
-        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 370,
-        "y": 420,
-        "wires": [
-            [
-                "227184f3d9990528",
-                "a015631a545e31e4",
-                "ed13c6809e7717c8",
-                "df17f5b9454415da"
             ]
         ]
     },
@@ -454,31 +356,6 @@
         ]
     },
     {
-        "id": "856c3e3e3ae4fdbd",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            }
-        ],
-        "repeat": "3600",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 150,
-        "y": 600,
-        "wires": [
-            [
-                "98d2216dd5644797"
-            ]
-        ]
-    },
-    {
         "id": "98d2216dd5644797",
         "type": "function",
         "z": "34d478f6cbb8753a",
@@ -490,8 +367,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 600,
+        "x": 400,
+        "y": 800,
         "wires": [
             [
                 "be5652e7290804be",
@@ -517,7 +394,7 @@
         "dot": false,
         "ymin": "",
         "ymax": "",
-        "removeOlder": 1,
+        "removeOlder": "1",
         "removeOlderPoints": "10",
         "removeOlderUnit": "3600",
         "cutout": 0,
@@ -713,8 +590,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 570,
-        "y": 600,
+        "x": 630,
+        "y": 800,
         "wires": [
             []
         ]
@@ -743,8 +620,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 550,
-        "y": 640,
+        "x": 610,
+        "y": 840,
         "wires": []
     },
     {
@@ -757,7 +634,7 @@
         "height": 0,
         "name": "",
         "label": "Max Temperature:",
-        "format": "{{msg.payload}} @ {{msg.date}}",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
         "layout": "row-left",
         "className": "",
         "style": false,
@@ -778,7 +655,7 @@
         "height": 0,
         "name": "",
         "label": "Min Temperature:",
-        "format": "{{msg.payload}} @ {{msg.date}}",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
         "layout": "row-left",
         "className": "",
         "style": false,
@@ -794,7 +671,7 @@
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "max",
-        "func": "let max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\n\nmsg.payload = max;\nreturn msg;",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -814,7 +691,7 @@
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "min",
-        "func": "let min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\n\nmsg.payload = min;\nreturn msg;",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!min || min > value) {\n    min = value;\n    minDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -923,8 +800,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1390,
-        "y": 60,
+        "x": 430,
+        "y": 560,
         "wires": [
             [
                 "c93de5560976103f",
@@ -970,8 +847,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1670,
-        "y": 60,
+        "x": 730,
+        "y": 540,
         "wires": [
             []
         ]
@@ -993,54 +870,9 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1550,
-        "y": 100,
+        "x": 610,
+        "y": 580,
         "wires": []
-    },
-    {
-        "id": "1ab3e2e5f47596a4",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_temp_humidity",
-        "func": "let min = 20;\nlet max = 30;\n\nlet randomTemp = Math.random() * (max - min) + min;\nlet randomHumidity = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet valueTemp = parseFloat(randomTemp.toFixed(2));\nlet valueHumidity = parseFloat(randomHumidity.toFixed(2));\n\nmsg.payload = {\n    \"temperature\": valueTemp,\n    \"humidity\": valueHumidity,\n};\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1190,
-        "y": 60,
-        "wires": [
-            [
-                "27429957a57f172d"
-            ]
-        ]
-    },
-    {
-        "id": "990f565b56fae053",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 990,
-        "y": 60,
-        "wires": [
-            [
-                "1ab3e2e5f47596a4"
-            ]
-        ]
     },
     {
         "id": "b819238f0ef23cef",
@@ -1061,8 +893,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1540,
-        "y": 60,
+        "x": 600,
+        "y": 540,
         "wires": [
             [
                 "92e72763c9f29829"
@@ -1091,8 +923,8 @@
         "once": true,
         "onceDelay": "0.5",
         "topic": "",
-        "x": 130,
-        "y": 720,
+        "x": 150,
+        "y": 1200,
         "wires": [
             [
                 "45e73fc70b7a4d5f"
@@ -1111,8 +943,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
-        "y": 720,
+        "x": 370,
+        "y": 1200,
         "wires": [
             [
                 "3a226fc6fa807f68",
@@ -1158,122 +990,10 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 590,
-        "y": 720,
+        "x": 610,
+        "y": 1200,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "ccc74ce47892d404",
-        "type": "ui_button",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "group": "4de629c8464f8fcf",
-        "order": 3,
-        "width": "4",
-        "height": "1",
-        "passthru": false,
-        "label": "Activate Water Pump",
-        "tooltip": "Enables the water pump for",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "true",
-        "payloadType": "bool",
-        "topic": "payload",
-        "topicType": "msg",
-        "x": 1020,
-        "y": 280,
-        "wires": [
-            [
-                "9d4d346ac2a16160"
-            ]
-        ]
-    },
-    {
-        "id": "61ec79c4b9916808",
-        "type": "mqtt out",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "topic": "water_pump_override",
-        "qos": "2",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "90bf6dc88fc77b25",
-        "x": 1520,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "e6604fb8ebc63a5a",
-        "type": "ui_numeric",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "label": "Activate Water Pump For",
-        "tooltip": "Activate Water Pump For",
-        "group": "4de629c8464f8fcf",
-        "order": 2,
-        "width": "9",
-        "height": "1",
-        "wrap": true,
-        "passthru": true,
-        "topic": "topic",
-        "topicType": "msg",
-        "format": "{{value}} seconds",
-        "min": "1",
-        "max": "20",
-        "step": 1,
-        "className": "",
-        "x": 1030,
-        "y": 220,
-        "wires": [
-            [
-                "5959fb8463bcc23b"
-            ]
-        ]
-    },
-    {
-        "id": "5959fb8463bcc23b",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "Set Water Pump Duration",
-        "func": "flow.set(\"water_pump_duration\", msg.payload)\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1270,
-        "y": 220,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9d4d346ac2a16160",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "Get Water Pump Duration",
-        "func": "let value = flow.get(\"water_pump_duration\")\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1270,
-        "y": 280,
-        "wires": [
-            [
-                "61ec79c4b9916808"
-            ]
         ]
     },
     {
@@ -1288,8 +1008,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 610,
-        "y": 760,
+        "x": 630,
+        "y": 1240,
         "wires": [
             [
                 "8f8f28ab7001f9b5",
@@ -1336,8 +1056,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1060,
-        "y": 760,
+        "x": 1080,
+        "y": 1240,
         "wires": [
             []
         ]
@@ -1359,8 +1079,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 410,
-        "y": 780,
+        "x": 430,
+        "y": 1260,
         "wires": [
             [
                 "0a94732ad7d1f2b7"
@@ -1384,8 +1104,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 840,
-        "y": 800,
+        "x": 860,
+        "y": 1280,
         "wires": []
     },
     {
@@ -1407,8 +1127,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 840,
-        "y": 760,
+        "x": 860,
+        "y": 1240,
         "wires": [
             [
                 "368f0cfcc8ac14b3"
@@ -1432,8 +1152,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 850,
-        "y": 840,
+        "x": 870,
+        "y": 1320,
         "wires": []
     },
     {
@@ -1453,8 +1173,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 1080,
-        "y": 720,
+        "x": 1100,
+        "y": 1200,
         "wires": []
     },
     {
@@ -1469,8 +1189,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 940,
+        "x": 650,
+        "y": 1500,
         "wires": [
             [
                 "09177e19ba146c3f"
@@ -1515,8 +1235,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 830,
-        "y": 940,
+        "x": 850,
+        "y": 1500,
         "wires": [
             []
         ]
@@ -1538,8 +1258,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 430,
-        "y": 920,
+        "x": 450,
+        "y": 1480,
         "wires": [
             [
                 "e288e0954db747ae"
@@ -1568,8 +1288,8 @@
         "once": false,
         "onceDelay": "0.5",
         "topic": "",
-        "x": 150,
-        "y": 980,
+        "x": 170,
+        "y": 1540,
         "wires": [
             [
                 "d63214b19a231e1c"
@@ -1588,8 +1308,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
-        "y": 980,
+        "x": 390,
+        "y": 1540,
         "wires": [
             [
                 "e288e0954db747ae"
@@ -1603,16 +1323,20 @@
         "name": "",
         "topic": "pot/air/temperature",
         "qos": "2",
-        "datatype": "utf8",
+        "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 190,
-        "y": 1140,
+        "x": 210,
+        "y": 120,
         "wires": [
             [
+                "d84df22c477c8b88",
+                "dd0a8517cf8c8cc3",
+                "42f6df196dd72d4c",
+                "3578f7c607ca29b1",
                 "e2342666606347d3"
             ]
         ]
@@ -1626,12 +1350,59 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 440,
-        "y": 1140,
+        "x": 360,
+        "y": 220,
         "wires": []
+    },
+    {
+        "id": "d7013e60816f1efa",
+        "type": "mqtt in",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/ground/humidity",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 210,
+        "y": 380,
+        "wires": [
+            [
+                "df17f5b9454415da",
+                "ed13c6809e7717c8",
+                "227184f3d9990528",
+                "a015631a545e31e4",
+                "27429957a57f172d"
+            ]
+        ]
+    },
+    {
+        "id": "2e7136a2b39771ad",
+        "type": "mqtt in",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/water",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 127.22220611572266,
+        "y": 788.8888549804688,
+        "wires": [
+            [
+                "98d2216dd5644797"
+            ]
+        ]
     },
     {
         "id": "bc8bac361121f705",
@@ -1685,7 +1456,119 @@
         ]
     },
     {
-        "id": "7ffe69f60975e6e5",
+        "id": "ccc74ce47892d404",
+        "type": "ui_button",
+        "z": "9c66d3b55ea7cb36",
+        "name": "",
+        "group": "4de629c8464f8fcf",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Activate Water Pump",
+        "tooltip": "Enables the water pump for",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "payload",
+        "topicType": "msg",
+        "x": 320,
+        "y": 180,
+        "wires": [
+            [
+                "9d4d346ac2a16160"
+            ]
+        ]
+    },
+    {
+        "id": "61ec79c4b9916808",
+        "type": "mqtt out",
+        "z": "9c66d3b55ea7cb36",
+        "name": "",
+        "topic": "water_pump_override",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90bf6dc88fc77b25",
+        "x": 820,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e6604fb8ebc63a5a",
+        "type": "ui_numeric",
+        "z": "9c66d3b55ea7cb36",
+        "name": "",
+        "label": "Activate Water Pump For",
+        "tooltip": "Activate Water Pump For",
+        "group": "4de629c8464f8fcf",
+        "order": 2,
+        "width": "9",
+        "height": "1",
+        "wrap": true,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}} seconds",
+        "min": "1",
+        "max": "20",
+        "step": 1,
+        "className": "",
+        "x": 330,
+        "y": 120,
+        "wires": [
+            [
+                "5959fb8463bcc23b"
+            ]
+        ]
+    },
+    {
+        "id": "5959fb8463bcc23b",
+        "type": "function",
+        "z": "9c66d3b55ea7cb36",
+        "name": "Set Water Pump Duration",
+        "func": "flow.set(\"water_pump_duration\", msg.payload)\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d4d346ac2a16160",
+        "type": "function",
+        "z": "9c66d3b55ea7cb36",
+        "name": "Get Water Pump Duration",
+        "func": "let value = flow.get(\"water_pump_duration\")\n\nmsg.payload = value;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 180,
+        "wires": [
+            [
+                "61ec79c4b9916808"
+            ]
+        ]
+    },
+    {
+        "id": "2e9e942bea600129",
         "type": "global-config",
         "env": [],
         "modules": {
