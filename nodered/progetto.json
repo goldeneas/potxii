@@ -978,7 +978,7 @@
         "finalize": "",
         "libs": [],
         "x": 580,
-        "y": 220,
+        "y": 280,
         "wires": [
             [
                 "7191f3305b6e375e"
@@ -997,8 +997,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 440,
-        "y": 480,
+        "x": 380,
+        "y": 560,
         "wires": [
             [
                 "3a38d29792bf03f1"
@@ -1087,8 +1087,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 760,
-        "y": 220,
+        "x": 800,
+        "y": 280,
         "wires": [
             []
         ]
@@ -1131,8 +1131,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 610,
-        "y": 420,
+        "x": 530,
+        "y": 440,
         "wires": [
             []
         ]
@@ -1175,8 +1175,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 620,
-        "y": 480,
+        "x": 560,
+        "y": 560,
         "wires": [
             []
         ]
@@ -1354,8 +1354,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 760,
-        "y": 360,
+        "x": 680,
+        "y": 380,
         "wires": []
     },
     {
@@ -1375,8 +1375,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 760,
-        "y": 320,
+        "x": 680,
+        "y": 340,
         "wires": []
     },
     {
@@ -1391,8 +1391,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 360,
+        "x": 490,
+        "y": 380,
         "wires": [
             [
                 "6bf500247d122c0e"
@@ -1411,8 +1411,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 320,
+        "x": 490,
+        "y": 340,
         "wires": [
             [
                 "050653bc1899f72e"
@@ -1431,8 +1431,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 430,
-        "y": 560,
+        "x": 370,
+        "y": 640,
         "wires": [
             [
                 "c93de5560976103f",
@@ -1478,8 +1478,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 730,
-        "y": 540,
+        "x": 670,
+        "y": 620,
         "wires": [
             []
         ]
@@ -1501,8 +1501,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 610,
-        "y": 580,
+        "x": 550,
+        "y": 660,
         "wires": []
     },
     {
@@ -1524,8 +1524,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 600,
-        "y": 540,
+        "x": 540,
+        "y": 620,
         "wires": [
             [
                 "92e72763c9f29829"
@@ -1796,7 +1796,8 @@
                 "dd0a8517cf8c8cc3",
                 "3578f7c607ca29b1",
                 "e2342666606347d3",
-                "42f6df196dd72d4c"
+                "42f6df196dd72d4c",
+                "trend_func_node"
             ]
         ]
     },
@@ -1814,7 +1815,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 360,
-        "y": 220,
+        "y": 280,
         "wires": []
     },
     {
@@ -1830,15 +1831,16 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 210,
-        "y": 380,
+        "x": 150,
+        "y": 460,
         "wires": [
             [
                 "df17f5b9454415da",
                 "ed13c6809e7717c8",
                 "227184f3d9990528",
                 "a015631a545e31e4",
-                "27429957a57f172d"
+                "27429957a57f172d",
+                "b4102c3773ca9aec"
             ]
         ]
     },
@@ -2021,6 +2023,88 @@
         "x": 1450,
         "y": 740,
         "wires": []
+    },
+    {
+        "id": "trend_func_node",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "Calcola Trend",
+        "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "current_temp_text"
+            ]
+        ]
+    },
+    {
+        "id": "current_temp_text",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "3dbd742063594ab4",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Temperatura Attuale:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 20,
+        "color": "#000000",
+        "x": 820,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "08d4ed9cbc9cb4ec",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "60357de18034327d",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Umidità Attuale:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 20,
+        "color": "#000000",
+        "x": 780,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b4102c3773ca9aec",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "Calcola Trend",
+        "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 504.111083984375,
+        "y": 499.5555419921875,
+        "wires": [
+            [
+                "08d4ed9cbc9cb4ec"
+            ]
+        ]
     },
     {
         "id": "ccc74ce47892d404",
@@ -2218,7 +2302,7 @@
         ]
     },
     {
-        "id": "a04674c81975c839",
+        "id": "adc77e4a3e891d53",
         "type": "global-config",
         "env": [],
         "modules": {
