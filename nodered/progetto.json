@@ -1,16 +1,24 @@
 [
     {
-        "id": "34d478f6cbb8753a",
+        "id": "c753122a205bffa9",
         "type": "tab",
-        "label": "measurement and analysis",
+        "label": "Dashboard",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "c753122a205bffa9",
+        "id": "2ff232a50dfd5c85",
         "type": "tab",
-        "label": "home",
+        "label": "General",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "34d478f6cbb8753a",
+        "type": "tab",
+        "label": "Measurement and Analytics",
         "disabled": false,
         "info": "",
         "env": []
@@ -18,7 +26,7 @@
     {
         "id": "9c66d3b55ea7cb36",
         "type": "tab",
-        "label": "Pompa",
+        "label": "Pump",
         "disabled": false,
         "info": "",
         "env": []
@@ -125,7 +133,7 @@
         "type": "ui_tab",
         "name": "temperature",
         "icon": "dashboard",
-        "order": 3,
+        "order": 4,
         "disabled": false,
         "hidden": false
     },
@@ -134,7 +142,7 @@
         "type": "ui_tab",
         "name": "humidity",
         "icon": "dashboard",
-        "order": 4,
+        "order": 5,
         "disabled": false,
         "hidden": false
     },
@@ -143,7 +151,7 @@
         "type": "ui_tab",
         "name": "water_level",
         "icon": "dashboard",
-        "order": 5,
+        "order": 6,
         "disabled": false,
         "hidden": false
     },
@@ -214,51 +222,11 @@
         "className": ""
     },
     {
-        "id": "d99d632f072107bd",
-        "type": "ui_tab",
-        "name": "home",
-        "icon": "dashboard",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "5d441a915c5d51f3",
-        "type": "ui_group",
-        "name": "PotXII",
-        "tab": "d99d632f072107bd",
-        "order": 1,
-        "disp": false,
-        "width": "13",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "da78d601782c531b",
-        "type": "ui_tab",
-        "name": "general",
-        "icon": "dashboard",
-        "order": 2,
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "2d67e269d40763c1",
-        "type": "ui_group",
-        "name": "analysis",
-        "tab": "da78d601782c531b",
-        "order": 1,
-        "disp": true,
-        "width": "13",
-        "collapse": false,
-        "className": ""
-    },
-    {
         "id": "a5c6f3da9210d83e",
         "type": "ui_tab",
         "name": "light",
         "icon": "dashboard",
-        "order": 6,
+        "order": 7,
         "disabled": false,
         "hidden": false
     },
@@ -385,6 +353,617 @@
         "order": 1,
         "width": 1,
         "height": 1
+    },
+    {
+        "id": "3e5e748b555d1bd1",
+        "type": "ui_group",
+        "name": "pump",
+        "tab": "3900d40c1756d9b6",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "new_home_tab",
+        "type": "ui_tab",
+        "name": "Home Dashboard",
+        "icon": "fa-leaf",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "grp_header",
+        "type": "ui_group",
+        "name": "Overview",
+        "tab": "new_home_tab",
+        "order": 1,
+        "disp": false,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "grp_sensors",
+        "type": "ui_group",
+        "name": "Sensori in Tempo Reale",
+        "tab": "new_home_tab",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "grp_status",
+        "type": "ui_group",
+        "name": "Stato Salute Pianta",
+        "tab": "new_home_tab",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "57e26ec50da4cccd",
+        "type": "ui_group",
+        "name": "Vapour Pressure Deficit",
+        "tab": "827722bd9bf31d4a",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "tab_general",
+        "type": "ui_tab",
+        "name": "General Settings",
+        "icon": "fa-cogs",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "grp_system_health",
+        "type": "ui_group",
+        "name": "Stato Sistema (ESP32)",
+        "tab": "tab_general",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "grp_notifications",
+        "type": "ui_group",
+        "name": "Gestione Notifiche",
+        "tab": "tab_general",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "grp_logs",
+        "type": "ui_group",
+        "name": "Log Eventi Recenti",
+        "tab": "tab_general",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "home_header_template",
+        "type": "ui_template",
+        "z": "c753122a205bffa9",
+        "group": "grp_header",
+        "name": "Header Grafico",
+        "order": 1,
+        "width": "12",
+        "height": "3",
+        "format": "<div style=\"\n    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n    color: white;\n    padding: 20px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0,0,0,0.2);\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n\">\n    <div>\n        <h2 style=\"margin:0; font-weight:bold;\">🌿 Smart Garden</h2>\n        <p style=\"margin:5px 0 0 0; opacity:0.9;\">Monitoraggio Live - Gruppo 12</p>\n    </div>\n    <div style=\"text-align:right;\">\n        <i class=\"fa fa-pagelines\" style=\"font-size: 40px; opacity: 0.8;\"></i>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 420,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "gauge_temp_home",
+        "type": "ui_gauge",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "group": "grp_sensors",
+        "order": 1,
+        "width": "3",
+        "height": "3",
+        "gtype": "donut",
+        "title": "Aria",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#3498db",
+            "#2ecc71",
+            "#e74c3c"
+        ],
+        "seg1": "18",
+        "seg2": "30",
+        "className": "",
+        "x": 590,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "gauge_hum_home",
+        "type": "ui_gauge",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "group": "grp_sensors",
+        "order": 2,
+        "width": "3",
+        "height": "3",
+        "gtype": "donut",
+        "title": "Umidità Aria",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#e67e22",
+            "#2ecc71",
+            "#3498db"
+        ],
+        "seg1": "40",
+        "seg2": "80",
+        "className": "",
+        "x": 610,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "gauge_soil_home",
+        "type": "ui_gauge",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "group": "grp_sensors",
+        "order": 3,
+        "width": "3",
+        "height": "3",
+        "gtype": "donut",
+        "title": "Terreno",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#e74c3c",
+            "#f1c40f",
+            "#2ecc71"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "className": "",
+        "x": 600,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "gauge_light_home",
+        "type": "ui_gauge",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "group": "grp_sensors",
+        "order": 4,
+        "width": "3",
+        "height": "3",
+        "gtype": "donut",
+        "title": "Luce",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#7f8c8d",
+            "#f1c40f",
+            "#f39c12"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 590,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "status_logic",
+        "type": "function",
+        "z": "c753122a205bffa9",
+        "name": "Logica Status Garden",
+        "func": "// Salva i valori nel contesto globale\nlet topic = msg.topic;\nlet payload = parseFloat(msg.payload);\n\nif (topic.includes(\"temperature\")) flow.set(\"cur_temp\", payload);\nif (topic.includes(\"ground/humidity\")) flow.set(\"cur_soil\", payload);\nif (topic.includes(\"water_level\")) flow.set(\"cur_water\", payload);\n\n// Recupera valori\nlet soil = flow.get(\"cur_soil\") || 50;\nlet water = flow.get(\"cur_water\") || 50;\nlet temp = flow.get(\"cur_temp\") || 25;\n\n// Logica decisionale\nlet status = \"Ottimale 🟢\";\nlet message = \"Tutti i parametri sono nella norma.\";\nlet color = \"#2ecc71\"; // Green\n\nif (water < 20) {\n    status = \"CRITICO: Acqua Bassa 🔴\";\n    message = \"Il serbatoio è quasi vuoto! Riempi subito.\";\n    color = \"#e74c3c\";\n} else if (soil < 30) {\n    status = \"Attenzione: Terreno Secco 🟠\";\n    message = \"La pianta ha sete. Attiva la pompa.\";\n    color = \"#e67e22\";\n} else if (temp > 35) {\n    status = \"Attenzione: Caldo Eccessivo 🟠\";\n    message = \"Temperatura troppo alta per la pianta.\";\n    color = \"#e67e22\";\n}\n\nmsg.payload = {\n    status: status,\n    message: message,\n    color: color\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 620,
+        "y": 460,
+        "wires": [
+            [
+                "ui_status_template"
+            ]
+        ]
+    },
+    {
+        "id": "ui_status_template",
+        "type": "ui_template",
+        "z": "c753122a205bffa9",
+        "group": "grp_status",
+        "name": "Status Card",
+        "order": 1,
+        "width": "12",
+        "height": "2",
+        "format": "<div style=\"display:flex; align-items:center; height:100%\">\n    <div style=\"\n        width: 10px; \n        height: 100%; \n        background-color: {{msg.payload.color}};\n        margin-right: 15px;\n        border-radius: 5px;\">\n    </div>\n    <div>\n        <h3 style=\"margin:0; color: {{msg.payload.color}}\">{{msg.payload.status}}</h3>\n        <p style=\"margin:0; color: var(--nr-dashboard-widgetColorText)\">{{msg.payload.message}}</p>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 850,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "mqtt_temp_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/air/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "gauge_temp_home",
+                "status_logic"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_hum_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/air/humidity",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "gauge_hum_home"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_soil_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/ground/humidity",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 300,
+        "wires": [
+            [
+                "gauge_soil_home",
+                "status_logic"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_light_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/light_level",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 360,
+        "wires": [
+            [
+                "gauge_light_home"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_water_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/water_level",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 500,
+        "wires": [
+            [
+                "status_logic"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_rssi",
+        "type": "mqtt in",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "topic": "pot/system/rssi",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "wifi_gauge",
+                "watchdog_trigger"
+            ]
+        ]
+    },
+    {
+        "id": "wifi_gauge",
+        "type": "ui_gauge",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "group": "grp_system_health",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "gtype": "gage",
+        "title": "Segnale WiFi (dBm)",
+        "label": "dBm",
+        "format": "{{value}}",
+        "min": "-100",
+        "max": "-30",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "-85",
+        "seg2": "-60",
+        "className": "",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "watchdog_trigger",
+        "type": "trigger",
+        "z": "2ff232a50dfd5c85",
+        "name": "Watchdog 60s",
+        "op1": "ONLINE 🟢",
+        "op2": "OFFLINE 🔴",
+        "op1type": "str",
+        "op2type": "str",
+        "duration": "60",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 600,
+        "y": 160,
+        "wires": [
+            [
+                "status_text"
+            ]
+        ]
+    },
+    {
+        "id": "status_text",
+        "type": "ui_text",
+        "z": "2ff232a50dfd5c85",
+        "group": "grp_system_health",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Stato Connessione:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 810,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "sw_pump_notify",
+        "type": "ui_switch",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Avvisi Pompa",
+        "tooltip": "",
+        "group": "grp_notifications",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "set_global_vars"
+            ]
+        ]
+    },
+    {
+        "id": "sw_water_notify",
+        "type": "ui_switch",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Avvisi Livello Acqua",
+        "tooltip": "",
+        "group": "grp_notifications",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 350,
+        "y": 300,
+        "wires": [
+            [
+                "set_global_vars"
+            ]
+        ]
+    },
+    {
+        "id": "set_global_vars",
+        "type": "function",
+        "z": "2ff232a50dfd5c85",
+        "name": "Set Global",
+        "func": "if(msg.topic === \"pump_alert\") global.set(\"notify_pump\", msg.payload);\n// Qui puoi aggiungere logica per salvare le preferenze\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 590,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "log_template",
+        "type": "ui_template",
+        "z": "2ff232a50dfd5c85",
+        "group": "grp_logs",
+        "name": "System Log",
+        "order": 1,
+        "width": "0",
+        "height": "6",
+        "format": "<div style=\"height: 200px; overflow-y: scroll; font-family: monospace; font-size: 12px; background: #f1f1f1; padding: 5px; border-radius: 4px;\">\n    <div ng-repeat=\"log in msg.payload track by $index\">\n        <span style=\"color: #666\">[{{log.time}}]</span> \n        <span style=\"font-weight: bold\">{{log.msg}}</span>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 810,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "log_manager",
+        "type": "function",
+        "z": "2ff232a50dfd5c85",
+        "name": "Gestione Log",
+        "func": "let logs = flow.get(\"system_logs\") || [];\nlet now = new Date().toLocaleTimeString(\"it-IT\");\n\nlogs.unshift({time: now, msg: msg.payload});\n\n// Mantieni solo ultimi 20 log\nif (logs.length > 20) logs.pop();\n\nflow.set(\"system_logs\", logs);\nmsg.payload = logs;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 590,
+        "y": 320,
+        "wires": [
+            [
+                "log_template"
+            ]
+        ]
+    },
+    {
+        "id": "257a152acbed7208",
+        "type": "link in",
+        "z": "2ff232a50dfd5c85",
+        "name": "in log",
+        "links": [
+            "40d628c69b38ecdd",
+            "248115111126cf11",
+            "link_water_event"
+        ],
+        "x": 355,
+        "y": 380,
+        "wires": [
+            [
+                "log_manager"
+            ]
+        ]
     },
     {
         "id": "3578f7c607ca29b1",
@@ -643,7 +1222,9 @@
         "x": 690,
         "y": 740,
         "wires": [
-            []
+            [
+                "water_check_switch"
+            ]
         ]
     },
     {
@@ -864,7 +1445,7 @@
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "group": "2d67e269d40763c1",
+        "group": "57e26ec50da4cccd",
         "order": 3,
         "width": 0,
         "height": 0,
@@ -907,7 +1488,7 @@
         "id": "c93de5560976103f",
         "type": "ui_text",
         "z": "34d478f6cbb8753a",
-        "group": "2d67e269d40763c1",
+        "group": "57e26ec50da4cccd",
         "order": 4,
         "width": 0,
         "height": 0,
@@ -1135,7 +1716,7 @@
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "light_hour_counter",
-        "func": "let value = msg.payload;\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 20) {\n    light_hours += 1\n}\n\ncontext.set(\"light_hours\", light_hours);\n\nif (!msg.reset) {\n    return null;\n}\n\nmsg.payload = light_hours;\nlight_hours = 0;\n\ncontext.set(\"light_hours\", light_hours);\n\nreturn msg;",
+        "func": "const sensor_interval_minutes = 2; \n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    msg.payload = 0;\n    return msg;\n}\n\nlet value = parseFloat(msg.payload);\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 20) {\n    light_hours += (sensor_interval_minutes / 60);\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1207,15 +1788,15 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 210,
+        "x": 130,
         "y": 120,
         "wires": [
             [
                 "d84df22c477c8b88",
                 "dd0a8517cf8c8cc3",
-                "42f6df196dd72d4c",
                 "3578f7c607ca29b1",
-                "e2342666606347d3"
+                "e2342666606347d3",
+                "42f6df196dd72d4c"
             ]
         ]
     },
@@ -1352,55 +1933,94 @@
         ]
     },
     {
-        "id": "bc8bac361121f705",
-        "type": "inject",
-        "z": "c753122a205bffa9",
-        "name": "startup_date",
-        "props": [
+        "id": "water_check_switch",
+        "type": "switch",
+        "z": "34d478f6cbb8753a",
+        "name": "Se < 20%",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
             {
-                "p": "date",
-                "v": "object",
-                "vt": "date"
-            },
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
+                "t": "lt",
+                "v": "20",
+                "vt": "num"
             }
         ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 170,
-        "y": 240,
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 740,
         "wires": [
             [
-                "a5331227e8f44ffc"
+                "water_alert_trigger"
             ]
         ]
     },
     {
-        "id": "a5331227e8f44ffc",
-        "type": "ui_template",
-        "z": "c753122a205bffa9",
-        "group": "5d441a915c5d51f3",
-        "name": "Title",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "format": "<div style=\"text-align: center;\">\n    <h1 style=\"color: green !important; margin-bottom: 0px;\">SMART GARDEN</h1>\n    <h3 style=\"color: green !important; margin-top: 5px;\">Gruppo 12</h3>\n</div>\n\n<h3 style=\"padding-top: 40px\">Info</h3>\n<p>System Startup @ {{msg.date}}</p>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 350,
-        "y": 240,
+        "id": "water_alert_trigger",
+        "type": "trigger",
+        "z": "34d478f6cbb8753a",
+        "name": "Blocco 30 min",
+        "op1": "",
+        "op2": "0",
+        "op1type": "pay",
+        "op2type": "str",
+        "duration": "5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1080,
+        "y": 740,
         "wires": [
-            []
+            [
+                "water_log_msg"
+            ]
         ]
+    },
+    {
+        "id": "water_log_msg",
+        "type": "change",
+        "z": "34d478f6cbb8753a",
+        "name": "Msg: Acqua Bassa",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "⚠️ CRITICO: Livello Acqua Basso (<20%)",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1290,
+        "y": 740,
+        "wires": [
+            [
+                "link_water_event"
+            ]
+        ]
+    },
+    {
+        "id": "link_water_event",
+        "type": "link out",
+        "z": "34d478f6cbb8753a",
+        "name": "out log (water level)",
+        "mode": "link",
+        "links": [
+            "257a152acbed7208"
+        ],
+        "x": 1450,
+        "y": 740,
+        "wires": []
     },
     {
         "id": "ccc74ce47892d404",
@@ -1426,7 +2046,8 @@
         "y": 180,
         "wires": [
             [
-                "9d4d346ac2a16160"
+                "9d4d346ac2a16160",
+                "ecde4c725ed36227"
             ]
         ]
     },
@@ -1444,7 +2065,7 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 820,
+        "x": 940,
         "y": 180,
         "wires": []
     },
@@ -1510,33 +2131,94 @@
         "y": 180,
         "wires": [
             [
-                "61ec79c4b9916808"
+                "61ec79c4b9916808",
+                "fee4af4aedbb452d"
             ]
         ]
     },
     {
-        "id": "699d6e9464499c31",
-        "type": "mqtt in",
+        "id": "ecde4c725ed36227",
+        "type": "function",
         "z": "9c66d3b55ea7cb36",
-        "name": "",
-        "topic": "pot/water_level/pump",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "90bf6dc88fc77b25",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 320,
-        "y": 120,
+        "name": "Feedback",
+        "func": "let duration = flow.get(\"water_pump_duration\") || 5;\n\n// Send ON message immediately\nnode.send({ payload: \"IN FUNZIONE 🟢\", color: \"green\" });\n\n// Set timeout to send OFF message\nsetTimeout(() => {\n    node.send({ payload: \"PRONTA ⚪\", color: \"grey\" });\n}, duration * 1000);\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 380,
         "wires": [
             [
-                "e6604fb8ebc63a5a"
+                "a492eaf0833b3cab"
             ]
         ]
     },
     {
-        "id": "8271c4e36a9addde",
+        "id": "a492eaf0833b3cab",
+        "type": "ui_text",
+        "z": "9c66d3b55ea7cb36",
+        "group": "3e5e748b555d1bd1",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Stato pompa:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "40d628c69b38ecdd",
+        "type": "link out",
+        "z": "9c66d3b55ea7cb36",
+        "name": "out log (pump)",
+        "mode": "link",
+        "links": [
+            "257a152acbed7208"
+        ],
+        "x": 1005,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "fee4af4aedbb452d",
+        "type": "change",
+        "z": "9c66d3b55ea7cb36",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "pompa d'irrigazione attivata",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 280,
+        "wires": [
+            [
+                "40d628c69b38ecdd"
+            ]
+        ]
+    },
+    {
+        "id": "a04674c81975c839",
         "type": "global-config",
         "env": [],
         "modules": {
