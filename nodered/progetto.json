@@ -267,7 +267,7 @@
         "type": "ui_group",
         "name": "measurements",
         "tab": "a5c6f3da9210d83e",
-        "order": 1,
+        "order": 2,
         "disp": true,
         "width": "13",
         "collapse": false,
@@ -278,7 +278,7 @@
         "type": "ui_group",
         "name": "analysis",
         "tab": "a5c6f3da9210d83e",
-        "order": 2,
+        "order": 1,
         "disp": true,
         "width": "13",
         "collapse": false,
@@ -314,6 +314,77 @@
         "willMsg": {},
         "userProps": "",
         "sessionExpiry": ""
+    },
+    {
+        "id": "a18a21f6419184a9",
+        "type": "ui_group",
+        "name": "Seleziona luminosità LED",
+        "tab": "a5c6f3da9210d83e",
+        "order": 3,
+        "disp": true,
+        "width": 13,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6c9b110427c27923",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "d0e0f81a04b7c122",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "141bfeaf2583cda4",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "d0e0f81a04b7c122",
+        "order": 6,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "b2e6e3fe347379cb",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "a18a21f6419184a9",
+        "order": 1,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "9da80615c5b77f96",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "a18a21f6419184a9",
+        "order": 3,
+        "width": 4,
+        "height": 1
+    },
+    {
+        "id": "143663acdc64c23b",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "91d9056983d973a5",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "03434aa01bb658a3",
+        "type": "ui_spacer",
+        "z": "34d478f6cbb8753a",
+        "name": "spacer",
+        "group": "91d9056983d973a5",
+        "order": 1,
+        "width": 1,
+        "height": 1
     },
     {
         "id": "3578f7c607ca29b1",
@@ -352,27 +423,6 @@
         "wires": [
             [
                 "3a38d29792bf03f1"
-            ]
-        ]
-    },
-    {
-        "id": "98d2216dd5644797",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_water_level",
-        "func": "let min = 20;\nlet max = 30;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 400,
-        "y": 800,
-        "wires": [
-            [
-                "be5652e7290804be",
-                "f8d8216dd9146556"
             ]
         ]
     },
@@ -590,8 +640,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 630,
-        "y": 800,
+        "x": 690,
+        "y": 740,
         "wires": [
             []
         ]
@@ -620,8 +670,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 610,
-        "y": 840,
+        "x": 670,
+        "y": 780,
         "wires": []
     },
     {
@@ -716,7 +766,7 @@
         "height": 0,
         "name": "",
         "label": "Max Humidity:",
-        "format": "{{msg.payload}} @ {{msg.date}}",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
         "layout": "row-left",
         "className": "",
         "style": false,
@@ -737,7 +787,7 @@
         "height": 0,
         "name": "",
         "label": "Min Humidity:",
-        "format": "{{msg.payload}} @ {{msg.date}}",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
         "layout": "row-left",
         "className": "",
         "style": false,
@@ -753,7 +803,7 @@
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "max",
-        "func": "let max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\n\nmsg.payload = max;\nreturn msg;",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -773,7 +823,7 @@
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "min",
-        "func": "let min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\n\nmsg.payload = min;\nreturn msg;",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -902,65 +952,14 @@
         ]
     },
     {
-        "id": "8df30615e6bd19f5",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "date",
-                "v": "object",
-                "vt": "date"
-            }
-        ],
-        "repeat": "2",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 150,
-        "y": 1200,
-        "wires": [
-            [
-                "45e73fc70b7a4d5f"
-            ]
-        ]
-    },
-    {
-        "id": "45e73fc70b7a4d5f",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_light_level_percentage",
-        "func": "let min = 0;\nlet max = 100;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 370,
-        "y": 1200,
-        "wires": [
-            [
-                "3a226fc6fa807f68",
-                "0a94732ad7d1f2b7"
-            ]
-        ]
-    },
-    {
         "id": "3a226fc6fa807f68",
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "91d9056983d973a5",
-        "order": 2,
-        "width": "0",
-        "height": "0",
+        "order": 1,
+        "width": 0,
+        "height": 0,
         "label": "Light Level",
         "chartType": "line",
         "legend": "false",
@@ -1024,9 +1023,9 @@
         "z": "34d478f6cbb8753a",
         "name": "Daily Light Level",
         "group": "d0e0f81a04b7c122",
-        "order": 3,
-        "width": "8",
-        "height": "6",
+        "order": 4,
+        "width": 8,
+        "height": 6,
         "label": "Today's Light Exposure [{{msg.payload}}%]",
         "chartType": "bar",
         "legend": "false",
@@ -1063,38 +1062,13 @@
         ]
     },
     {
-        "id": "70f0c6faaa3f9d4f",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "new_day",
-        "props": [
-            {
-                "p": "reset",
-                "v": "true",
-                "vt": "bool"
-            }
-        ],
-        "repeat": "",
-        "crontab": "00 00 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 430,
-        "y": 1260,
-        "wires": [
-            [
-                "0a94732ad7d1f2b7"
-            ]
-        ]
-    },
-    {
         "id": "8f8f28ab7001f9b5",
         "type": "ui_text",
         "z": "34d478f6cbb8753a",
         "group": "d0e0f81a04b7c122",
         "order": 1,
-        "width": "6",
-        "height": "1",
+        "width": 6,
+        "height": 1,
         "name": "",
         "label": "Light Measurements:",
         "format": "{{msg.payload.light_points}}",
@@ -1141,8 +1115,8 @@
         "z": "34d478f6cbb8753a",
         "group": "d0e0f81a04b7c122",
         "order": 2,
-        "width": "6",
-        "height": "1",
+        "width": 6,
+        "height": 1,
         "name": "",
         "label": "Shadow Measurements: ",
         "format": "{{msg.payload.dark_points}}",
@@ -1157,40 +1131,19 @@
         "wires": []
     },
     {
-        "id": "74233926f9eaecbd",
-        "type": "ui_text",
-        "z": "34d478f6cbb8753a",
-        "group": "d0e0f81a04b7c122",
-        "order": 4,
-        "width": "5",
-        "height": "5",
-        "name": "Daily Light Description",
-        "label": "",
-        "format": "A measurement is considered a \"Light Measurement\" if its value exceeds 50% of the sensor's max light value.",
-        "layout": "col-center",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 1100,
-        "y": 1200,
-        "wires": []
-    },
-    {
         "id": "e288e0954db747ae",
         "type": "function",
         "z": "34d478f6cbb8753a",
         "name": "light_hour_counter",
-        "func": "let value = msg.payload;\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 50) {\n    light_hours += 1\n}\n\ncontext.set(\"light_hours\", light_hours);\n\nif (!msg.reset) {\n    return null;\n}\n\nmsg.payload = light_hours;\nlight_hours = 0;\n\ncontext.set(\"light_hours\", light_hours);\n\nreturn msg;",
+        "func": "let value = msg.payload;\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 20) {\n    light_hours += 1\n}\n\ncontext.set(\"light_hours\", light_hours);\n\nif (!msg.reset) {\n    return null;\n}\n\nmsg.payload = light_hours;\nlight_hours = 0;\n\ncontext.set(\"light_hours\", light_hours);\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 1500,
+        "x": 630,
+        "y": 1380,
         "wires": [
             [
                 "09177e19ba146c3f"
@@ -1203,7 +1156,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "group": "d0e0f81a04b7c122",
-        "order": 5,
+        "order": 7,
         "width": 0,
         "height": 0,
         "label": "Daily Light Hours",
@@ -1235,85 +1188,10 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 850,
-        "y": 1500,
+        "x": 830,
+        "y": 1380,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "d7a7360c3811d3a0",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "new_day",
-        "props": [
-            {
-                "p": "reset",
-                "v": "true",
-                "vt": "bool"
-            }
-        ],
-        "repeat": "",
-        "crontab": "00 00 * * *",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 450,
-        "y": 1480,
-        "wires": [
-            [
-                "e288e0954db747ae"
-            ]
-        ]
-    },
-    {
-        "id": "f1f30dc2cf9d5a65",
-        "type": "inject",
-        "z": "34d478f6cbb8753a",
-        "name": "every hour",
-        "props": [
-            {
-                "p": "timestamp",
-                "v": "",
-                "vt": "date"
-            },
-            {
-                "p": "date",
-                "v": "object",
-                "vt": "date"
-            }
-        ],
-        "repeat": "3600",
-        "crontab": "",
-        "once": false,
-        "onceDelay": "0.5",
-        "topic": "",
-        "x": 170,
-        "y": 1540,
-        "wires": [
-            [
-                "d63214b19a231e1c"
-            ]
-        ]
-    },
-    {
-        "id": "d63214b19a231e1c",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "random_light_level_percentage",
-        "func": "let min = 0;\nlet max = 100;\nlet randomNumber = Math.random() * (max - min) + min;\n\n// Arrotonda il numero per maggiore pulizia (opzionale)\nlet value = parseFloat(randomNumber.toFixed(2));\n\nmsg.payload = value;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 1540,
-        "wires": [
-            [
-                "e288e0954db747ae"
-            ]
         ]
     },
     {
@@ -1388,7 +1266,7 @@
         "type": "mqtt in",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "topic": "pot/water",
+        "topic": "pot/water_level",
         "qos": "2",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
@@ -1396,11 +1274,80 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 127.22220611572266,
-        "y": 788.8888549804688,
+        "x": 207.22220611572266,
+        "y": 728.8888549804688,
         "wires": [
             [
-                "98d2216dd5644797"
+                "be5652e7290804be",
+                "f8d8216dd9146556"
+            ]
+        ]
+    },
+    {
+        "id": "6a0486c62af12560",
+        "type": "ui_slider",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "group": "a18a21f6419184a9",
+        "order": 2,
+        "width": "13",
+        "height": 1,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 210,
+        "y": 1480,
+        "wires": [
+            [
+                "ea2729650e71ce9d"
+            ]
+        ]
+    },
+    {
+        "id": "ea2729650e71ce9d",
+        "type": "mqtt out",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/light/led",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "90bf6dc88fc77b25",
+        "x": 490,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "7fdade1fad93858d",
+        "type": "mqtt in",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/light_level",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 1220,
+        "wires": [
+            [
+                "3a226fc6fa807f68",
+                "0a94732ad7d1f2b7",
+                "e288e0954db747ae"
             ]
         ]
     },
@@ -1488,7 +1435,7 @@
         "type": "mqtt out",
         "z": "9c66d3b55ea7cb36",
         "name": "",
-        "topic": "water_pump_override",
+        "topic": "pot/water_level/pump",
         "qos": "2",
         "retain": "",
         "respTopic": "",
@@ -1521,7 +1468,7 @@
         "max": "20",
         "step": 1,
         "className": "",
-        "x": 330,
+        "x": 570,
         "y": 120,
         "wires": [
             [
@@ -1541,7 +1488,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
+        "x": 810,
         "y": 120,
         "wires": [
             []
@@ -1568,7 +1515,28 @@
         ]
     },
     {
-        "id": "2e9e942bea600129",
+        "id": "699d6e9464499c31",
+        "type": "mqtt in",
+        "z": "9c66d3b55ea7cb36",
+        "name": "",
+        "topic": "pot/water_level/pump",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 120,
+        "wires": [
+            [
+                "e6604fb8ebc63a5a"
+            ]
+        ]
+    },
+    {
+        "id": "8271c4e36a9addde",
         "type": "global-config",
         "env": [],
         "modules": {
