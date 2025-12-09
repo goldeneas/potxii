@@ -1,428 +1,202 @@
-# TSL2561 driver for MicroPython on ESP32
-# MIT license; Copyright (c) 2018 Philipp Bolte (philipp@bolte.engineer)
-# Version 0.1 beta (2018/09/10)
+import time
+import ustruct
 
-""" TSL2561 driver module for the WiPy 3 board
 
-This module provides a driver for the TSL2561 luminosity sensor using an
-I2C interface. It includes the conversion of the raw sensor data to a value
-given in Lux. The proposed method included in the devices datasheet was used
-for the measurement conversion. Also a simple AGC is included to switch
-the gain of the sensor between 1x and 16x. The AGC was inspired by the
-Adafruit TSL2561 library for Arduino.
-The module was designed for the pycom WiPy 3 module.
+_COMMAND_BIT = const(0x80)
+_WORD_BIT = const(0x20)
 
-Example:
-    The TSL2561 driver can be used as follows:
+_REGISTER_CONTROL = const(0x00)
+_REGISTER_TIMING = const(0x01)
+_REGISTER_THRESHHOLD_MIN = const(0x02)
+_REGISTER_THRESHHOLD_MAX = const(0x04)
+_REGISTER_INTERRUPT = const(0x06)
+_REGISTER_ID = const(0x0A)
+_REGISTER_CHANNEL0 = const(0x0C)
+_REGISTER_CHANNEL1 = const(0x0E)
 
-    .. code-block:: html
-        :linenos:
+_CONTROL_POWERON = const(0x03)
+_CONTROL_POWEROFF = const(0x00)
 
-        tslDev = TSL2561.device()
-        tslDev.init()
-        lux = tslDev.getLux()
+_INTERRUPT_NONE = const(0x00)
+_INTERRUPT_LEVEL = const(0x10)
 
-"""
+_INTEGRATION_TIME = {
+#  time     hex     wait    clip    min     max     scale
+    13:     (0x00,  15,     4900,   100,    4850,   0x7517),
+    101:    (0x01,  120,    37000,  200,    36000,  0x0FE7),
+    402:    (0x02,  450,    65000,  500,    63000,  1 << 10),
+    0:      (0x03,  0,      0,      0,      0,      0),
+}
 
-import utime
-from machine import I2C
 
-# Default I2C address that is used
-TSL2561_I2C_ADDR_DEFAULT = 0x29
-"""Default TSL2561 I2C slave address"""
+class TSL2561:
+    _LUX_SCALE = (
+    #       K       B       M
+        (0x0040, 0x01f2, 0x01be),
+        (0x0080, 0x0214, 0x02d1),
+        (0x00c0, 0x023f, 0x037b),
+        (0x0100, 0x0270, 0x03fe),
+        (0x0138, 0x016f, 0x01fc),
+        (0x019a, 0x00d2, 0x00fb),
+        (0x029a, 0x0018, 0x0012),
+    )
 
-# Register map of the TSL2561 sensor
-TSL2561_CMD = 0x80
-TSL2561_WORD = 0x20
-TSL2561_REG_CONTROL = 0x00
-TSL2561_REG_TIMING = 0x01
-TSL2561_REG_ID = 0x0A
-TSL2561_REG_ADC_B = 0x0C
-TSL2561_REG_ADC_IR = 0x0E
+    def __init__(self, i2c, address=0x39):
+        self.i2c = i2c
+        self.address = address
+        sensor_id = self.sensor_id()
+        if not sensor_id & 0x10:
+            raise RuntimeError("bad sensor id 0x{:x}".format(sensor_id))
+        self._active = False
+        self._gain = 1
+        self._integration_time = 13
+        self._update_gain_and_time()
 
-# Constants for the available integration times
-TSL2561_INTEGRATION_TIME_13_7 = 0
-"""Integration time of 13.7 ms"""
+    def _register16(self, register, value=None):
+        register |= _COMMAND_BIT | _WORD_BIT
+        if value is None:
+            data = self.i2c.readfrom_mem(self.address, register, 2)
+            return ustruct.unpack('<H', data)[0]
+        data = ustruct.pack('<H', value)
+        self.i2c.writeto_mem(self.address, register, data)
 
-TSL2561_INTEGRATION_TIME_101 = 1
-"""Integration time of 101 ms"""
+    def _register8(self, register, value=None):
+        register |= _COMMAND_BIT
+        if value is None:
+            return self.i2c.readfrom_mem(self.address, register, 1)[0]
+        data = ustruct.pack('<B', value)
+        self.i2c.writeto_mem(self.address, register, data)
 
-TSL2561_INTEGRATION_TIME_402 = 0
-"""Integration time of 402 ms"""
+    def active(self, value=None):
+        if value is None:
+            return self._active
+        value = bool(value)
+        if value != self._active:
+            self._active = value
+            self._register8(_REGISTER_CONTROL,
+                _CONTROL_POWERON if value else _CONTROL_POWEROFF)
 
-# Constants for the available gain stages
-TSL2561_GAIN_1X = 0
-TSL2561_GAIN_16X = 1<<4
+    def gain(self, value=None):
+        if value is None:
+            return self._gain
+        if value not in (1, 16):
+            raise ValueError("gain must be either 1x or 16x")
+        self._gain = value
+        self._update_gain_and_time()
 
-# Constants used for the optimzed calculation of the luminosity in Lux
-# See datasheet for details
-TSL2561_LUX_K1T = (0x0040)
-TSL2561_LUX_B1T = (0x01f2)
-TSL2561_LUX_M1T = (0x01be)
-TSL2561_LUX_K2T = (0x0080)
-TSL2561_LUX_B2T = (0x0214)
-TSL2561_LUX_M2T = (0x02d1)
-TSL2561_LUX_K3T = (0x00c0)
-TSL2561_LUX_B3T = (0x023f)
-TSL2561_LUX_M3T = (0x037b)
-TSL2561_LUX_K4T = (0x0100)
-TSL2561_LUX_B4T = (0x0270)
-TSL2561_LUX_M4T = (0x03fe)
-TSL2561_LUX_K5T = (0x0138)
-TSL2561_LUX_B5T = (0x016f)
-TSL2561_LUX_M5T = (0x01fc)
-TSL2561_LUX_K6T = (0x019a)
-TSL2561_LUX_B6T = (0x00d2)
-TSL2561_LUX_M6T = (0x00fb)
-TSL2561_LUX_K7T = (0x029a)
-TSL2561_LUX_B7T = (0x0018)
-TSL2561_LUX_M7T = (0x0012)
-TSL2561_LUX_K8T = (0x029a)
-TSL2561_LUX_B8T = (0x0000)
-TSL2561_LUX_M8T = (0x0000)
+    def integration_time(self, value=None):
+        if value is None:
+            return self._integration_time
+        if value not in _INTEGRATION_TIME:
+            raise ValueError("integration time must be 0, 13ms, 101ms or 402ms")
+        self._integration_time = value
+        self._update_gain_and_time()
 
-# Class for interfacing the TSL2561 sensor
-class device:
-    """Represents the TSL2561 device.
+    def _update_gain_and_time(self):
+        was_active = self.active()
+        self.active(True)
+        self._register8(_REGISTER_TIMING,
+            _INTEGRATION_TIME[self._integration_time][0] |
+            {1: 0x00, 16: 0x10}[self._gain]);
+        self.active(was_active)
 
-    Args:
-        i2cAddr (int, optional): TSL2561 slave I2C address
-        integrationTime (int, optional): Integration time
-            (Please use available constants)
-        debug (bool, optional): Debug information is printed when set to
-            true
+    def sensor_id(self):
+        return self._register8(_REGISTER_ID)
 
-    """
+    def _read(self):
+        was_active = self.active()
+        self.active(True)
+        if not was_active:
+            # if the sensor was off, wait for measurement
+            time.sleep_ms(_INTEGRATION_TIME[self._integration_time][1])
+        broadband = self._register16(_REGISTER_CHANNEL0)
+        ir = self._register16(_REGISTER_CHANNEL1)
+        self.active(was_active)
+        return broadband, ir
 
-    # Constructor
-    # Used to initialize the internal data structure of the class
-    def __init__(self, i2cAddr=TSL2561_I2C_ADDR_DEFAULT,
-            integrationTime=TSL2561_INTEGRATION_TIME_402, debug=True):
-
-        self.i2cAddr = i2cAddr
-        self.i2c = I2C(0, I2C.MASTER)
-        self.debugOutput = debug
-        self.integrationTime = TSL2561_INTEGRATION_TIME_402
-        self.gain = TSL2561_GAIN_16X
-        self.ready = False
-        self.error = False
-
-    # Initialize the sensor
-    def init(self):
-        """ Initialize the sensor.
-
-        Read the sensor ID register to check for valid device ID and
-        set the timing and gain register.
-
-        """
-        tslReg = None
-        # Try to read the device ID register
-        try:
-            tslReg = self.i2c.readfrom_mem(self.i2cAddr, TSL2561_REG_ID, 1)
-        except OSError:
-            print("TSL2561: I2C Error")
-        if tslReg is not None:
-            self.ready = True
-            if self.debugOutput == True:
-                if (tslReg[0] >> 8) == 0:
-                    print('Found TSL2560! Revision: ' + str(tslReg[0] & 0x0F))
-                elif (tslReg[0] >> 8) == 1:
-                    print('Found TSL2561! Revision: ' + str(tslReg[0] & 0x0F))
+    def _lux(self, channels):
+        if self._integration_time == 0:
+            raise ValueError(
+                "can't calculate lux with manual integration time")
+        broadband, ir = channels
+        clip = _INTEGRATION_TIME[self._integration_time][2]
+        if broadband > clip or ir > clip:
+            raise ValueError("sensor saturated")
+        scale = _INTEGRATION_TIME[self._integration_time][5] / self._gain
+        channel0 = (broadband * scale) / 1024
+        channel1 = (ir * scale) / 1024
+        ratio = (((channel1 * 1024) / channel0 if channel0 else 0) + 1) / 2
+        for k, b, m in self._LUX_SCALE:
+            if ratio <= k:
+                break
         else:
-            self.ready = False
-            if self.debugOutput == True:
-                print('No TSL2560/1 sensor found!')
+            b = 0
+            m = 0
+        return (max(0, channel0 * b - channel1 * m) + 8192) / 16384
 
-        if self.ready == True:
-            # Set default integration time and gain
-            self.applyTiming()
+    def read(self, autogain=False, raw=False):
+        broadband, ir = self._read()
+        if autogain:
+            if self._integration_time == 0:
+                raise ValueError(
+                    "can't do autogain with manual integration time")
+            new_gain = self._gain
+            if broadband < _INTEGRATION_TIME[self._integration_time][3]:
+                new_gain = 16
+            elif broadband > _INTEGRATION_TIME[self._integration_time][4]:
+                new_gain = 1
+            if new_gain != self._gain:
+                self.gain(new_gain)
+                broadband, ir = self._read()
+        if raw:
+            return broadband, ir
+        return self._lux((broadband, ir))
 
-    # Power up the device
-    def enable(self):
-        if not self.ready:
-            return
-        try:
-            self.i2c.writeto_mem(self.i2cAddr, TSL2561_REG_CONTROL|TSL2561_CMD,
-                0x03)
-        except OSError:
-            print('I2C Error')
-            self.error = True
-
-    # Power down the device
-    def disable(self):
-        if not self.ready:
-            return
-        try:
-            self.i2c.writeto_mem(self.i2cAddr, TSL2561_REG_CONTROL|TSL2561_CMD,
-                0x00)
-        except OSError:
-            print('I2C Error')
-            self.error = True
-
-    # Apply the integration time and gain
-    def applyTiming(self):
-        self.enable()
-        try:
-            self.i2c.writeto_mem(self.i2cAddr, TSL2561_REG_TIMING|TSL2561_CMD,
-                self.integrationTime + self.gain)
-        except OSError:
-            print('I2C Error')
-            self.error = True
-        self.disable()
-
-    # Set the integration time
-    def setIntegrationTime(self, integrationTime):
-        """Update the integration time
-
-        Args:
-            integrationTime (int, optional): Integration time
-                (Please use available constants)
-
-        """
-        self.integrationTime = integrationTime
-        applyTiming(self)
-
-    # Read the raw values for broadband and IR luminosity
-    def getSensorDataRaw(self):
-        """Starts a measurement and returns the measured raw values
-
-        Returns:
-            dictionary{'lumB', 'lumIR'}, []:
-
-            Returns a dictionary with the raw sensor values
-            or an empty object in case of measurement error
-
-        Example:
-            .. code-block:: html
-                :linenos:
-
-                raw = lum.getSensorDataRaw()
-                if raw is not None:
-                    print('B:' + raw['lumB'])
-                    print('IR:' + raw['lumIR'])
-
-        """
-        lumB = 0
-        lumIR = 0
-
-        # Reset timing in case of previous I2C error
-        if self.error == True:
-            self.error = False
-            self.applyTiming()
-
-        # Power up sensor
-        self.enable()
-
-        # Wait for conversion to be done
-        if self.integrationTime == TSL2561_INTEGRATION_TIME_13_7:
-            utime.sleep_ms(15)
-        elif self.integrationTime == TSL2561_INTEGRATION_TIME_101:
-            utime.sleep_ms(120)
-        else: # TSL2561_INTEGRATION_TIME_402
-            utime.sleep_ms(450)
-
-        # Read the value of the broadband luminosity ADC register
-        tslReg = None;
-        try:
-            tslReg = self.i2c.readfrom_mem(self.i2cAddr,
-                TSL2561_REG_ADC_B|TSL2561_CMD|TSL2561_WORD, 2)
-        except OSError:
-            print('I2C Error')
-            self.error = True
-        if tslReg is not None:
-            lumB = (tslReg[1]<<8) + tslReg[0]
-
-        # Read the value of the IR luminosity ADC register
-        tslReg = None;
-        try:
-            tslReg = self.i2c.readfrom_mem(self.i2cAddr,
-                TSL2561_REG_ADC_IR|TSL2561_CMD|TSL2561_WORD, 2)
-        except OSError:
-            print('I2C Error')
-            self.error = True
-        if tslReg is not None:
-            lumIR = (tslReg[1]<<8) + tslReg[0]
-
-        # Power down the sensor
-        self.disable()
-
-        return {'lumB': lumB, 'lumIR': lumIR}
-
-    # Read the raw sensor values and change gain if required
-    def getSensorDataAGC(self):
-        """Starts a measurement with AGC and returns the measured raw values
-
-        Returns:
-            dictionary{'lumB', 'lumIR'}, []:
-
-            Returns a dictionary with the raw sensor values
-            or an empty object in case of measurement error
-
-        Example:
-            .. code-block:: html
-                :linenos:
-
-                raw = lum.getSensorDataAGC()
-                if raw is not None:
-                    print('B:' + raw['lumB'])
-                    print('IR:' + raw['lumIR'])
-
-        """
-
-        # Automatic Gain Control done flag
-        agcDone = False
-
-        # Measurement Done flag
-        done = False
-
-        # Measure until the luminosity value is in a valid range
-        while not done:
-            # Get raw data
-            lum = self.getSensorDataRaw()
-            if lum is None:
-                return None
-
-            # Set threholds for Gain Control depending on integration time
-            if self.integrationTime == TSL2561_INTEGRATION_TIME_13_7:
-                thLow = 100
-                thHigh = 4850
-            elif self.integrationTime == TSL2561_INTEGRATION_TIME_101:
-                thLow = 200
-                thHigh = 36000
+    def threshold(self, cycles=None, min_value=None, max_value=None):
+        if min_value is None and max_value is None and cycles is None:
+            min_value = self._register16(_REGISTER_THRESHHOLD_MIN)
+            max_value = self._register16(_REGISTER_THRESHHOLD_MAX)
+            cycles = self._register8(_REGISTER_INTERRUPT)
+            if not cycles & _INTERRUPT_LEVEL:
+                cycles = -1
             else:
-                thLow = 500
-                thHigh = 63000
-
-            if not agcDone:
-                if lum['lumB'] < thLow and self.gain == TSL2561_GAIN_1X:
-                    # Switch gain to 16x if in 1x and lum to low
-                    self.gain = TSL2561_GAIN_16X
-                    self.applyTiming()
-                    agcDone = True
-                elif lum['lumB'] > thHigh and self.gain == TSL2561_GAIN_16X:
-                    # Switch to 1x if in 16x and lum to high
-                    self.gain = TSL2561_GAIN_1X
-                    self.applyTiming()
-                    agcDone = True
-                else:
-                    # Gain stage is appropriate
-                    agcDone = True
-                    done = True
+                cycles &= 0x0f
+            return cycles, min_value, max_value
+        was_active = self.active()
+        self.active(True)
+        if min_value is not None:
+            self._register16(_REGISTER_THRESHHOLD_MIN, int(min_value))
+        if max_value is not None:
+            self._register16(_REGISTER_THRESHHOLD_MAX, int(max_value))
+        if cycles is not None:
+            if cycles == -1:
+                self._register8(_REGISTER_INTERRUPT, _INTERRUPT_NONE)
             else:
-                # Gain was already switched in the last iteration
-                # Use the current measurement for Lux calculation
-                done = True
-        if self.debugOutput == True:
-            print('Final Broadband: ' + str(lum['lumB']))
-            print('Final IR: ' + str(lum['lumIR']))
-        return lum
+                self._register8(_REGISTER_INTERRUPT,
+                    min(15, max(0, int(cycles))) | _INTERRUPT_LEVEL)
+        self.active(was_active)
 
-    # Get sensor data with AGC and calculate resulting luminosity in Lux
-    def getLux(self):
-        """Starts a measurement with AGC and returns the luminosity in Lux
+    def interrupt(self, value):
+        if value or value is None:
+            raise ValueError("can only clear the interrupt")
+        self.i2c.writeto(self.address, b'\x40')
 
-        Returns:
-            int, []:
 
-            Returns the measured luminosity in Lux
-            or an empty object in case of measurement error
+# Those packages are identical.
+TSL2561T = TSL2561
+TSL2561FN = TSL2561
+TSL2561CL = TSL2561
 
-        Example:
-            .. code-block:: html
-                :linenos:
 
-                raw = lum.getLux()
-                if raw is not None:
-                    print('Lux:' + raw)
-
-        """
-
-        # Get raw sensor data and switch gain if required
-        lum = self.getSensorDataAGC()
-        if lum is None:
-            return None
-
-        # The calculation of the luminosity in Lux is based on the datasheet
-        # of the TSL2561 sensor. It is optimized for fast execution rather then
-        # a good code readability.
-
-        # Select clipping threshold and scale based on integration time
-        if self.integrationTime == TSL2561_INTEGRATION_TIME_13_7:
-            clipThreshold = 4900
-            scale = 0x7517
-        elif self.integrationTime == TSL2561_INTEGRATION_TIME_101:
-            clipThreshold = 37000
-            scale = 0x0FE7
-        else:
-            clipThreshold = 65000
-            scale = 1024 # 2^10
-
-        # Return 0 in case of clipping (sensor value out of range)
-        if lum['lumB'] >= clipThreshold or lum['lumIR'] >= clipThreshold:
-            return None
-
-        # Increase scale if gain is 1x
-        if self.gain == TSL2561_GAIN_1X:
-            if self.debugOutput == True:
-                print('Gain: 1x')
-            scale = scale * 16
-        else:
-            if self.debugOutput == True:
-                print('Gain: 16x')
-
-        channel0 = (lum['lumB'] * scale) >> 10
-        channel1 = (lum['lumIR'] * scale) >> 10
-
-        # ration B / IR
-        ratio1 = 0
-        if channel0 != 0:
-            ratio1 = (channel1 << 10) / channel0
-
-        ratio = int((ratio1 + 1)) >> 1;
-
-        # only valid for non chipscale
-        if ratio >= 0 and ratio < TSL2561_LUX_K1T:
-            b = TSL2561_LUX_B1T
-            m = TSL2561_LUX_M1T
-        elif ratio <= TSL2561_LUX_K2T:
-            b = TSL2561_LUX_B2T
-            m = TSL2561_LUX_M2T
-        elif ratio <= TSL2561_LUX_K3T:
-            b = TSL2561_LUX_B3T
-            m = TSL2561_LUX_M3T
-        elif ratio <= TSL2561_LUX_K4T:
-            b = TSL2561_LUX_B4T
-            m = TSL2561_LUX_M4T
-        elif ratio <= TSL2561_LUX_K5T:
-            b = TSL2561_LUX_B5T
-            m = TSL2561_LUX_M5T
-        elif ratio <= TSL2561_LUX_K6T:
-            b = TSL2561_LUX_B6T
-            m = TSL2561_LUX_M6T
-        elif ratio <= TSL2561_LUX_K7T:
-            b = TSL2561_LUX_B7T
-            m = TSL2561_LUX_M7T
-        else:
-            b = TSL2561_LUX_B8T
-            m = TSL2561_LUX_M8T
-
-        temp = ((channel0 * b) - (channel1 * m));
-        if temp < 0:
-            temp = 0
-
-        temp += (1 << (13));
-
-        lux = temp >> 14
-
-        if self.debugOutput == True:
-            print('Lux: ' + str(lux))
-
-        return lux
-
-# test sensor in case the module is directly executed by python
-if __name__ == "__main__":
-    tslDev = device()
-    tslDev.init()
-    for i in range(10):
-        tslDev.getLux()
-        utime.sleep_ms(500)
+class TSL2561CS(TSL2561):
+    # This package has different lux scale.
+    _LUX_SCALE = (
+    #       K       B       M
+        (0x0043, 0x0204, 0x01ad),
+        (0x0085, 0x0228, 0x02c1),
+        (0x00c8, 0x0253, 0x0363),
+        (0x010a, 0x0282, 0x03df),
+        (0x014d, 0x0177, 0x01dd),
+        (0x019a, 0x0101, 0x0127),
+        (0x029a, 0x0037, 0x002b),
+    )
