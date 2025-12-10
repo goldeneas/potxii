@@ -3,23 +3,22 @@ from ssd1306 import SSD1306_I2C
 from hcsr04 import HCSR04
 from micro_mqtt import MicroMQTT
 from wifi import Wifi
-from machine import DHT22
-from photoresistor import Photoresistor
+from dht import DHT22
+from tsl2561 import TSL2561
 from humidity import Humidity
 
-# TODO: dobbiamo trovare la lettura del sensore ad ultrasuoni
-# quando il serbatoio è vuoto ed inserirla qui
-WATER_TANK_EMPTY_DISTANCE = 11.3
+# il serbatoio è vuoto 
+WATER_TANK_EMPTY_DISTANCE = 13
 
 class HomeScreen:
     def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
-                 dht: DHT22, photoresistor: Photoresistor, humidity: Humidity):
+                 dht: DHT22, tsl2561: TSL2561, humidity: Humidity):
         self.hcsr = hcsr
         self.mqtt = mqtt
         self.display = ssd1306
         self.wifi = wifi
         self.dht = dht
-        self.photoresistor = photoresistor
+        self.tsl2561= tsl2561
         self.humidity = humidity
 
         self.light_value = 0
@@ -39,13 +38,13 @@ class HomeScreen:
         warning_messages = []
 
         if (self.water_height < 0):
-            warning_messages.append("Ricalibrare sensore acqua")
+            self.water_height=0
 
         if (not self.wifi_connected):
             warning_messages.append("Wifi disconnesso!!")
 
-        if (not self.mqtt_connected):
-            warning_messages.append("MQTT disconnesso!!")
+        #if (not self.mqtt_connected):
+           # warning_messages.append("MQTT disconnesso!!")
 
         if (len(warning_messages) > 0):
             self.show_warnings(warning_messages)
@@ -66,7 +65,7 @@ class HomeScreen:
         self.display.show()
 
     def measure(self):
-        self.light_value = self.photoresistor.value()
+        self.light_value = self.tsl2561.read()
         self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
         self.wifi_connected = self.wifi.is_connected()
         self.mqtt_connected = self.mqtt.is_connected()
