@@ -24,22 +24,22 @@ wifi.connect("nicola", "nicola-hotspot2")
 mqtt.connect("potxii", "test.mosquitto.org", 1883)
 
 #topic per dht
-mqtt.susbscribe("pot/air/temperature")
-mqtt.susbscribe("pot/air/humidity")
+mqtt.subscribe("pot/air/temperature")
+mqtt.subscribe("pot/air/humidity")
 
 #topic per humidity
-mqtt.susbscribe("pot/ground/humidity")
+mqtt.subscribe("pot/ground/humidity")
 
 #topic per hcsr04 e pompa
-mqtt.susbscribe("pot/water/water_level")
-mqtt.susbscribe("pot/water/pump")
+mqtt.subscribe("pot/water/water_level")
+mqtt.subscribe("pot/water/pump")
 
 #topic per tsl2561
-mqtt.susbscribe("pot/light/light_level")
-mqtt.susbscribe("pot/light/led")
+mqtt.subscribe("pot/light/light_level")
+mqtt.subscribe("pot/light/led")
 
 #topic per wifi
-mqtt.susbscribe("pot/system/wifi")
+mqtt.subscribe("pot/system/wifi")
 
 #importiamo i pin 
 hcsr04 = HCSR04(17,4)

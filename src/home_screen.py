@@ -77,6 +77,30 @@ class HomeScreen:
         self.air_temperature = self.dht.temperature()
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
+        
+        # --- 2. Pubblicazione MQTT ---
+        # Pubblica solo se siamo connessi al broker MQTT
+        if self.mqtt_connected:
+            # Topic per DHT (Aria)
+            self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
+            self.mqtt.publish("pot/air/humidity", str(self.air_humidity))
+
+            # Topic per Umidità Terreno
+            self.mqtt.publish("pot/ground/humidity", str(self.terrain_humidity))
+
+            # Topic per HC-SR04 (Livello Acqua)
+            # Nota: 'pump' di solito è un comando (subscribe), non un valore da pubblicare
+            self.mqtt.publish("pot/water/water_level", str(self.water_height))
+
+            # Topic per TSL2561 (Luce)
+            # Nota: 'led' di solito è un comando (subscribe)
+            self.mqtt.publish("pot/light/light_level", str(self.light_value))
+
+            # Topic per WiFi (Stato sistema)
+            # Pubblichiamo "1" o "true" se connesso, o il livello del segnale (RSSI) se disponibile
+            self.mqtt.publish("pot/system/wifi", "connected" if self.wifi_connected else "disconnected")
+          
+        
 
     def show_warnings(self, warning_messages):
         self.display.draw_image(self.warning_icon, 16, 16, 128-16, 0)
