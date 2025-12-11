@@ -58,7 +58,7 @@ class MicroMQTT:
             return
 
         try:
-            self.client.subscribe(topic)
+            self.client.subscribe(topic, 2)
             self.subscriptions.append(topic)
             
             self.display.fill(0)
