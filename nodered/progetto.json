@@ -131,7 +131,7 @@
     {
         "id": "0cdba00dd121a6f6",
         "type": "ui_tab",
-        "name": "temperature",
+        "name": "air",
         "icon": "dashboard",
         "order": 4,
         "disabled": false,
@@ -140,7 +140,7 @@
     {
         "id": "827722bd9bf31d4a",
         "type": "ui_tab",
-        "name": "humidity",
+        "name": "ground",
         "icon": "dashboard",
         "order": 5,
         "disabled": false,
@@ -149,7 +149,7 @@
     {
         "id": "3900d40c1756d9b6",
         "type": "ui_tab",
-        "name": "water_level",
+        "name": "water",
         "icon": "dashboard",
         "order": 6,
         "disabled": false,
@@ -255,7 +255,7 @@
     {
         "id": "90bf6dc88fc77b25",
         "type": "mqtt-broker",
-        "name": "mosquitto/test",
+        "name": "broker.hivemq.com",
         "broker": "test.mosquitto.org",
         "port": 1883,
         "clientid": "",
@@ -623,34 +623,12 @@
         ]
     },
     {
-        "id": "mqtt_temp_h",
-        "type": "mqtt in",
-        "z": "c753122a205bffa9",
-        "name": "",
-        "topic": "pot/air/temperature",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "90bf6dc88fc77b25",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 180,
-        "wires": [
-            [
-                "gauge_temp_home",
-                "status_logic"
-            ]
-        ]
-    },
-    {
         "id": "mqtt_hum_h",
         "type": "mqtt in",
         "z": "c753122a205bffa9",
         "name": "",
         "topic": "pot/air/humidity",
-        "qos": "2",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -671,7 +649,7 @@
         "z": "c753122a205bffa9",
         "name": "",
         "topic": "pot/ground/humidity",
-        "qos": "2",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -692,15 +670,15 @@
         "type": "mqtt in",
         "z": "c753122a205bffa9",
         "name": "",
-        "topic": "pot/light_level",
-        "qos": "2",
+        "topic": "pot/light/light_level",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 250,
+        "x": 270,
         "y": 360,
         "wires": [
             [
@@ -713,18 +691,40 @@
         "type": "mqtt in",
         "z": "c753122a205bffa9",
         "name": "",
-        "topic": "pot/water_level",
-        "qos": "2",
+        "topic": "pot/water/water_level",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 260,
+        "x": 280,
         "y": 500,
         "wires": [
             [
+                "status_logic"
+            ]
+        ]
+    },
+    {
+        "id": "mqtt_temp_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/air/temperature",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "gauge_temp_home",
                 "status_logic"
             ]
         ]
@@ -734,8 +734,8 @@
         "type": "mqtt in",
         "z": "2ff232a50dfd5c85",
         "name": "",
-        "topic": "pot/system/rssi",
-        "qos": "2",
+        "topic": "pot/system/wifi",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -902,7 +902,7 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 590,
+        "x": 610,
         "y": 260,
         "wires": [
             []
@@ -924,7 +924,7 @@
         "templateScope": "local",
         "className": "",
         "x": 810,
-        "y": 320,
+        "y": 380,
         "wires": [
             []
         ]
@@ -939,8 +939,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 590,
-        "y": 320,
+        "x": 550,
+        "y": 380,
         "wires": [
             [
                 "log_template"
@@ -954,7 +954,6 @@
         "name": "in log",
         "links": [
             "40d628c69b38ecdd",
-            "248115111126cf11",
             "link_water_event"
         ],
         "x": 355,
@@ -997,8 +996,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
-        "y": 560,
+        "x": 480,
+        "y": 580,
         "wires": [
             [
                 "3a38d29792bf03f1"
@@ -1098,7 +1097,7 @@
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "group": "60357de18034327d",
+        "group": "3dbd742063594ab4",
         "order": 1,
         "width": "0",
         "height": "0",
@@ -1142,7 +1141,7 @@
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "group": "ab882737ee8c3239",
+        "group": "cf90c337e99acd39",
         "order": 3,
         "width": "0",
         "height": "0",
@@ -1175,8 +1174,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 560,
-        "y": 560,
+        "x": 660,
+        "y": 580,
         "wires": [
             []
         ]
@@ -1219,8 +1218,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 690,
-        "y": 740,
+        "x": 670,
+        "y": 1180,
         "wires": [
             [
                 "water_check_switch"
@@ -1251,8 +1250,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 670,
-        "y": 780,
+        "x": 650,
+        "y": 1220,
         "wires": []
     },
     {
@@ -1341,7 +1340,7 @@
         "id": "6bf500247d122c0e",
         "type": "ui_text",
         "z": "34d478f6cbb8753a",
-        "group": "ab882737ee8c3239",
+        "group": "cf90c337e99acd39",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -1362,7 +1361,7 @@
         "id": "050653bc1899f72e",
         "type": "ui_text",
         "z": "34d478f6cbb8753a",
-        "group": "ab882737ee8c3239",
+        "group": "cf90c337e99acd39",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -1420,119 +1419,6 @@
         ]
     },
     {
-        "id": "27429957a57f172d",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "VPD",
-        "func": "// msg.payload.temp (Celsius) and msg.payload.humidity (%)\nlet T = msg.payload.temperature;\nlet RH = msg.payload.humidity;\n\n// 1. Calculate SVP (Tetens equation)\n// Result is in kPa (kilopascals)\nlet SVP = 0.61078 * Math.exp((17.27 * T) / (T + 237.3));\n\n// 2. Calculate VPD\nlet VPD = SVP * (1 - (RH / 100));\n\n// Output formatting\nmsg.payload = {\n    vpd: parseFloat(VPD.toFixed(2)),\n    status: VPD > 1.2 ? \"Dry/High Stress\" : (VPD < 0.4 ? \"Mold Risk\" : \"Good\")\n};\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 370,
-        "y": 640,
-        "wires": [
-            [
-                "c93de5560976103f",
-                "b819238f0ef23cef"
-            ]
-        ]
-    },
-    {
-        "id": "92e72763c9f29829",
-        "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
-        "name": "",
-        "group": "57e26ec50da4cccd",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "label": "VPD",
-        "chartType": "line",
-        "legend": "false",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": 1,
-        "removeOlderPoints": "20",
-        "removeOlderUnit": "3600",
-        "cutout": 0,
-        "useOneColor": false,
-        "useUTC": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "outputs": 1,
-        "useDifferentColor": false,
-        "className": "",
-        "x": 670,
-        "y": 620,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "c93de5560976103f",
-        "type": "ui_text",
-        "z": "34d478f6cbb8753a",
-        "group": "57e26ec50da4cccd",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "VPD Status: ",
-        "format": "{{msg.payload.status}}",
-        "layout": "row-left",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 550,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "b819238f0ef23cef",
-        "type": "change",
-        "z": "34d478f6cbb8753a",
-        "name": "Get Vpd",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.vpd",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 540,
-        "y": 620,
-        "wires": [
-            [
-                "92e72763c9f29829"
-            ]
-        ]
-    },
-    {
         "id": "3a226fc6fa807f68",
         "type": "ui_chart",
         "z": "34d478f6cbb8753a",
@@ -1570,8 +1456,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 610,
-        "y": 1200,
+        "x": 630,
+        "y": 1300,
         "wires": [
             []
         ]
@@ -1588,8 +1474,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 1240,
+        "x": 650,
+        "y": 1340,
         "wires": [
             [
                 "8f8f28ab7001f9b5",
@@ -1636,8 +1522,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1080,
-        "y": 1240,
+        "x": 1100,
+        "y": 1340,
         "wires": [
             []
         ]
@@ -1659,8 +1545,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 860,
-        "y": 1280,
+        "x": 880,
+        "y": 1380,
         "wires": []
     },
     {
@@ -1682,8 +1568,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 860,
-        "y": 1240,
+        "x": 880,
+        "y": 1340,
         "wires": [
             [
                 "368f0cfcc8ac14b3"
@@ -1707,8 +1593,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 870,
-        "y": 1320,
+        "x": 890,
+        "y": 1420,
         "wires": []
     },
     {
@@ -1723,8 +1609,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 1380,
+        "x": 430,
+        "y": 1420,
         "wires": [
             [
                 "09177e19ba146c3f"
@@ -1769,8 +1655,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 830,
-        "y": 1380,
+        "x": 650,
+        "y": 1420,
         "wires": [
             []
         ]
@@ -1781,7 +1667,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "topic": "pot/air/temperature",
-        "qos": "2",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -1823,15 +1709,15 @@
         "type": "mqtt in",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "topic": "pot/ground/humidity",
-        "qos": "2",
+        "topic": "pot/air/humidity",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
+        "x": 140,
         "y": 460,
         "wires": [
             [
@@ -1839,7 +1725,6 @@
                 "ed13c6809e7717c8",
                 "227184f3d9990528",
                 "a015631a545e31e4",
-                "27429957a57f172d",
                 "b4102c3773ca9aec"
             ]
         ]
@@ -1849,8 +1734,8 @@
         "type": "mqtt in",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "topic": "pot/water_level",
-        "qos": "2",
+        "topic": "pot/water/water_level",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -1858,7 +1743,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 207.22220611572266,
-        "y": 728.8888549804688,
+        "y": 1168.8888549804688,
         "wires": [
             [
                 "be5652e7290804be",
@@ -1885,8 +1770,8 @@
         "max": "100",
         "step": 1,
         "className": "",
-        "x": 210,
-        "y": 1480,
+        "x": 170,
+        "y": 1520,
         "wires": [
             [
                 "ea2729650e71ce9d"
@@ -1899,7 +1784,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "topic": "pot/light/led",
-        "qos": "2",
+        "qos": "1",
         "retain": "",
         "respTopic": "",
         "contentType": "",
@@ -1907,8 +1792,8 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 490,
-        "y": 1480,
+        "x": 450,
+        "y": 1520,
         "wires": []
     },
     {
@@ -1916,16 +1801,16 @@
         "type": "mqtt in",
         "z": "34d478f6cbb8753a",
         "name": "",
-        "topic": "pot/light_level",
-        "qos": "2",
+        "topic": "pot/light/light_level",
+        "qos": "1",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
-        "y": 1220,
+        "x": 190,
+        "y": 1320,
         "wires": [
             [
                 "3a226fc6fa807f68",
@@ -1951,8 +1836,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 900,
-        "y": 740,
+        "x": 880,
+        "y": 1180,
         "wires": [
             [
                 "water_alert_trigger"
@@ -1976,8 +1861,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 1080,
-        "y": 740,
+        "x": 1060,
+        "y": 1180,
         "wires": [
             [
                 "water_log_msg"
@@ -2003,8 +1888,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1290,
-        "y": 740,
+        "x": 1270,
+        "y": 1180,
         "wires": [
             [
                 "link_water_event"
@@ -2020,8 +1905,8 @@
         "links": [
             "257a152acbed7208"
         ],
-        "x": 1450,
-        "y": 740,
+        "x": 1430,
+        "y": 1180,
         "wires": []
     },
     {
@@ -2069,7 +1954,7 @@
         "id": "08d4ed9cbc9cb4ec",
         "type": "ui_text",
         "z": "34d478f6cbb8753a",
-        "group": "60357de18034327d",
+        "group": "3dbd742063594ab4",
         "order": 1,
         "width": "0",
         "height": "0",
@@ -2107,6 +1992,376 @@
         ]
     },
     {
+        "id": "e339e3848699a9df",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "average",
+        "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 940,
+        "wires": [
+            [
+                "78d8c00f1e46a4d5"
+            ]
+        ]
+    },
+    {
+        "id": "a3c87057b25466ce",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "60357de18034327d",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "label": "Humidity (kg/m^3)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "bezier",
+        "nodata": "No Data",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 530,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "78d8c00f1e46a4d5",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "ab882737ee8c3239",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "label": "Avg Humidity (kg/m^3)",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "No Data",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "10",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 560,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7905081df3e1d1fb",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "ab882737ee8c3239",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Max Humidity:",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 680,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "c85e4d774d287560",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "ab882737ee8c3239",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Min Humidity:",
+        "format": "{{msg.payload}} °C alle {{msg.date}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 680,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "1a22c3e2d81951f9",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "max",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 760,
+        "wires": [
+            [
+                "7905081df3e1d1fb"
+            ]
+        ]
+    },
+    {
+        "id": "b61d9e40827cb437",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "min",
+        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 720,
+        "wires": [
+            [
+                "c85e4d774d287560"
+            ]
+        ]
+    },
+    {
+        "id": "fd7b397c72adc0f7",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "VPD",
+        "func": "// msg.payload.temp (Celsius) and msg.payload.humidity (%)\nlet T = msg.payload.temperature;\nlet RH = msg.payload.humidity;\n\n// 1. Calculate SVP (Tetens equation)\n// Result is in kPa (kilopascals)\nlet SVP = 0.61078 * Math.exp((17.27 * T) / (T + 237.3));\n\n// 2. Calculate VPD\nlet VPD = SVP * (1 - (RH / 100));\n\n// Output formatting\nmsg.payload = {\n    vpd: parseFloat(VPD.toFixed(2)),\n    status: VPD > 1.2 ? \"Dry/High Stress\" : (VPD < 0.4 ? \"Mold Risk\" : \"Good\")\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1020,
+        "wires": [
+            [
+                "4939396a371dab37",
+                "76a6473827403e96"
+            ]
+        ]
+    },
+    {
+        "id": "80894aafd94de1cd",
+        "type": "ui_chart",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "group": "57e26ec50da4cccd",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "VPD",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "20",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 670,
+        "y": 1000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4939396a371dab37",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "57e26ec50da4cccd",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "VPD Status: ",
+        "format": "{{msg.payload.status}}",
+        "layout": "row-left",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 550,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "76a6473827403e96",
+        "type": "change",
+        "z": "34d478f6cbb8753a",
+        "name": "Get Vpd",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.vpd",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 1000,
+        "wires": [
+            [
+                "80894aafd94de1cd"
+            ]
+        ]
+    },
+    {
+        "id": "73c76e69c772af6f",
+        "type": "mqtt in",
+        "z": "34d478f6cbb8753a",
+        "name": "",
+        "topic": "pot/ground/humidity",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 840,
+        "wires": [
+            [
+                "b61d9e40827cb437",
+                "1a22c3e2d81951f9",
+                "a3c87057b25466ce",
+                "e339e3848699a9df",
+                "fd7b397c72adc0f7",
+                "fea6fc8cebe2a8d5"
+            ]
+        ]
+    },
+    {
+        "id": "d059767313c5d076",
+        "type": "ui_text",
+        "z": "34d478f6cbb8753a",
+        "group": "60357de18034327d",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Umidità Attuale:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 20,
+        "color": "#000000",
+        "x": 780,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "fea6fc8cebe2a8d5",
+        "type": "function",
+        "z": "34d478f6cbb8753a",
+        "name": "Calcola Trend",
+        "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 504.111083984375,
+        "y": 879.5555419921875,
+        "wires": [
+            [
+                "d059767313c5d076"
+            ]
+        ]
+    },
+    {
         "id": "ccc74ce47892d404",
         "type": "ui_button",
         "z": "9c66d3b55ea7cb36",
@@ -2140,8 +2395,8 @@
         "type": "mqtt out",
         "z": "9c66d3b55ea7cb36",
         "name": "",
-        "topic": "pot/water_level/pump",
-        "qos": "2",
+        "topic": "pot/water/pump",
+        "qos": "1",
         "retain": "",
         "respTopic": "",
         "contentType": "",
@@ -2149,7 +2404,7 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 940,
+        "x": 920,
         "y": 180,
         "wires": []
     },
@@ -2302,7 +2557,7 @@
         ]
     },
     {
-        "id": "adc77e4a3e891d53",
+        "id": "11655a3ba990c562",
         "type": "global-config",
         "env": [],
         "modules": {
