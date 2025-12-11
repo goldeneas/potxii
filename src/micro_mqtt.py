@@ -69,6 +69,9 @@ class MicroMQTT:
             print("Iscritto al topic: " + topic)
         except OSError as e:
             print("Errore durante la sottoscrizione: ", e)
+            
+    def publish(self, topic, msg):
+        self.client.publish(topic, msg, False, 2)
  
     def restart_and_reconnect(self):
         self.display.fill(0)
