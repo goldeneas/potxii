@@ -26,7 +26,7 @@ wifi.connect("nicola", "nicola-hotspot2")
 
 #importiamo i pin 
 hcsr04 = HCSR04(17,4)
-dht = DHT22(12)
+dht = DHT22(15)
 three_led = ThreeLedPWM(32,33,25) 
 tsl2561 = TSL2561(i2c)
 humidity = Humidity(14)

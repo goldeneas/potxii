@@ -6,6 +6,7 @@ from wifi import Wifi
 from dht import DHT22
 from tsl2561 import TSL2561
 from humidity import Humidity
+import time
 
 # il serbatoio è vuoto 
 WATER_TANK_EMPTY_DISTANCE = 13
@@ -50,19 +51,21 @@ class HomeScreen:
             self.show_warnings(warning_messages)
             return
 
-        messages = [
-                "Light: " + str(self.light_value) + "%",
-                "Water: " + str(self.water_height) + " mm",
-                "Wifi: " + str(self.wifi_connected),
-                "MQTT: " + str(self.mqtt_connected),
-                "Air Temp: " + str(self.air_temperature) + "C",
-                "Air Hum: " + str(self.air_humidity),
-                "Dirt Hum: " + str(self.terrain_humidity)
-        ]
+       
+        messages1 = [
+                "Light: {:.2f} lux".format(self.light_value),
+                "Water: {:.2f} mm".format(self.water_height),
+                "Air Temp: {:.0f} C".format(self.air_temperature),
+                "Air Hum: {:.0f} " .format(self.air_humidity),
+                "Dirt Hum: {:.0f} %" .format(self.terrain_humidity)
+         ]
 
-        self.display.draw_image(self.check_icon, 16, 16, 128-16, 0)
-        self.text_all(messages)
+       
+        self.text_all(messages1)
         self.display.show()
+       
+        
+        
 
     def measure(self):
         self.light_value = self.tsl2561.read()
