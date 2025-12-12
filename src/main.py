@@ -13,7 +13,7 @@ import time
 i2c = I2C(scl=22, sda=21)
 display = SSD1306_I2C(128, 64, i2c);
 wifi = Wifi(display);
-mqtt = MicroMQTT("potxii", "test.mosquitto.org", 1883, display);
+mqtt = MicroMQTT("potxii", display);
 
 # aspetta che la connessione sia stabilita
 # TODO: e se non ci connettiamo?
@@ -21,7 +21,7 @@ wifi.connect("nicola", "nicola-hotspot2")
 
 # TODO: deve aspettare che siamo connessi
 # TODO: e se non ci connettiamo?
-mqtt.connect("potxii", "test.mosquitto.org", 1883)
+mqtt.connect("broker.hivemq.com", 1883,None, None)
 
 #topic per dht
 mqtt.subscribe("pot/air/temperature")
