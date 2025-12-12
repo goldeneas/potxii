@@ -13,7 +13,7 @@ import time
 i2c = I2C(scl=22, sda=21)
 display = SSD1306_I2C(128, 64, i2c);
 wifi = Wifi(display);
-mqtt = MicroMQTT("potxii", "test.mosquitto.org", 1883,display);
+mqtt = MicroMQTT("potxii", "test.mosquitto.org", 1883, display);
 
 # aspetta che la connessione sia stabilita
 # TODO: e se non ci connettiamo?
@@ -21,8 +21,25 @@ wifi.connect("nicola", "nicola-hotspot2")
 
 # TODO: deve aspettare che siamo connessi
 # TODO: e se non ci connettiamo?
-#mqtt.connect("potxii", "test.mosquitto.org", 1883)
+mqtt.connect("potxii", "test.mosquitto.org", 1883)
 
+#topic per dht
+mqtt.susbscribe("pot/air/temperature")
+mqtt.susbscribe("pot/air/humidity")
+
+#topic per humidity
+mqtt.susbscribe("pot/ground/humidity")
+
+#topic per hcsr04 e pompa
+mqtt.susbscribe("pot/water/water_level")
+mqtt.susbscribe("pot/water/pump")
+
+#topic per tsl2561
+mqtt.susbscribe("pot/light/light_level")
+mqtt.susbscribe("pot/light/led")
+
+#topic per wifi
+mqtt.susbscribe("pot/system/wifi")
 
 #importiamo i pin 
 hcsr04 = HCSR04(17,4)
