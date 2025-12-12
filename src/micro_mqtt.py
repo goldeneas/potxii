@@ -58,7 +58,7 @@ class MicroMQTT:
             return
 
         try:
-            self.client.subscribe(topic, 1)
+            self.client.subscribe(topic, 0)
             self.subscriptions.append(topic)
             
             self.display.fill(0)
@@ -71,7 +71,7 @@ class MicroMQTT:
             print("Errore durante la sottoscrizione: ", e)
             
     def publish(self, topic, msg):
-        self.client.publish(topic, msg, False, 1)
+        self.client.publish(topic, msg, False, 0)
  
     def restart_and_reconnect(self):
         self.display.fill(0)

@@ -46,7 +46,7 @@ hcsr04 = HCSR04(17,4)
 dht = DHT22(15)
 three_led = ThreeLedPWM(32,33,25) 
 tsl2561 = TSL2561(i2c)
-humidity = Humidity(14)
+humidity = Humidity(35)
 
 
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
