@@ -44,8 +44,8 @@ class HomeScreen:
         if (not self.wifi_connected):
             warning_messages.append("Wifi disconnesso!!")
 
-        #if (not self.mqtt_connected):
-           # warning_messages.append("MQTT disconnesso!!")
+        if (not self.mqtt_connected):
+            warning_messages.append("MQTT disconnesso!!")
 
         if (len(warning_messages) > 0):
             self.show_warnings(warning_messages)
