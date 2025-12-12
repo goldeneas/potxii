@@ -21,7 +21,7 @@ wifi.connect("nicola", "nicola-hotspot2")
 
 # TODO: deve aspettare che siamo connessi
 # TODO: e se non ci connettiamo?
-mqtt.connect("broker.hivemq.com", 1883,None, None)
+mqtt.connect("broker.hivemq.com", 1883, None, None)
 
 #topic per dht
 mqtt.subscribe("pot/air/temperature")
