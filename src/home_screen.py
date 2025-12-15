@@ -60,7 +60,6 @@ class HomeScreen:
                 "Dirt Hum: {:.0f} %" .format(self.terrain_humidity)
          ]
 
-       
         self.text_all(messages1)
         self.display.show()
        
@@ -68,6 +67,8 @@ class HomeScreen:
         
 
     def measure(self):
+        now = time.curr_ms()
+
         self.light_value = self.tsl2561.read()
         self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
         self.wifi_connected = self.wifi.is_connected()
@@ -78,7 +79,6 @@ class HomeScreen:
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
         
-      
         if self.mqtt_connected:
             # Topic per DHT (Aria)
             self.mqtt.publish("pot/air/temperature", str(self.air_temperature))

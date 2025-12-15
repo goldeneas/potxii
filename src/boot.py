@@ -1,6 +1,7 @@
 from hcsr04 import HCSR04
 from home_screen import HomeScreen
 from humidity import Humidity
+from pump import Pump
 from three_led import ThreeLedPWM
 from wifi import Wifi
 from micro_mqtt import MicroMQTT
@@ -47,7 +48,19 @@ dht = DHT22(15)
 three_led = ThreeLedPWM(32,33,25) 
 tsl2561 = TSL2561(i2c)
 humidity = Humidity(35)
+pump = Pump(26)
 
+def mqtt_handler(topic, msg):
+    global pump
+
+    if (not topic == "pot/water/pump"):
+        return
+
+    time_s = int(msg)
+    # pump.on_for(time_s)
+    print("Ho ricevuto secondi: " + str(time_s))
+
+mqtt.set_handler(mqtt_handler)
 
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
 

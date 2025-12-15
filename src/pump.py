@@ -1,5 +1,5 @@
 from machine import Pin
-from time import sleep_ms
+from time import sleep
 
 # Il relè va collegato alla 3.3V
 # ATTIVA BASSA
@@ -9,9 +9,9 @@ class Pump:
         self.pin.value(1);
         pass
 
-    def on_for(self, time_ms):
+    def on_for(self, time_s):
         self.pin.value(0)
-        sleep_ms(time_ms)
+        sleep(time_s)
         self.pin.value(1)
 
     def off(self):
