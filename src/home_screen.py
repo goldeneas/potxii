@@ -67,38 +67,33 @@ class HomeScreen:
         
 
     def measure(self):
-        now = time.curr_ms()
-
         self.light_value = self.tsl2561.read()
         self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
         self.wifi_connected = self.wifi.is_connected()
-        self.mqtt_connected = self.mqtt.is_connected()
 
         self.dht.measure()
         self.air_temperature = self.dht.temperature()
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
         
-        if self.mqtt_connected:
-            # Topic per DHT (Aria)
-            self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
-            self.mqtt.publish("pot/air/humidity", str(self.air_humidity))
+        # Topic per DHT (Aria)
+        self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
+        self.mqtt.publish("pot/air/humidity", str(self.air_humidity))
 
-            # Topic per Umidità Terreno
-            self.mqtt.publish("pot/ground/humidity", str(self.terrain_humidity))
+        # Topic per Umidità Terreno
+        self.mqtt.publish("pot/ground/humidity", str(self.terrain_humidity))
 
-            # Topic per HC-SR04 (Livello Acqua)
-            # Nota: 'pump' di solito è un comando (subscribe), non un valore da pubblicare
-            self.mqtt.publish("pot/water/water_level", str(self.water_height))
+        # Topic per HC-SR04 (Livello Acqua)
+        # Nota: 'pump' di solito è un comando (subscribe), non un valore da pubblicare
+        self.mqtt.publish("pot/water/water_level", str(self.water_height))
 
-            # Topic per TSL2561 (Luce)
-            # Nota: 'led' di solito è un comando (subscribe)
-            self.mqtt.publish("pot/light/light_level", str(self.light_value))
+        # Topic per TSL2561 (Luce)
+        # Nota: 'led' di solito è un comando (subscribe)
+        self.mqtt.publish("pot/light/light_level", str(self.light_value))
 
-            # Topic per WiFi (Stato sistema)
-            # Pubblichiamo "1" o "true" se connesso, o il livello del segnale (RSSI) se disponibile
-            self.mqtt.publish("pot/system/wifi", "connected" if self.wifi_connected else "disconnected")
-          
+        # Topic per WiFi (Stato sistema)
+        # Pubblichiamo "1" o "true" se connesso
+        self.mqtt.publish("pot/system/wifi", "connected" if self.wifi_connected else "disconnected")
         
 
     def show_warnings(self, warning_messages):
