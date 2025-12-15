@@ -10,8 +10,14 @@ class MicroMQTT:
         self.client = None
         self.connected_flag = False
         
+        self.command_handler = None
+        
         #Lista dei topic sottoscritti dal subscriber
         self.subscriptions = []
+        
+    def set_handler(self, handler_function):
+        #Metodo per impostare la funzione da chiamare quando arriva un messaggio
+        self.command_handler = handler_function
         
     def connect(self, broker_ip, broker_port, user, password):
         
@@ -41,6 +47,9 @@ class MicroMQTT:
             
             print("Connesso")
             
+            for topic in self.subscriptions:
+                self.client.subscribe(topic, 0)
+            
         except OSError as e:
             self.display.fill(0)
             self.display.text("Errore Connessione:", 0, 0)
@@ -49,7 +58,7 @@ class MicroMQTT:
 
             self.connected_flag = False
             print("Errore connessione: ", e)
-            self.restart_and_reconnect()
+            self.reconnect()
 
     def subscribe(self, topic):
     
@@ -71,36 +80,52 @@ class MicroMQTT:
             print("Errore durante la sottoscrizione: ", e)
             
     def publish(self, topic, msg):
-        self.client.publish(topic, msg, False, 0)
+        if self.connected_flag:
+            try:
+                self.client.publish(topic, msg, False, 0)
+            except OSError:
+                print("Errore pubblicazione")
  
-    def restart_and_reconnect(self):
+    def reconnect(self):
         self.display.fill(0)
         self.display.text("Riconnessione", 0, 0)
         self.display.show()
         
         print("Riconnessione")
-        time.sleep(10)
-        machine.reset()
+        try:
+            self.client.close() # Chiude la vecchia socket
+        except:
+            pass
+        
+        try:
+            self.client.connect()
+            self.connected_flag = True
+            
+            for topic in self.subscriptions:
+                self.client.subscribe(topic, 0)
+                
+            print("Riconnesso con successo!")
+            self.display.text("Riconnesso con successo!", 0, 10)
+            self.display.show()
+            
+        except OSError as e:
+            print("Riconnessione fallita:", e)
+            self.display.text("Riconnessione fallita", 0, 10)
+            self.display.show()
+            self.connected_flag = False
         
     def sub_cb(self, topic, msg):
         print((topic, msg))
         
-        topic_str = topic.decode()
-        msg_str = msg.decode()
-        
-        
- 
-        
-        self.display.show()
+        if self.command_handler:
+            self.command_handler(topic, msg)
 
-    def is_connected(self):
-        return self.connected_flag
     
     def check_msg(self):
-        if self.is_connected():
+        if self.connected_flag:
             try:
                 self.client.check_msg()
             except OSError:
                 self.connected_flag = False
-                self.restart_and_reconnect()
+                self.reconnect()
     
