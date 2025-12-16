@@ -24,7 +24,7 @@
         "env": []
     },
     {
-        "id": "9c66d3b55ea7cb36",
+        "id": "4c02f01e2dcd8d5d",
         "type": "tab",
         "label": "Pump",
         "disabled": false,
@@ -256,7 +256,7 @@
         "id": "90bf6dc88fc77b25",
         "type": "mqtt-broker",
         "name": "broker.hivemq.com",
-        "broker": "test.mosquitto.org",
+        "broker": "broker.hivemq.com",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -361,7 +361,7 @@
         "tab": "3900d40c1756d9b6",
         "order": 3,
         "disp": true,
-        "width": 6,
+        "width": "13",
         "collapse": false,
         "className": ""
     },
@@ -623,6 +623,28 @@
         ]
     },
     {
+        "id": "mqtt_temp_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/air/temperature",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "gauge_temp_home",
+                "status_logic"
+            ]
+        ]
+    },
+    {
         "id": "mqtt_hum_h",
         "type": "mqtt in",
         "z": "c753122a205bffa9",
@@ -703,28 +725,6 @@
         "y": 500,
         "wires": [
             [
-                "status_logic"
-            ]
-        ]
-    },
-    {
-        "id": "mqtt_temp_h",
-        "type": "mqtt in",
-        "z": "c753122a205bffa9",
-        "name": "",
-        "topic": "pot/air/temperature",
-        "qos": "1",
-        "datatype": "auto-detect",
-        "broker": "90bf6dc88fc77b25",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 180,
-        "wires": [
-            [
-                "gauge_temp_home",
                 "status_logic"
             ]
         ]
@@ -997,7 +997,7 @@
         "finalize": "",
         "libs": [],
         "x": 480,
-        "y": 580,
+        "y": 620,
         "wires": [
             [
                 "3a38d29792bf03f1"
@@ -1131,7 +1131,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 530,
-        "y": 440,
+        "y": 480,
         "wires": [
             []
         ]
@@ -1175,7 +1175,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 660,
-        "y": 580,
+        "y": 620,
         "wires": [
             []
         ]
@@ -1218,8 +1218,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 670,
-        "y": 1180,
+        "x": 690,
+        "y": 1440,
         "wires": [
             [
                 "water_check_switch"
@@ -1250,8 +1250,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 650,
-        "y": 1220,
+        "x": 670,
+        "y": 1480,
         "wires": []
     },
     {
@@ -1354,7 +1354,7 @@
         "fontSize": 16,
         "color": "#000000",
         "x": 680,
-        "y": 380,
+        "y": 420,
         "wires": []
     },
     {
@@ -1375,7 +1375,7 @@
         "fontSize": 16,
         "color": "#000000",
         "x": 680,
-        "y": 340,
+        "y": 380,
         "wires": []
     },
     {
@@ -1391,7 +1391,7 @@
         "finalize": "",
         "libs": [],
         "x": 490,
-        "y": 380,
+        "y": 420,
         "wires": [
             [
                 "6bf500247d122c0e"
@@ -1411,7 +1411,7 @@
         "finalize": "",
         "libs": [],
         "x": 490,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "050653bc1899f72e"
@@ -1456,8 +1456,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 630,
-        "y": 1300,
+        "x": 650,
+        "y": 1560,
         "wires": [
             []
         ]
@@ -1474,8 +1474,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 1340,
+        "x": 670,
+        "y": 1600,
         "wires": [
             [
                 "8f8f28ab7001f9b5",
@@ -1522,8 +1522,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 1100,
-        "y": 1340,
+        "x": 1120,
+        "y": 1600,
         "wires": [
             []
         ]
@@ -1545,8 +1545,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 880,
-        "y": 1380,
+        "x": 900,
+        "y": 1640,
         "wires": []
     },
     {
@@ -1568,8 +1568,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 880,
-        "y": 1340,
+        "x": 900,
+        "y": 1600,
         "wires": [
             [
                 "368f0cfcc8ac14b3"
@@ -1593,8 +1593,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 890,
-        "y": 1420,
+        "x": 910,
+        "y": 1680,
         "wires": []
     },
     {
@@ -1609,8 +1609,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 430,
-        "y": 1420,
+        "x": 450,
+        "y": 1680,
         "wires": [
             [
                 "09177e19ba146c3f"
@@ -1655,8 +1655,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 650,
-        "y": 1420,
+        "x": 670,
+        "y": 1680,
         "wires": [
             []
         ]
@@ -1718,7 +1718,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 140,
-        "y": 460,
+        "y": 500,
         "wires": [
             [
                 "df17f5b9454415da",
@@ -1742,8 +1742,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 207.22220611572266,
-        "y": 1168.8888549804688,
+        "x": 227.22220611572266,
+        "y": 1428.8888549804688,
         "wires": [
             [
                 "be5652e7290804be",
@@ -1770,8 +1770,8 @@
         "max": "100",
         "step": 1,
         "className": "",
-        "x": 170,
-        "y": 1520,
+        "x": 190,
+        "y": 1780,
         "wires": [
             [
                 "ea2729650e71ce9d"
@@ -1792,8 +1792,8 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 450,
-        "y": 1520,
+        "x": 470,
+        "y": 1780,
         "wires": []
     },
     {
@@ -1809,8 +1809,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 190,
-        "y": 1320,
+        "x": 210,
+        "y": 1580,
         "wires": [
             [
                 "3a226fc6fa807f68",
@@ -1836,8 +1836,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 880,
-        "y": 1180,
+        "x": 900,
+        "y": 1440,
         "wires": [
             [
                 "water_alert_trigger"
@@ -1861,8 +1861,8 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 1060,
-        "y": 1180,
+        "x": 1080,
+        "y": 1440,
         "wires": [
             [
                 "water_log_msg"
@@ -1888,8 +1888,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1270,
-        "y": 1180,
+        "x": 1290,
+        "y": 1440,
         "wires": [
             [
                 "link_water_event"
@@ -1905,8 +1905,8 @@
         "links": [
             "257a152acbed7208"
         ],
-        "x": 1430,
-        "y": 1180,
+        "x": 1450,
+        "y": 1440,
         "wires": []
     },
     {
@@ -1968,7 +1968,7 @@
         "fontSize": 20,
         "color": "#000000",
         "x": 780,
-        "y": 500,
+        "y": 540,
         "wires": []
     },
     {
@@ -1984,7 +1984,7 @@
         "finalize": "",
         "libs": [],
         "x": 504.111083984375,
-        "y": 499.5555419921875,
+        "y": 539.5555419921875,
         "wires": [
             [
                 "08d4ed9cbc9cb4ec"
@@ -2300,7 +2300,7 @@
         "z": "34d478f6cbb8753a",
         "name": "",
         "topic": "pot/ground/humidity",
-        "qos": "1",
+        "qos": "2",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
@@ -2362,9 +2362,9 @@
         ]
     },
     {
-        "id": "ccc74ce47892d404",
+        "id": "978c8e45da4b2bc4",
         "type": "ui_button",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "group": "4de629c8464f8fcf",
         "order": 3,
@@ -2381,19 +2381,19 @@
         "payloadType": "bool",
         "topic": "payload",
         "topicType": "msg",
-        "x": 320,
-        "y": 180,
+        "x": 680,
+        "y": 400,
         "wires": [
             [
-                "9d4d346ac2a16160",
-                "ecde4c725ed36227"
+                "94b2759b3720b196",
+                "d97fcf3f38172b7a"
             ]
         ]
     },
     {
-        "id": "61ec79c4b9916808",
+        "id": "cbf5efd63ad5aa34",
         "type": "mqtt out",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "topic": "pot/water/pump",
         "qos": "1",
@@ -2404,16 +2404,16 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 920,
-        "y": 180,
+        "x": 1320,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "e6604fb8ebc63a5a",
+        "id": "d364f6f926c6480f",
         "type": "ui_numeric",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
-        "label": "Activate Water Pump For",
+        "label": "Manual: Pump Duration",
         "tooltip": "Activate Water Pump For",
         "group": "4de629c8464f8fcf",
         "order": 2,
@@ -2425,21 +2425,21 @@
         "topicType": "msg",
         "format": "{{value}} seconds",
         "min": "1",
-        "max": "20",
+        "max": "60",
         "step": 1,
         "className": "",
-        "x": 570,
-        "y": 120,
+        "x": 930,
+        "y": 300,
         "wires": [
             [
-                "5959fb8463bcc23b"
+                "9c60372164a7ceef"
             ]
         ]
     },
     {
-        "id": "5959fb8463bcc23b",
+        "id": "9c60372164a7ceef",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "Set Water Pump Duration",
         "func": "flow.set(\"water_pump_duration\", msg.payload)\n\nreturn msg;",
         "outputs": 1,
@@ -2448,57 +2448,57 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 120,
+        "x": 1210,
+        "y": 300,
         "wires": [
             []
         ]
     },
     {
-        "id": "9d4d346ac2a16160",
+        "id": "94b2759b3720b196",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
-        "name": "Get Water Pump Duration",
-        "func": "let value = flow.get(\"water_pump_duration\")\n\nmsg.payload = value;\nreturn msg;",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Get Water Pump Duration (Smart)",
+        "func": "// LOGICA INTELLIGENTE:\n// 1. Controlla se il messaggio in arrivo ha una durata specifica (dall'Auto Mode)\n// 2. Altrimenti usa la durata impostata manualmente (flow.water_pump_duration)\n// 3. Fallback a 5 secondi se nulla è settato.\n\nlet duration = msg.duration || flow.get(\"water_pump_duration\") || 5;\n\nmsg.payload = duration;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 180,
+        "x": 1020,
+        "y": 360,
         "wires": [
             [
-                "61ec79c4b9916808",
-                "fee4af4aedbb452d"
+                "cbf5efd63ad5aa34",
+                "4ee11e0d6554b522"
             ]
         ]
     },
     {
-        "id": "ecde4c725ed36227",
+        "id": "d97fcf3f38172b7a",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "Feedback",
-        "func": "let duration = flow.get(\"water_pump_duration\") || 5;\n\n// Send ON message immediately\nnode.send({ payload: \"IN FUNZIONE 🟢\", color: \"green\" });\n\n// Set timeout to send OFF message\nsetTimeout(() => {\n    node.send({ payload: \"PRONTA ⚪\", color: \"grey\" });\n}, duration * 1000);\n\nreturn null;",
+        "func": "let duration = flow.get(\"water_pump_duration\") || 5;\n// Se arriva dall'auto, usiamo quella durata per il feedback visuale\nif(msg.duration) duration = msg.duration;\n\n// Send ON message immediately\nnode.send({ payload: \"IN FUNZIONE 🟢\", color: \"green\" });\n\n// Set timeout to send OFF message\nsetTimeout(() => {\n    node.send({ payload: \"PRONTA ⚪\", color: \"grey\" });\n}, duration * 1000);\n\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 380,
+        "x": 1000,
+        "y": 460,
         "wires": [
             [
-                "a492eaf0833b3cab"
+                "a16d5c722d7de261"
             ]
         ]
     },
     {
-        "id": "a492eaf0833b3cab",
+        "id": "a16d5c722d7de261",
         "type": "ui_text",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "group": "3e5e748b555d1bd1",
         "order": 0,
         "width": 0,
@@ -2512,27 +2512,27 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 730,
-        "y": 380,
+        "x": 1270,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "40d628c69b38ecdd",
+        "id": "9c0157dc0e9825ac",
         "type": "link out",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "out log (pump)",
         "mode": "link",
         "links": [
             "257a152acbed7208"
         ],
-        "x": 1005,
-        "y": 280,
+        "x": 1405,
+        "y": 460,
         "wires": []
     },
     {
-        "id": "fee4af4aedbb452d",
+        "id": "4ee11e0d6554b522",
         "type": "change",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "rules": [
             {
@@ -2548,16 +2548,225 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 800,
-        "y": 280,
+        "x": 1200,
+        "y": 460,
         "wires": [
             [
-                "40d628c69b38ecdd"
+                "9c0157dc0e9825ac"
             ]
         ]
     },
     {
-        "id": "11655a3ba990c562",
+        "id": "ad6c829c5e0460c5",
+        "type": "ui_slider",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Slider Soglia Auto",
+        "label": "Auto: Soglia Attivazione (%)",
+        "tooltip": "Imposta a 0 per disattivare l'automatico",
+        "group": "3e5e748b555d1bd1",
+        "order": 4,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "167d425c11fc0bd8"
+            ]
+        ]
+    },
+    {
+        "id": "167d425c11fc0bd8",
+        "type": "change",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Set flow.soglia_auto",
+        "rules": [
+            {
+                "t": "set",
+                "p": "soglia_auto",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d6fea230064893bd",
+        "type": "mqtt in",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "",
+        "topic": "pot/ground/humidity",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "08aaefc52324f2a5"
+            ]
+        ]
+    },
+    {
+        "id": "08aaefc52324f2a5",
+        "type": "function",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Confronta Soglia",
+        "func": "// Recupera la soglia impostata dallo slider (default 0)\nlet soglia = flow.get(\"soglia_auto\") || 0;\nlet umidita_attuale = parseFloat(msg.payload);\n\n// Se la soglia è 0, l'automatismo è disattivato\nif (soglia === 0) return null;\n\n// Se l'umidità è inferiore alla soglia, attiva\nif (umidita_attuale < soglia) {\n    msg.payload = \"ATTIVAZIONE AUTOMATICA: Umidità \" + umidita_attuale + \"% < Soglia \" + soglia + \"%\";\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "472892ad689ff005"
+            ]
+        ]
+    },
+    {
+        "id": "472892ad689ff005",
+        "type": "trigger",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Blocco Anti-Flood (5min)",
+        "op1": "true",
+        "op2": "0",
+        "op1type": "bool",
+        "op2type": "str",
+        "duration": "5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 630,
+        "y": 520,
+        "wires": [
+            [
+                "540d1df479963fdb"
+            ]
+        ]
+    },
+    {
+        "id": "4eb13a97288c94c7",
+        "type": "ui_numeric",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Num Durata Auto",
+        "label": "Auto: Durata (sec)",
+        "tooltip": "Durata irrigazione automatica",
+        "group": "3e5e748b555d1bd1",
+        "order": 5,
+        "width": "5",
+        "height": "1",
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "60",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "9b0e1f62f503e16a"
+            ]
+        ]
+    },
+    {
+        "id": "9b0e1f62f503e16a",
+        "type": "change",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Set flow.durata_auto",
+        "rules": [
+            {
+                "t": "set",
+                "p": "durata_auto",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "540d1df479963fdb",
+        "type": "function",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Inject Params",
+        "func": "// Recupera la durata auto salvata, default 5 sec\nlet durata = flow.get(\"durata_auto\") || 5;\n\n// Passa la durata nel messaggio in modo che il nodo dopo la legga\nmsg.duration = durata;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 520,
+        "wires": [
+            [
+                "94b2759b3720b196",
+                "0118cd0936403eb3"
+            ]
+        ]
+    },
+    {
+        "id": "0118cd0936403eb3",
+        "type": "debug",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Debug Auto Pump",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "94c5dd6caee12dc8",
         "type": "global-config",
         "env": [],
         "modules": {
