@@ -78,8 +78,7 @@ class HomeScreen:
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
         
-        # --- 2. Pubblicazione MQTT ---
-        # Pubblica solo se siamo connessi al broker MQTT
+      
         if self.mqtt_connected:
             # Topic per DHT (Aria)
             self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
