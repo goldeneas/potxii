@@ -25,7 +25,6 @@ class HomeScreen:
         self.light_value = 0
         self.water_height = 0
         self.wifi_connected = False
-        self.mqtt_connected = False
         self.air_temperature = 0
         self.air_humidity = 0
         self.terrain_humidity = 0
@@ -43,9 +42,6 @@ class HomeScreen:
 
         if (not self.wifi_connected):
             warning_messages.append("Wifi disconnesso!!")
-
-        if (not self.mqtt_connected):
-            warning_messages.append("MQTT disconnesso!!")
 
         if (len(warning_messages) > 0):
             self.show_warnings(warning_messages)
