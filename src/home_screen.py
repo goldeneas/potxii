@@ -77,6 +77,7 @@ class HomeScreen:
         self.air_temperature = self.dht.temperature()
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
+        self.wifi_connected = self.wifi.is_connected()
         
         # Topic per DHT (Aria)
         self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
