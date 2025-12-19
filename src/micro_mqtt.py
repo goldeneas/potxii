@@ -119,6 +119,7 @@ class MicroMQTT:
         msg_str = msg.decode("utf-8")
         
         if self.command_handler:
+            print("DEBUG: Chiamo l'handler di MQTT")
             self.command_handler(topic_str, msg_str)
 
     def check_msg(self):
