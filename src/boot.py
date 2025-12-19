@@ -20,6 +20,7 @@ wifi.connect("nicola", "nicola-hotspot2")
 
 def mqtt_handler(topic, msg):  
     global pump
+    global leds
 
     if (topic == "pot/water/pump"):
         time_s = int(msg)
@@ -28,6 +29,7 @@ def mqtt_handler(topic, msg):
 
     if (topic == "pot/light/led"):
         led_perc = int(msg)
+        leds.set_brightness(led_perc)
         print("Ho ricevuto un valore per i led di: " + str(led_perc))
 
 mqtt.set_handler(mqtt_handler)
@@ -55,7 +57,7 @@ mqtt.subscribe("pot/system/wifi")
 #importiamo i pin 
 hcsr04 = HCSR04(17,4)
 dht = DHT22(15)
-three_led = ThreeLedPWM(32,33,25) 
+leds = ThreeLedPWM(32,33,25) 
 tsl2561 = TSL2561(i2c)
 humidity = Humidity(35)
 pump = Pump(26)
