@@ -9,7 +9,7 @@ from humidity import Humidity
 import time
 
 # il serbatoio è vuoto 
-WATER_TANK_EMPTY_DISTANCE = 13
+WATER_TANK_EMPTY_DISTANCE = 11.6
 
 class HomeScreen:
     def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
@@ -69,7 +69,9 @@ class HomeScreen:
     def measure(self):
         self.light_value = self.tsl2561.read()
         self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
-        self.wifi_connected = self.wifi.is_connected()
+
+        if (self.water_height < 0):
+            self.water_height = 0
 
         self.dht.measure()
         self.air_temperature = self.dht.temperature()
@@ -90,10 +92,6 @@ class HomeScreen:
         # Topic per TSL2561 (Luce)
         # Nota: 'led' di solito è un comando (subscribe)
         self.mqtt.publish("pot/light/light_level", str(self.light_value))
-
-        # Topic per WiFi (Stato sistema)
-        # Pubblichiamo "1" o "true" se connesso
-        self.mqtt.publish("pot/system/wifi", "connected" if self.wifi_connected else "disconnected")
         
 
     def show_warnings(self, warning_messages):
