@@ -16,7 +16,12 @@ display = SSD1306_I2C(128, 64, i2c);
 wifi = Wifi(display);
 mqtt = MicroMQTT("potxii", display);
 
+# aspetta che la connessione sia stabilita
+# TODO: e se non ci connettiamo?
 wifi.connect("nicola", "nicola-hotspot2")
+
+# TODO: deve aspettare che siamo connessi
+# TODO: e se non ci connettiamo?
 mqtt.connect("broker.hivemq.com", 1883, None, None)
 
 #topic per dht
@@ -45,7 +50,7 @@ tsl2561 = TSL2561(i2c)
 humidity = Humidity(35)
 pump = Pump(26)
 
-def mqtt_handler(topic, msg):
+def mqtt_handler(topic, msg):  
     global pump
 
     if (not topic == "pot/water/pump"):
@@ -60,6 +65,9 @@ mqtt.set_handler(mqtt_handler)
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
 
 while True:
+    mqtt.check_msg()
+    
     home_screen.measure()
     home_screen.show()
-    time.sleep_ms(200)
+    time.sleep_ms(1000)
+

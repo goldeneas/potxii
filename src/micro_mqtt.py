@@ -115,10 +115,12 @@ class MicroMQTT:
             self.connected_flag = False
         
     def sub_cb(self, topic, msg):
-        print((topic, msg))
+        topic_str = topic.decode("utf-8")
+        msg_str = msg.decode("utf-8")
+        
         
         if self.command_handler:
-            self.command_handler(topic, msg)
+            self.command_handler(topic_str, msg_str)
 
     
     def check_msg(self):
@@ -129,3 +131,4 @@ class MicroMQTT:
                 self.connected_flag = False
                 self.reconnect()
     
+
