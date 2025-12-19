@@ -67,5 +67,5 @@ while True:
     
     home_screen.measure()
     home_screen.show()
-    time.sleep_ms(1000)
+    time.sleep_ms(500)
 
