@@ -68,7 +68,7 @@ class HomeScreen:
 
     def measure(self):
         self.light_value = self.tsl2561.read()
-        self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
+        self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_mm() 
 
         if (self.water_height < 0):
             self.water_height = 0
