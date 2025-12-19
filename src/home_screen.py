@@ -9,7 +9,7 @@ from humidity import Humidity
 import time
 
 # il serbatoio è vuoto 
-WATER_TANK_EMPTY_DISTANCE_MM = 130
+WATER_TANK_EMPTY_DISTANCE_MM = 100
 
 class HomeScreen:
     def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
