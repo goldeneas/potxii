@@ -89,6 +89,8 @@ class HomeScreen:
         # Topic per TSL2561 (Luce)
         # Nota: 'led' di solito è un comando (subscribe)
         self.mqtt.publish("pot/light/light_level", str(self.light_value))
+
+        self.mqtt.publish("pot/system/wifi", "true");
         
 
     def show_warnings(self, warning_messages):
