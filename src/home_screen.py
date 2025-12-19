@@ -9,7 +9,7 @@ from humidity import Humidity
 import time
 
 # il serbatoio è vuoto 
-WATER_TANK_EMPTY_DISTANCE = 11.6
+WATER_TANK_EMPTY_DISTANCE_MM = 116
 
 class HomeScreen:
     def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
@@ -68,7 +68,7 @@ class HomeScreen:
 
     def measure(self):
         self.light_value = self.tsl2561.read()
-        self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_mm() 
+        self.water_height = WATER_TANK_EMPTY_DISTANCE_MM - self.hcsr.distance_mm() 
 
         if (self.water_height < 0):
             self.water_height = 0
