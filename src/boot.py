@@ -16,6 +16,10 @@ display = SSD1306_I2C(128, 64, i2c);
 wifi = Wifi(display);
 mqtt = MicroMQTT("potxii", display);
 
+display.draw_logo()
+display.show()
+time.sleep(3)
+
 wifi.connect("nicola", "nicola-hotspot2")
 
 def mqtt_handler(topic, msg):  
@@ -63,10 +67,6 @@ humidity = Humidity(35)
 pump = Pump(26)
 
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
-
-display.draw_logo()
-display.show()
-time.sleep(3)
 
 while True:
     mqtt.check_msg()
