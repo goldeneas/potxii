@@ -21,5 +21,10 @@ class Humidity():
         Read a value from the LDR in the specified range.
         :return a value from the specified [min, max] range.
         """
-        return (self.max_val - self.min_val) * self.read() / 4095
+        value = self.max_val - ((self.max_val - self.min_val) * self.read() / 4095)
+
+        if value < 0:
+            value = 0
+
+        return value
 
