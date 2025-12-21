@@ -119,14 +119,14 @@ class MicroMQTT:
         msg_str = msg.decode("utf-8")
         
         if self.command_handler:
-            print("DEBUG: Chiamo l'handler di MQTT")
+            #print("DEBUG: Chiamo l'handler di MQTT")
             self.command_handler(topic_str, msg_str)
 
     def check_msg(self):
         if not self.connected_flag:
             print("Hai provato a chiamare check_msg, ma non siamo connessi!")
 
-        print("Controllo se ho ricevuto messaggi...")
+        #print("Controllo se ho ricevuto messaggi...")
 
         try:
             self.client.check_msg()
