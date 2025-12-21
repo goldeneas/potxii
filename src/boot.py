@@ -18,7 +18,7 @@ mqtt = MicroMQTT("potxii", display);
 
 # aspetta che la connessione sia stabilita
 # TODO: e se non ci connettiamo?
-wifi.connect("nicola", "nicola-hotspot2")
+wifi.connect("sofia", "wxpe0020")
 
 # TODO: deve aspettare che siamo connessi
 # TODO: e se non ci connettiamo?
@@ -44,13 +44,13 @@ mqtt.subscribe("pot/system/wifi")
 
 #importiamo i pin 
 hcsr04 = HCSR04(17,4)
-dht = DHT22(15)
+dht = DHT22(15) #temperatura e umidità dell'aria 
 three_led = ThreeLedPWM(32,33,25) 
-tsl2561 = TSL2561(i2c)
+tsl2561 = TSL2561(i2c) #luce
 humidity = Humidity(35)
 pump = Pump(26)
 
-def mqtt_handler(topic, msg):
+def mqtt_handler(topic, msg):  
     global pump
 
     if (not topic == "pot/water/pump"):
@@ -65,6 +65,8 @@ mqtt.set_handler(mqtt_handler)
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
 
 while True:
+    mqtt.check_msg()
+    
     home_screen.measure()
     home_screen.show()
-    time.sleep_ms(200)
+    time.sleep_ms(1000)
