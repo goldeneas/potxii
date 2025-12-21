@@ -65,6 +65,7 @@ pump = Pump(26)
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
 
 display.draw_logo()
+display.show()
 time.sleep(3)
 
 while True:
