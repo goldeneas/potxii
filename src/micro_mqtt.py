@@ -115,17 +115,22 @@ class MicroMQTT:
             self.connected_flag = False
         
     def sub_cb(self, topic, msg):
-        print((topic, msg))
+        topic_str = topic.decode("utf-8")
+        msg_str = msg.decode("utf-8")
         
         if self.command_handler:
-            self.command_handler(topic, msg)
+            print("DEBUG: Chiamo l'handler di MQTT")
+            self.command_handler(topic_str, msg_str)
 
-    
     def check_msg(self):
-        if self.connected_flag:
-            try:
-                self.client.check_msg()
-            except OSError:
-                self.connected_flag = False
-                self.reconnect()
-    
+        if not self.connected_flag:
+            print("Hai provato a chiamare check_msg, ma non siamo connessi!")
+
+        print("Controllo se ho ricevuto messaggi...")
+
+        try:
+            self.client.check_msg()
+        except OSError:
+            self.connected_flag = False
+            self.reconnect()   
+

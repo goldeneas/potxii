@@ -10,23 +10,23 @@
     {
         "id": "2ff232a50dfd5c85",
         "type": "tab",
-        "label": "General",
+        "label": "Generale",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "34d478f6cbb8753a",
+        "id": "07ae8ea1c5a7b65b",
         "type": "tab",
-        "label": "Measurement and Analytics",
+        "label": "Misure e Analisi",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "9c66d3b55ea7cb36",
+        "id": "4c02f01e2dcd8d5d",
         "type": "tab",
-        "label": "Pump",
+        "label": "Pompa",
         "disabled": false,
         "info": "",
         "env": []
@@ -131,8 +131,8 @@
     {
         "id": "0cdba00dd121a6f6",
         "type": "ui_tab",
-        "name": "air",
-        "icon": "dashboard",
+        "name": "Controllo aria",
+        "icon": "fa-cloud",
         "order": 4,
         "disabled": false,
         "hidden": false
@@ -140,8 +140,8 @@
     {
         "id": "827722bd9bf31d4a",
         "type": "ui_tab",
-        "name": "ground",
-        "icon": "dashboard",
+        "name": "Controllo terreno",
+        "icon": "fa-globe",
         "order": 5,
         "disabled": false,
         "hidden": false
@@ -149,8 +149,8 @@
     {
         "id": "3900d40c1756d9b6",
         "type": "ui_tab",
-        "name": "water",
-        "icon": "dashboard",
+        "name": "Controllo irrigazione",
+        "icon": "fa-tint",
         "order": 6,
         "disabled": false,
         "hidden": false
@@ -158,7 +158,7 @@
     {
         "id": "3dbd742063594ab4",
         "type": "ui_group",
-        "name": "measurements",
+        "name": "Dati in tempo reale",
         "tab": "0cdba00dd121a6f6",
         "order": 1,
         "disp": true,
@@ -169,7 +169,7 @@
     {
         "id": "60357de18034327d",
         "type": "ui_group",
-        "name": "measurements",
+        "name": "Dati in tempo reale",
         "tab": "827722bd9bf31d4a",
         "order": 2,
         "disp": true,
@@ -180,7 +180,7 @@
     {
         "id": "69c85ae031957054",
         "type": "ui_group",
-        "name": "measurements",
+        "name": "Dati in tempo reale",
         "tab": "3900d40c1756d9b6",
         "order": 1,
         "disp": true,
@@ -191,7 +191,7 @@
     {
         "id": "cf90c337e99acd39",
         "type": "ui_group",
-        "name": "analysis",
+        "name": "Analisi dei dati",
         "tab": "0cdba00dd121a6f6",
         "order": 2,
         "disp": true,
@@ -202,7 +202,7 @@
     {
         "id": "ab882737ee8c3239",
         "type": "ui_group",
-        "name": "analysis",
+        "name": "Analisi dei dati",
         "tab": "827722bd9bf31d4a",
         "order": 2,
         "disp": true,
@@ -213,7 +213,7 @@
     {
         "id": "4de629c8464f8fcf",
         "type": "ui_group",
-        "name": "analysis",
+        "name": "Analisi dei dati",
         "tab": "3900d40c1756d9b6",
         "order": 2,
         "disp": true,
@@ -224,8 +224,8 @@
     {
         "id": "a5c6f3da9210d83e",
         "type": "ui_tab",
-        "name": "light",
-        "icon": "dashboard",
+        "name": "Controllo luminosità",
+        "icon": "fa-lightbulb-o",
         "order": 7,
         "disabled": false,
         "hidden": false
@@ -233,9 +233,9 @@
     {
         "id": "91d9056983d973a5",
         "type": "ui_group",
-        "name": "measurements",
+        "name": "Dati in tempo reale",
         "tab": "a5c6f3da9210d83e",
-        "order": 2,
+        "order": 1,
         "disp": true,
         "width": "13",
         "collapse": false,
@@ -244,9 +244,9 @@
     {
         "id": "d0e0f81a04b7c122",
         "type": "ui_group",
-        "name": "analysis",
+        "name": "Analisi dei dati",
         "tab": "a5c6f3da9210d83e",
-        "order": 1,
+        "order": 2,
         "disp": true,
         "width": "13",
         "collapse": false,
@@ -256,7 +256,7 @@
         "id": "90bf6dc88fc77b25",
         "type": "mqtt-broker",
         "name": "broker.hivemq.com",
-        "broker": "test.mosquitto.org",
+        "broker": "broker.hivemq.com",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -295,73 +295,13 @@
         "className": ""
     },
     {
-        "id": "6c9b110427c27923",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "d0e0f81a04b7c122",
-        "order": 3,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "141bfeaf2583cda4",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "d0e0f81a04b7c122",
-        "order": 6,
-        "width": 5,
-        "height": 1
-    },
-    {
-        "id": "b2e6e3fe347379cb",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "a18a21f6419184a9",
-        "order": 1,
-        "width": 3,
-        "height": 1
-    },
-    {
-        "id": "9da80615c5b77f96",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "a18a21f6419184a9",
-        "order": 3,
-        "width": 4,
-        "height": 1
-    },
-    {
-        "id": "143663acdc64c23b",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "91d9056983d973a5",
-        "order": 1,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "03434aa01bb658a3",
-        "type": "ui_spacer",
-        "z": "34d478f6cbb8753a",
-        "name": "spacer",
-        "group": "91d9056983d973a5",
-        "order": 1,
-        "width": 1,
-        "height": 1
-    },
-    {
         "id": "3e5e748b555d1bd1",
         "type": "ui_group",
-        "name": "pump",
+        "name": "Controllo pompa",
         "tab": "3900d40c1756d9b6",
         "order": 3,
         "disp": true,
-        "width": 6,
+        "width": "13",
         "collapse": false,
         "className": ""
     },
@@ -418,7 +358,7 @@
     {
         "id": "tab_general",
         "type": "ui_tab",
-        "name": "General Settings",
+        "name": "Impostazioni generali",
         "icon": "fa-cogs",
         "order": 2,
         "disabled": false,
@@ -623,6 +563,28 @@
         ]
     },
     {
+        "id": "mqtt_temp_h",
+        "type": "mqtt in",
+        "z": "c753122a205bffa9",
+        "name": "",
+        "topic": "pot/air/temperature",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "gauge_temp_home",
+                "status_logic"
+            ]
+        ]
+    },
+    {
         "id": "mqtt_hum_h",
         "type": "mqtt in",
         "z": "c753122a205bffa9",
@@ -708,28 +670,6 @@
         ]
     },
     {
-        "id": "mqtt_temp_h",
-        "type": "mqtt in",
-        "z": "c753122a205bffa9",
-        "name": "",
-        "topic": "pot/air/temperature",
-        "qos": "1",
-        "datatype": "auto-detect",
-        "broker": "90bf6dc88fc77b25",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 180,
-        "wires": [
-            [
-                "gauge_temp_home",
-                "status_logic"
-            ]
-        ]
-    },
-    {
         "id": "mqtt_rssi",
         "type": "mqtt in",
         "z": "2ff232a50dfd5c85",
@@ -773,6 +713,7 @@
         ],
         "seg1": "-85",
         "seg2": "-60",
+        "diff": false,
         "className": "",
         "x": 610,
         "y": 100,
@@ -965,9 +906,9 @@
         ]
     },
     {
-        "id": "3578f7c607ca29b1",
+        "id": "284a3ee43163ddf1",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "average",
         "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
         "outputs": 1,
@@ -976,18 +917,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 580,
+        "x": 620,
         "y": 280,
         "wires": [
             [
-                "7191f3305b6e375e"
+                "4820fbd9acc9689b"
             ]
         ]
     },
     {
-        "id": "a015631a545e31e4",
+        "id": "ce27eedc41c33fbb",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "average",
         "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
         "outputs": 1,
@@ -996,24 +937,24 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 480,
-        "y": 580,
+        "x": 520,
+        "y": 620,
         "wires": [
             [
-                "3a38d29792bf03f1"
+                "d37b8ea5e65d1ff6"
             ]
         ]
     },
     {
-        "id": "42f6df196dd72d4c",
+        "id": "d283b97c399ea55c",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "3dbd742063594ab4",
         "order": 1,
-        "width": "0",
-        "height": "0",
-        "label": "Temperature (°C)",
+        "width": "12",
+        "height": "4",
+        "label": "Temperatura Aria (°C)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1042,22 +983,22 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 610,
+        "x": 660,
         "y": 160,
         "wires": [
             []
         ]
     },
     {
-        "id": "7191f3305b6e375e",
+        "id": "4820fbd9acc9689b",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "cf90c337e99acd39",
         "order": 3,
-        "width": "0",
-        "height": "0",
-        "label": "Avg Temperature (°C)",
+        "width": "6",
+        "height": "4",
+        "label": "Media Temperatura (°C)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1086,22 +1027,22 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 800,
+        "x": 860,
         "y": 280,
         "wires": [
             []
         ]
     },
     {
-        "id": "227184f3d9990528",
+        "id": "194836ac70040695",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "3dbd742063594ab4",
-        "order": 1,
-        "width": "0",
-        "height": "0",
-        "label": "Humidity (kg/m^3)",
+        "order": 2,
+        "width": "12",
+        "height": "4",
+        "label": "Umidità Aria (%)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1130,22 +1071,22 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 530,
-        "y": 440,
+        "x": 580,
+        "y": 480,
         "wires": [
             []
         ]
     },
     {
-        "id": "3a38d29792bf03f1",
+        "id": "d37b8ea5e65d1ff6",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "cf90c337e99acd39",
-        "order": 3,
-        "width": "0",
-        "height": "0",
-        "label": "Avg Humidity (kg/m^3)",
+        "order": 4,
+        "width": "6",
+        "height": "4",
+        "label": "Media Umidità Aria (%)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1174,22 +1115,22 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 660,
-        "y": 580,
+        "x": 720,
+        "y": 620,
         "wires": [
             []
         ]
     },
     {
-        "id": "be5652e7290804be",
+        "id": "cf1ac9cbab1af0b8",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "69c85ae031957054",
         "order": 1,
-        "width": "0",
-        "height": "0",
-        "label": "Water Level (mm)",
+        "width": "12",
+        "height": "4",
+        "label": "Livello Acqua (mm)",
         "chartType": "line",
         "legend": "false",
         "xformat": "dd HH:mm",
@@ -1218,25 +1159,25 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 670,
-        "y": 1180,
+        "x": 630,
+        "y": 1240,
         "wires": [
             [
-                "water_check_switch"
+                "be727141dc7add82"
             ]
         ]
     },
     {
-        "id": "f8d8216dd9146556",
+        "id": "36f4b5101d3c49f2",
         "type": "ui_gauge",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "4de629c8464f8fcf",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "4",
         "gtype": "gage",
-        "title": "Water Gauge",
+        "title": "Gauge Acqua",
         "label": "mm",
         "format": "{{value}}",
         "min": "0",
@@ -1250,184 +1191,184 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 650,
-        "y": 1220,
+        "x": 610,
+        "y": 1280,
         "wires": []
     },
     {
-        "id": "ab220919f250e4eb",
+        "id": "ec129258eb2ddfb2",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "cf90c337e99acd39",
         "order": 2,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Max Temperature:",
+        "label": "Temp. Max:",
         "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 770,
+        "x": 810,
         "y": 100,
         "wires": []
     },
     {
-        "id": "8280581bc87fc4f5",
+        "id": "510bea1fa15eef7d",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "cf90c337e99acd39",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Min Temperature:",
+        "label": "Temp. Min:",
         "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 770,
+        "x": 810,
         "y": 60,
         "wires": []
     },
     {
-        "id": "dd0a8517cf8c8cc3",
+        "id": "4cbaf4fdc9c6b418",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "max",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
+        "x": 610,
         "y": 100,
         "wires": [
             [
-                "ab220919f250e4eb"
+                "ec129258eb2ddfb2"
             ]
         ]
     },
     {
-        "id": "d84df22c477c8b88",
+        "id": "916b37ed3b6cf141",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "min",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!min || min > value) {\n    min = value;\n    minDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\n\nreturn msg;",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = parseFloat(msg.payload);\n\nif (!min || min > value) {\n    min = value;\n    minDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
+        "x": 610,
         "y": 60,
         "wires": [
             [
-                "8280581bc87fc4f5"
+                "510bea1fa15eef7d"
             ]
         ]
     },
     {
-        "id": "6bf500247d122c0e",
+        "id": "c6a032a6805f7e9a",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "cf90c337e99acd39",
-        "order": 2,
-        "width": 0,
-        "height": 0,
+        "order": 6,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Max Humidity:",
-        "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
+        "label": "Umidità Max:",
+        "format": "{{msg.payload}}% alle {{msg.date}}",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 680,
+        "x": 710,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "6677551784ba5b68",
+        "type": "ui_text",
+        "z": "07ae8ea1c5a7b65b",
+        "group": "cf90c337e99acd39",
+        "order": 5,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Umidità Min:",
+        "format": "{{msg.payload}}% alle {{msg.date}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 14,
+        "color": "#000000",
+        "x": 710,
         "y": 380,
         "wires": []
     },
     {
-        "id": "050653bc1899f72e",
-        "type": "ui_text",
-        "z": "34d478f6cbb8753a",
-        "group": "cf90c337e99acd39",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Min Humidity:",
-        "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 680,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "ed13c6809e7717c8",
+        "id": "405b3efc9e32fd4b",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "max",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 530,
+        "y": 420,
+        "wires": [
+            [
+                "c6a032a6805f7e9a"
+            ]
+        ]
+    },
+    {
+        "id": "2297abf91fd8b6f0",
+        "type": "function",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "min",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
         "y": 380,
         "wires": [
             [
-                "6bf500247d122c0e"
+                "6677551784ba5b68"
             ]
         ]
     },
     {
-        "id": "df17f5b9454415da",
-        "type": "function",
-        "z": "34d478f6cbb8753a",
-        "name": "min",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 490,
-        "y": 340,
-        "wires": [
-            [
-                "050653bc1899f72e"
-            ]
-        ]
-    },
-    {
-        "id": "3a226fc6fa807f68",
+        "id": "09153dbf0153d043",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "91d9056983d973a5",
         "order": 1,
-        "width": 0,
-        "height": 0,
-        "label": "Light Level",
+        "width": "12",
+        "height": "5",
+        "label": "Livello Luminosità",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1457,15 +1398,15 @@
         "useDifferentColor": false,
         "className": "",
         "x": 630,
-        "y": 1300,
+        "y": 1500,
         "wires": [
             []
         ]
     },
     {
-        "id": "0a94732ad7d1f2b7",
+        "id": "ec8f6333a2b1d302",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "light_percentage",
         "func": "let light_points = context.get(\"light_points\") || 0;\nlet dark_points = context.get(\"dark_points\") || 0;\n\nif (msg.reset) {\n    dark_points = 0;\n    light_points = 0;\n}\n\nlet value = msg.payload;\n\n// percentage\nvalue > 50 ? light_points += 1 : dark_points += 1;\n\ncontext.set(\"light_points\", light_points);\ncontext.set(\"dark_points\", dark_points);\n\nlet light_percentage = light_points / (light_points + dark_points) * 100;\nmsg.payload = {\n    \"light_percentage\": parseInt(light_percentage),\n    \"light_points\": light_points,\n    \"dark_points\": dark_points,\n};\n\nreturn msg;",
         "outputs": 1,
@@ -1475,25 +1416,25 @@
         "finalize": "",
         "libs": [],
         "x": 650,
-        "y": 1340,
+        "y": 1540,
         "wires": [
             [
-                "8f8f28ab7001f9b5",
-                "52c1df8b59b70773",
-                "7723d33ccaa5438e"
+                "fb081114b01d5b7e",
+                "c122b24453a9c1ab",
+                "aa7825ab50cbf90e"
             ]
         ]
     },
     {
-        "id": "368f0cfcc8ac14b3",
+        "id": "e546d9726f308767",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Daily Light Level",
         "group": "d0e0f81a04b7c122",
         "order": 4,
-        "width": 8,
-        "height": 6,
-        "label": "Today's Light Exposure [{{msg.payload}}%]",
+        "width": "6",
+        "height": "4",
+        "label": "Esposizione Luce Oggi [{{msg.payload}}%]",
         "chartType": "bar",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -1523,36 +1464,36 @@
         "useDifferentColor": false,
         "className": "",
         "x": 1100,
-        "y": 1340,
+        "y": 1540,
         "wires": [
             []
         ]
     },
     {
-        "id": "8f8f28ab7001f9b5",
+        "id": "fb081114b01d5b7e",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "d0e0f81a04b7c122",
         "order": 1,
-        "width": 6,
-        "height": 1,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Light Measurements:",
+        "label": "Campioni Luce:",
         "format": "{{msg.payload.light_points}}",
-        "layout": "row-left",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
         "x": 880,
-        "y": 1380,
+        "y": 1580,
         "wires": []
     },
     {
-        "id": "52c1df8b59b70773",
+        "id": "c122b24453a9c1ab",
         "type": "change",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Get Light Percentage",
         "rules": [
             {
@@ -1569,38 +1510,38 @@
         "to": "",
         "reg": false,
         "x": 880,
-        "y": 1340,
+        "y": 1540,
         "wires": [
             [
-                "368f0cfcc8ac14b3"
+                "e546d9726f308767"
             ]
         ]
     },
     {
-        "id": "7723d33ccaa5438e",
+        "id": "aa7825ab50cbf90e",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "d0e0f81a04b7c122",
         "order": 2,
-        "width": 6,
-        "height": 1,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Shadow Measurements: ",
+        "label": "Campioni Ombra: ",
         "format": "{{msg.payload.dark_points}}",
-        "layout": "row-left",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
         "x": 890,
-        "y": 1420,
+        "y": 1620,
         "wires": []
     },
     {
-        "id": "e288e0954db747ae",
+        "id": "680491c6e4305c52",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "light_hour_counter",
         "func": "const sensor_interval_minutes = 2; \n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    msg.payload = 0;\n    return msg;\n}\n\nlet value = parseFloat(msg.payload);\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 20) {\n    light_hours += (sensor_interval_minutes / 60);\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
         "outputs": 1,
@@ -1610,23 +1551,23 @@
         "finalize": "",
         "libs": [],
         "x": 430,
-        "y": 1420,
+        "y": 1620,
         "wires": [
             [
-                "09177e19ba146c3f"
+                "b840bf71fff787ef"
             ]
         ]
     },
     {
-        "id": "09177e19ba146c3f",
+        "id": "b840bf71fff787ef",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "d0e0f81a04b7c122",
         "order": 7,
-        "width": 0,
-        "height": 0,
-        "label": "Daily Light Hours",
+        "width": "6",
+        "height": "4",
+        "label": "Ore di Luce Oggi",
         "chartType": "line",
         "legend": "false",
         "xformat": "dd HH:mm",
@@ -1656,15 +1597,15 @@
         "useDifferentColor": false,
         "className": "",
         "x": 650,
-        "y": 1420,
+        "y": 1620,
         "wires": [
             []
         ]
     },
     {
-        "id": "2efcd43237f037e2",
+        "id": "18809f5495ab1b83",
         "type": "mqtt in",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/air/temperature",
         "qos": "1",
@@ -1674,40 +1615,23 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 130,
+        "x": 170,
         "y": 120,
         "wires": [
             [
-                "d84df22c477c8b88",
-                "dd0a8517cf8c8cc3",
-                "3578f7c607ca29b1",
-                "e2342666606347d3",
-                "42f6df196dd72d4c",
-                "trend_func_node"
+                "916b37ed3b6cf141",
+                "4cbaf4fdc9c6b418",
+                "284a3ee43163ddf1",
+                "d283b97c399ea55c",
+                "499c08a3db548e40",
+                "fbca2321e922f39a"
             ]
         ]
     },
     {
-        "id": "e2342666606347d3",
-        "type": "debug",
-        "z": "34d478f6cbb8753a",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 360,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "d7013e60816f1efa",
+        "id": "583de593c620b089",
         "type": "mqtt in",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/air/humidity",
         "qos": "1",
@@ -1717,22 +1641,23 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 140,
-        "y": 460,
+        "x": 180,
+        "y": 500,
         "wires": [
             [
-                "df17f5b9454415da",
-                "ed13c6809e7717c8",
-                "227184f3d9990528",
-                "a015631a545e31e4",
-                "b4102c3773ca9aec"
+                "2297abf91fd8b6f0",
+                "405b3efc9e32fd4b",
+                "194836ac70040695",
+                "ce27eedc41c33fbb",
+                "80de0f45b535ba9c",
+                "021249b6f8956cc2"
             ]
         ]
     },
     {
-        "id": "2e7136a2b39771ad",
+        "id": "a3785078e59f583b",
         "type": "mqtt in",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/water/water_level",
         "qos": "1",
@@ -1742,19 +1667,20 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 207.22220611572266,
-        "y": 1168.8888549804688,
+        "x": 147.22220611572266,
+        "y": 1228.8888549804688,
         "wires": [
             [
-                "be5652e7290804be",
-                "f8d8216dd9146556"
+                "cf1ac9cbab1af0b8",
+                "36f4b5101d3c49f2",
+                "e813fbecb038f7dc"
             ]
         ]
     },
     {
-        "id": "6a0486c62af12560",
+        "id": "1cbc29925abe7834",
         "type": "ui_slider",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "label": "",
         "tooltip": "",
@@ -1770,18 +1696,19 @@
         "max": "100",
         "step": 1,
         "className": "",
-        "x": 170,
-        "y": 1520,
+        "x": 230,
+        "y": 1780,
         "wires": [
             [
-                "ea2729650e71ce9d"
+                "61469d951d7dafe7",
+                "fba0edac3653ad17"
             ]
         ]
     },
     {
-        "id": "ea2729650e71ce9d",
+        "id": "61469d951d7dafe7",
         "type": "mqtt out",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/light/led",
         "qos": "1",
@@ -1792,14 +1719,14 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 450,
-        "y": 1520,
+        "x": 510,
+        "y": 1780,
         "wires": []
     },
     {
-        "id": "7fdade1fad93858d",
+        "id": "fc99b80b526601b4",
         "type": "mqtt in",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/light/light_level",
         "qos": "1",
@@ -1810,19 +1737,20 @@
         "rh": 0,
         "inputs": 0,
         "x": 190,
-        "y": 1320,
+        "y": 1520,
         "wires": [
             [
-                "3a226fc6fa807f68",
-                "0a94732ad7d1f2b7",
-                "e288e0954db747ae"
+                "09153dbf0153d043",
+                "ec8f6333a2b1d302",
+                "680491c6e4305c52",
+                "9ad45bd8c8343bc1"
             ]
         ]
     },
     {
-        "id": "water_check_switch",
+        "id": "be727141dc7add82",
         "type": "switch",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Se < 20%",
         "property": "payload",
         "propertyType": "msg",
@@ -1836,18 +1764,18 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 880,
-        "y": 1180,
+        "x": 820,
+        "y": 1240,
         "wires": [
             [
-                "water_alert_trigger"
+                "0f4d0de79c2eb4fe"
             ]
         ]
     },
     {
-        "id": "water_alert_trigger",
+        "id": "0f4d0de79c2eb4fe",
         "type": "trigger",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Blocco 30 min",
         "op1": "",
         "op2": "0",
@@ -1861,18 +1789,18 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 1060,
-        "y": 1180,
+        "x": 1000,
+        "y": 1240,
         "wires": [
             [
-                "water_log_msg"
+                "d81bc7a43cd47c76"
             ]
         ]
     },
     {
-        "id": "water_log_msg",
+        "id": "d81bc7a43cd47c76",
         "type": "change",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Msg: Acqua Bassa",
         "rules": [
             {
@@ -1888,31 +1816,31 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1270,
-        "y": 1180,
+        "x": 1210,
+        "y": 1240,
         "wires": [
             [
-                "link_water_event"
+                "82e281d680831f4d"
             ]
         ]
     },
     {
-        "id": "link_water_event",
+        "id": "82e281d680831f4d",
         "type": "link out",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "out log (water level)",
         "mode": "link",
         "links": [
             "257a152acbed7208"
         ],
-        "x": 1430,
-        "y": 1180,
+        "x": 1370,
+        "y": 1240,
         "wires": []
     },
     {
-        "id": "trend_func_node",
+        "id": "499c08a3db548e40",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Calcola Trend",
         "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
         "outputs": 1,
@@ -1921,22 +1849,22 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
+        "x": 640,
         "y": 220,
         "wires": [
             [
-                "current_temp_text"
+                "d28fd5c32fac0f25"
             ]
         ]
     },
     {
-        "id": "current_temp_text",
+        "id": "d28fd5c32fac0f25",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "3dbd742063594ab4",
-        "order": 1,
-        "width": "0",
-        "height": "0",
+        "order": 5,
+        "width": "6",
+        "height": "1",
         "name": "",
         "label": "Temperatura Attuale:",
         "format": "{{msg.payload}}",
@@ -1944,20 +1872,20 @@
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 20,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 820,
+        "x": 860,
         "y": 220,
         "wires": []
     },
     {
-        "id": "08d4ed9cbc9cb4ec",
+        "id": "2fa58be4c53bbf45",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "3dbd742063594ab4",
-        "order": 1,
-        "width": "0",
-        "height": "0",
+        "order": 3,
+        "width": "6",
+        "height": "1",
         "name": "",
         "label": "Umidità Attuale:",
         "format": "{{msg.payload}}",
@@ -1965,16 +1893,16 @@
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 20,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 780,
-        "y": 500,
+        "x": 820,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "b4102c3773ca9aec",
+        "id": "80de0f45b535ba9c",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Calcola Trend",
         "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
         "outputs": 1,
@@ -1983,18 +1911,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 504.111083984375,
-        "y": 499.5555419921875,
+        "x": 544.111083984375,
+        "y": 539.5555419921875,
         "wires": [
             [
-                "08d4ed9cbc9cb4ec"
+                "2fa58be4c53bbf45"
             ]
         ]
     },
     {
-        "id": "e339e3848699a9df",
+        "id": "84d34cce9449d4ff",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "average",
         "func": "const max_values = 30;\n\nlet value = parseFloat(msg.payload);\nlet values = context.get(\"values\") || [];\n\nvalues.push(value);\n\nwhile (values.length > max_values) {\n    values.shift();\n}\n\ncontext.set(\"values\", values);\n\nlet somma = 0;\nfor (let i = 0; i < values.length; i++) {\n    somma += values[i];\n}\n\nmsg.payload = parseFloat((somma / values.length).toFixed(2));\n\nreturn msg;",
         "outputs": 1,
@@ -2003,24 +1931,24 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 380,
+        "x": 420,
         "y": 940,
         "wires": [
             [
-                "78d8c00f1e46a4d5"
+                "562791c7a97847cd"
             ]
         ]
     },
     {
-        "id": "a3c87057b25466ce",
+        "id": "b6a007cd258a7c2a",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "60357de18034327d",
         "order": 1,
-        "width": "0",
-        "height": "0",
-        "label": "Humidity (kg/m^3)",
+        "width": "12",
+        "height": "4",
+        "label": "Umidità Terreno (%)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -2049,22 +1977,22 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 530,
+        "x": 570,
         "y": 820,
         "wires": [
             []
         ]
     },
     {
-        "id": "78d8c00f1e46a4d5",
+        "id": "562791c7a97847cd",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "ab882737ee8c3239",
         "order": 3,
-        "width": "0",
-        "height": "0",
-        "label": "Avg Humidity (kg/m^3)",
+        "width": "6",
+        "height": "4",
+        "label": "Media Umidità Terreno (%)",
         "chartType": "line",
         "legend": "false",
         "xformat": "HH:mm:ss",
@@ -2093,98 +2021,98 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 560,
+        "x": 600,
         "y": 940,
         "wires": [
             []
         ]
     },
     {
-        "id": "7905081df3e1d1fb",
+        "id": "0583839782d165bc",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "ab882737ee8c3239",
         "order": 2,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Max Humidity:",
-        "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
+        "label": "Umidità Max:",
+        "format": "{{msg.payload}}% alle {{msg.date}}",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 680,
+        "x": 720,
         "y": 760,
         "wires": []
     },
     {
-        "id": "c85e4d774d287560",
+        "id": "b7d50c30994ae1d5",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "ab882737ee8c3239",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "Min Humidity:",
-        "format": "{{msg.payload}} °C alle {{msg.date}}",
-        "layout": "row-left",
+        "label": "Umidità Min:",
+        "format": "{{msg.payload}}% alle {{msg.date}}",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 16,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 680,
+        "x": 720,
         "y": 720,
         "wires": []
     },
     {
-        "id": "1a22c3e2d81951f9",
+        "id": "caa7f6e2528a8eb6",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "max",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet maxDate = context.get(\"maxDate\");\n\nlet max = context.get(\"max\") || undefined;\nlet value = msg.payload;\n\nif (!max || max < value) {\n    max = value;\n    maxDate = now;\n} else {\n    return null;\n}\n\ncontext.set(\"max\", max);\ncontext.set(\"maxDate\", maxDate);\n\nmsg.payload = max;\nmsg.date = maxDate;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 530,
         "y": 760,
         "wires": [
             [
-                "7905081df3e1d1fb"
+                "0583839782d165bc"
             ]
         ]
     },
     {
-        "id": "b61d9e40827cb437",
+        "id": "bc3d6276810c8a4d",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "min",
-        "func": "let now = new Date().toLocaleString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
+        "func": "let now = new Date().toLocaleTimeString(\"it-IT\");\nlet minDate = context.get(\"minDate\");\n\nlet min = context.get(\"min\") || undefined;\nlet value = msg.payload;\n\nif (!min || min > value) {\n    min = value;\n    minDate = now; \n} else {\n    return null;\n}\n\ncontext.set(\"min\", min);\ncontext.set(\"minDate\", minDate);\n\nmsg.payload = min;\nmsg.date = minDate;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
+        "x": 530,
         "y": 720,
         "wires": [
             [
-                "c85e4d774d287560"
+                "b7d50c30994ae1d5"
             ]
         ]
     },
     {
-        "id": "fd7b397c72adc0f7",
+        "id": "a7e058e95dbefd19",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "VPD",
         "func": "// msg.payload.temp (Celsius) and msg.payload.humidity (%)\nlet T = msg.payload.temperature;\nlet RH = msg.payload.humidity;\n\n// 1. Calculate SVP (Tetens equation)\n// Result is in kPa (kilopascals)\nlet SVP = 0.61078 * Math.exp((17.27 * T) / (T + 237.3));\n\n// 2. Calculate VPD\nlet VPD = SVP * (1 - (RH / 100));\n\n// Output formatting\nmsg.payload = {\n    vpd: parseFloat(VPD.toFixed(2)),\n    status: VPD > 1.2 ? \"Dry/High Stress\" : (VPD < 0.4 ? \"Mold Risk\" : \"Good\")\n};\n\nreturn msg;",
         "outputs": 1,
@@ -2193,24 +2121,24 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 370,
+        "x": 410,
         "y": 1020,
         "wires": [
             [
-                "4939396a371dab37",
-                "76a6473827403e96"
+                "fa18b3e504c29e32",
+                "9d19616f7eaecde1"
             ]
         ]
     },
     {
-        "id": "80894aafd94de1cd",
+        "id": "b0aa654949c0d86e",
         "type": "ui_chart",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "group": "57e26ec50da4cccd",
-        "order": 3,
-        "width": 0,
-        "height": 0,
+        "order": 1,
+        "width": "6",
+        "height": "4",
         "label": "VPD",
         "chartType": "line",
         "legend": "false",
@@ -2240,37 +2168,37 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 670,
+        "x": 710,
         "y": 1000,
         "wires": [
             []
         ]
     },
     {
-        "id": "4939396a371dab37",
+        "id": "fa18b3e504c29e32",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "57e26ec50da4cccd",
-        "order": 4,
-        "width": 0,
-        "height": 0,
+        "order": 2,
+        "width": "6",
+        "height": "1",
         "name": "",
-        "label": "VPD Status: ",
+        "label": "Stato VPD: ",
         "format": "{{msg.payload.status}}",
-        "layout": "row-left",
+        "layout": "row-spread",
         "className": "",
         "style": false,
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 550,
+        "x": 590,
         "y": 1060,
         "wires": []
     },
     {
-        "id": "76a6473827403e96",
+        "id": "9d19616f7eaecde1",
         "type": "change",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Get Vpd",
         "rules": [
             {
@@ -2286,48 +2214,49 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 540,
+        "x": 580,
         "y": 1000,
         "wires": [
             [
-                "80894aafd94de1cd"
+                "b0aa654949c0d86e"
             ]
         ]
     },
     {
-        "id": "73c76e69c772af6f",
+        "id": "a43cc8d641bb36e7",
         "type": "mqtt in",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "",
         "topic": "pot/ground/humidity",
-        "qos": "1",
+        "qos": "2",
         "datatype": "auto-detect",
         "broker": "90bf6dc88fc77b25",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 150,
+        "x": 190,
         "y": 840,
         "wires": [
             [
-                "b61d9e40827cb437",
-                "1a22c3e2d81951f9",
-                "a3c87057b25466ce",
-                "e339e3848699a9df",
-                "fd7b397c72adc0f7",
-                "fea6fc8cebe2a8d5"
+                "bc3d6276810c8a4d",
+                "caa7f6e2528a8eb6",
+                "b6a007cd258a7c2a",
+                "84d34cce9449d4ff",
+                "a7e058e95dbefd19",
+                "90f0d555d1e2d598",
+                "2c63433f457614f5"
             ]
         ]
     },
     {
-        "id": "d059767313c5d076",
+        "id": "867ff119434299b1",
         "type": "ui_text",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "group": "60357de18034327d",
         "order": 1,
-        "width": "0",
-        "height": "0",
+        "width": "6",
+        "height": "1",
         "name": "",
         "label": "Umidità Attuale:",
         "format": "{{msg.payload}}",
@@ -2335,16 +2264,16 @@
         "className": "",
         "style": false,
         "font": "",
-        "fontSize": 20,
+        "fontSize": 14,
         "color": "#000000",
-        "x": 780,
+        "x": 820,
         "y": 880,
         "wires": []
     },
     {
-        "id": "fea6fc8cebe2a8d5",
+        "id": "90f0d555d1e2d598",
         "type": "function",
-        "z": "34d478f6cbb8753a",
+        "z": "07ae8ea1c5a7b65b",
         "name": "Calcola Trend",
         "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// Se il valore cambia di almeno 0.1\nif (current > previous + 0.1) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 0.1) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(1) + \" °C\" + trend;\n\nreturn msg;",
         "outputs": 1,
@@ -2353,18 +2282,120 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 504.111083984375,
+        "x": 544.111083984375,
         "y": 879.5555419921875,
         "wires": [
             [
-                "d059767313c5d076"
+                "867ff119434299b1"
             ]
         ]
     },
     {
-        "id": "ccc74ce47892d404",
+        "id": "fbca2321e922f39a",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/air/temperature",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "021249b6f8956cc2",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/air/humidity",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "2c63433f457614f5",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/ground/humidity",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 170,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "e813fbecb038f7dc",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/water/level",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "9ad45bd8c8343bc1",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/light/sensor",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "fba0edac3653ad17",
+        "type": "debug",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "pot/light/led",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 1840,
+        "wires": []
+    },
+    {
+        "id": "978c8e45da4b2bc4",
         "type": "ui_button",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "group": "4de629c8464f8fcf",
         "order": 3,
@@ -2381,19 +2412,19 @@
         "payloadType": "bool",
         "topic": "payload",
         "topicType": "msg",
-        "x": 320,
-        "y": 180,
+        "x": 680,
+        "y": 400,
         "wires": [
             [
-                "9d4d346ac2a16160",
-                "ecde4c725ed36227"
+                "94b2759b3720b196",
+                "d97fcf3f38172b7a"
             ]
         ]
     },
     {
-        "id": "61ec79c4b9916808",
+        "id": "cbf5efd63ad5aa34",
         "type": "mqtt out",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "topic": "pot/water/pump",
         "qos": "1",
@@ -2404,16 +2435,16 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 920,
-        "y": 180,
+        "x": 1320,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "e6604fb8ebc63a5a",
+        "id": "d364f6f926c6480f",
         "type": "ui_numeric",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
-        "label": "Activate Water Pump For",
+        "label": "Manual: Pump Duration",
         "tooltip": "Activate Water Pump For",
         "group": "4de629c8464f8fcf",
         "order": 2,
@@ -2425,21 +2456,21 @@
         "topicType": "msg",
         "format": "{{value}} seconds",
         "min": "1",
-        "max": "20",
+        "max": "60",
         "step": 1,
         "className": "",
-        "x": 570,
-        "y": 120,
+        "x": 930,
+        "y": 300,
         "wires": [
             [
-                "5959fb8463bcc23b"
+                "9c60372164a7ceef"
             ]
         ]
     },
     {
-        "id": "5959fb8463bcc23b",
+        "id": "9c60372164a7ceef",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "Set Water Pump Duration",
         "func": "flow.set(\"water_pump_duration\", msg.payload)\n\nreturn msg;",
         "outputs": 1,
@@ -2448,57 +2479,57 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 120,
+        "x": 1210,
+        "y": 300,
         "wires": [
             []
         ]
     },
     {
-        "id": "9d4d346ac2a16160",
+        "id": "94b2759b3720b196",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
-        "name": "Get Water Pump Duration",
-        "func": "let value = flow.get(\"water_pump_duration\")\n\nmsg.payload = value;\nreturn msg;",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Get Water Pump Duration (Smart)",
+        "func": "// LOGICA INTELLIGENTE:\n// 1. Controlla se il messaggio in arrivo ha una durata specifica (dall'Auto Mode)\n// 2. Altrimenti usa la durata impostata manualmente (flow.water_pump_duration)\n// 3. Fallback a 5 secondi se nulla è settato.\n\nlet duration = msg.duration || flow.get(\"water_pump_duration\") || 5;\n\nmsg.payload = duration;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 570,
-        "y": 180,
+        "x": 1020,
+        "y": 360,
         "wires": [
             [
-                "61ec79c4b9916808",
-                "fee4af4aedbb452d"
+                "cbf5efd63ad5aa34",
+                "4ee11e0d6554b522"
             ]
         ]
     },
     {
-        "id": "ecde4c725ed36227",
+        "id": "d97fcf3f38172b7a",
         "type": "function",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "Feedback",
-        "func": "let duration = flow.get(\"water_pump_duration\") || 5;\n\n// Send ON message immediately\nnode.send({ payload: \"IN FUNZIONE 🟢\", color: \"green\" });\n\n// Set timeout to send OFF message\nsetTimeout(() => {\n    node.send({ payload: \"PRONTA ⚪\", color: \"grey\" });\n}, duration * 1000);\n\nreturn null;",
+        "func": "let duration = flow.get(\"water_pump_duration\") || 5;\n// Se arriva dall'auto, usiamo quella durata per il feedback visuale\nif(msg.duration) duration = msg.duration;\n\n// Send ON message immediately\nnode.send({ payload: \"IN FUNZIONE 🟢\", color: \"green\" });\n\n// Set timeout to send OFF message\nsetTimeout(() => {\n    node.send({ payload: \"PRONTA ⚪\", color: \"grey\" });\n}, duration * 1000);\n\nreturn null;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 520,
-        "y": 380,
+        "x": 1000,
+        "y": 460,
         "wires": [
             [
-                "a492eaf0833b3cab"
+                "a16d5c722d7de261"
             ]
         ]
     },
     {
-        "id": "a492eaf0833b3cab",
+        "id": "a16d5c722d7de261",
         "type": "ui_text",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "group": "3e5e748b555d1bd1",
         "order": 0,
         "width": 0,
@@ -2512,27 +2543,27 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 730,
-        "y": 380,
+        "x": 1270,
+        "y": 540,
         "wires": []
     },
     {
-        "id": "40d628c69b38ecdd",
+        "id": "9c0157dc0e9825ac",
         "type": "link out",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "out log (pump)",
         "mode": "link",
         "links": [
             "257a152acbed7208"
         ],
-        "x": 1005,
-        "y": 280,
+        "x": 1405,
+        "y": 460,
         "wires": []
     },
     {
-        "id": "fee4af4aedbb452d",
+        "id": "4ee11e0d6554b522",
         "type": "change",
-        "z": "9c66d3b55ea7cb36",
+        "z": "4c02f01e2dcd8d5d",
         "name": "",
         "rules": [
             {
@@ -2548,16 +2579,225 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 800,
-        "y": 280,
+        "x": 1200,
+        "y": 460,
         "wires": [
             [
-                "40d628c69b38ecdd"
+                "9c0157dc0e9825ac"
             ]
         ]
     },
     {
-        "id": "11655a3ba990c562",
+        "id": "ad6c829c5e0460c5",
+        "type": "ui_slider",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Slider Soglia Auto",
+        "label": "Auto: Soglia Attivazione (%)",
+        "tooltip": "Imposta a 0 per disattivare l'automatico",
+        "group": "3e5e748b555d1bd1",
+        "order": 4,
+        "width": "8",
+        "height": "1",
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "167d425c11fc0bd8"
+            ]
+        ]
+    },
+    {
+        "id": "167d425c11fc0bd8",
+        "type": "change",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Set flow.soglia_auto",
+        "rules": [
+            {
+                "t": "set",
+                "p": "soglia_auto",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d6fea230064893bd",
+        "type": "mqtt in",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "",
+        "topic": "pot/ground/humidity",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "90bf6dc88fc77b25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "08aaefc52324f2a5"
+            ]
+        ]
+    },
+    {
+        "id": "08aaefc52324f2a5",
+        "type": "function",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Confronta Soglia",
+        "func": "// Recupera la soglia impostata dallo slider (default 0)\nlet soglia = flow.get(\"soglia_auto\") || 0;\nlet umidita_attuale = parseFloat(msg.payload);\n\n// Se la soglia è 0, l'automatismo è disattivato\nif (soglia === 0) return null;\n\n// Se l'umidità è inferiore alla soglia, attiva\nif (umidita_attuale < soglia) {\n    msg.payload = \"ATTIVAZIONE AUTOMATICA: Umidità \" + umidita_attuale + \"% < Soglia \" + soglia + \"%\";\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 520,
+        "wires": [
+            [
+                "472892ad689ff005"
+            ]
+        ]
+    },
+    {
+        "id": "472892ad689ff005",
+        "type": "trigger",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Blocco Anti-Flood (5min)",
+        "op1": "true",
+        "op2": "0",
+        "op1type": "bool",
+        "op2type": "str",
+        "duration": "5",
+        "extend": false,
+        "overrideDelay": false,
+        "units": "min",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 630,
+        "y": 520,
+        "wires": [
+            [
+                "540d1df479963fdb"
+            ]
+        ]
+    },
+    {
+        "id": "4eb13a97288c94c7",
+        "type": "ui_numeric",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Num Durata Auto",
+        "label": "Auto: Durata (sec)",
+        "tooltip": "Durata irrigazione automatica",
+        "group": "3e5e748b555d1bd1",
+        "order": 5,
+        "width": "5",
+        "height": "1",
+        "wrap": false,
+        "passthru": true,
+        "topic": "topic",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": "1",
+        "max": "60",
+        "step": 1,
+        "className": "",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "9b0e1f62f503e16a"
+            ]
+        ]
+    },
+    {
+        "id": "9b0e1f62f503e16a",
+        "type": "change",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Set flow.durata_auto",
+        "rules": [
+            {
+                "t": "set",
+                "p": "durata_auto",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "540d1df479963fdb",
+        "type": "function",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Inject Params",
+        "func": "// Recupera la durata auto salvata, default 5 sec\nlet durata = flow.get(\"durata_auto\") || 5;\n\n// Passa la durata nel messaggio in modo che il nodo dopo la legga\nmsg.duration = durata;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 520,
+        "wires": [
+            [
+                "94b2759b3720b196",
+                "0118cd0936403eb3"
+            ]
+        ]
+    },
+    {
+        "id": "0118cd0936403eb3",
+        "type": "debug",
+        "z": "4c02f01e2dcd8d5d",
+        "name": "Debug Auto Pump",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "8fd125bf87e39bf6",
         "type": "global-config",
         "env": [],
         "modules": {

@@ -9,7 +9,7 @@ from humidity import Humidity
 import time
 
 # il serbatoio è vuoto 
-WATER_TANK_EMPTY_DISTANCE = 13
+WATER_TANK_EMPTY_DISTANCE_MM = 100
 
 class HomeScreen:
     def __init__(self, hcsr: HCSR04, mqtt: MicroMQTT, ssd1306: SSD1306_I2C, wifi: Wifi,
@@ -25,7 +25,6 @@ class HomeScreen:
         self.light_value = 0
         self.water_height = 0
         self.wifi_connected = False
-        self.mqtt_connected = False
         self.air_temperature = 0
         self.air_humidity = 0
         self.terrain_humidity = 0
@@ -43,9 +42,6 @@ class HomeScreen:
 
         if (not self.wifi_connected):
             warning_messages.append("Wifi disconnesso!!")
-
-        if (not self.mqtt_connected):
-            warning_messages.append("MQTT disconnesso!!")
 
         if (len(warning_messages) > 0):
             self.show_warnings(warning_messages)
@@ -67,38 +63,34 @@ class HomeScreen:
         
 
     def measure(self):
-        now = time.curr_ms()
-
         self.light_value = self.tsl2561.read()
-        self.water_height = WATER_TANK_EMPTY_DISTANCE - self.hcsr.distance_cm() 
-        self.wifi_connected = self.wifi.is_connected()
-        self.mqtt_connected = self.mqtt.is_connected()
+        self.water_height = WATER_TANK_EMPTY_DISTANCE_MM - self.hcsr.distance_mm() 
+
+        if (self.water_height < 0):
+            self.water_height = 0
 
         self.dht.measure()
         self.air_temperature = self.dht.temperature()
         self.air_humidity = self.dht.humidity()
         self.terrain_humidity = self.humidity.value()
+        self.wifi_connected = self.wifi.is_connected()
         
-        if self.mqtt_connected:
-            # Topic per DHT (Aria)
-            self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
-            self.mqtt.publish("pot/air/humidity", str(self.air_humidity))
+        # Topic per DHT (Aria)
+        self.mqtt.publish("pot/air/temperature", str(self.air_temperature))
+        self.mqtt.publish("pot/air/humidity", str(self.air_humidity))
 
-            # Topic per Umidità Terreno
-            self.mqtt.publish("pot/ground/humidity", str(self.terrain_humidity))
+        # Topic per Umidità Terreno
+        self.mqtt.publish("pot/ground/humidity", str(self.terrain_humidity))
 
-            # Topic per HC-SR04 (Livello Acqua)
-            # Nota: 'pump' di solito è un comando (subscribe), non un valore da pubblicare
-            self.mqtt.publish("pot/water/water_level", str(self.water_height))
+        # Topic per HC-SR04 (Livello Acqua)
+        # Nota: 'pump' di solito è un comando (subscribe), non un valore da pubblicare
+        self.mqtt.publish("pot/water/water_level", str(self.water_height))
 
-            # Topic per TSL2561 (Luce)
-            # Nota: 'led' di solito è un comando (subscribe)
-            self.mqtt.publish("pot/light/light_level", str(self.light_value))
+        # Topic per TSL2561 (Luce)
+        # Nota: 'led' di solito è un comando (subscribe)
+        self.mqtt.publish("pot/light/light_level", str(self.light_value))
 
-            # Topic per WiFi (Stato sistema)
-            # Pubblichiamo "1" o "true" se connesso, o il livello del segnale (RSSI) se disponibile
-            self.mqtt.publish("pot/system/wifi", "connected" if self.wifi_connected else "disconnected")
-          
+        self.mqtt.publish("pot/system/wifi", "true");
         
 
     def show_warnings(self, warning_messages):
