@@ -6,8 +6,7 @@ from time import sleep
 class Pump:
     def __init__(self, in_pin):
         self.pin = Pin(in_pin, Pin.OUT)
-        self.pin.value(1);
-        pass
+        self.pin.value(0);
 
     def on_for(self, time_s):
         self.pin.value(0)

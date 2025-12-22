@@ -28,7 +28,7 @@ def mqtt_handler(topic, msg):
 
     if (topic == "pot/water/pump"):
         time_s = int(msg)
-        # pump.on_for(time_s)
+        pump.on_for(time_s)
         print("Ho ricevuto secondi: " + str(time_s))
 
     if (topic == "pot/light/led"):
@@ -64,7 +64,7 @@ dht = DHT22(15)
 leds = ThreeLedPWM(32,33,25) 
 tsl2561 = TSL2561(i2c)
 humidity = Humidity(35)
-pump = Pump(26)
+pump = Pump(23)
 
 home_screen = HomeScreen(hcsr04, mqtt, display, wifi, dht, tsl2561, humidity)
 
