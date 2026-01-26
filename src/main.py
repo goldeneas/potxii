@@ -22,7 +22,7 @@ time.sleep(3)
 
 wifi.connect("nicola", "nicola-hotspot2")
 
-def mqimport maintt_handler(topic, msg):  
+def mqtt_handler(topic, msg):  
     global pump
     global leds
 
