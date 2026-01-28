@@ -492,7 +492,7 @@
         "label": "lux",
         "format": "{{value | number:2}}",
         "min": 0,
-        "max": "10",
+        "max": "50",
         "colors": [
             "#7f8c8d",
             "#f1c40f",
@@ -1007,8 +1007,8 @@
         "interpolate": "linear",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
+        "ymin": "-10",
+        "ymax": "50",
         "removeOlder": 1,
         "removeOlderPoints": "10",
         "removeOlderUnit": "3600",
@@ -1378,7 +1378,7 @@
         "nodata": "No Data",
         "dot": false,
         "ymin": "0",
-        "ymax": "10",
+        "ymax": "50",
         "removeOlder": "1",
         "removeOlderPoints": "10",
         "removeOlderUnit": "3600",
@@ -2685,7 +2685,7 @@
         "wires": []
     },
     {
-        "id": "adc769c4f966fdef",
+        "id": "0549c9832fb3dd81",
         "type": "global-config",
         "env": [],
         "modules": {
