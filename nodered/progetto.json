@@ -337,12 +337,13 @@
     {
         "id": "grp_status",
         "type": "ui_group",
-        "name": "Stato Salute Pianta",
+        "name": "Avvisi Salute Pianta",
         "tab": "new_home_tab",
         "order": 3,
         "disp": true,
         "width": "12",
-        "collapse": false
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "tab_general",
@@ -385,6 +386,17 @@
         "className": ""
     },
     {
+        "id": "5af5ef097f1c3b0e",
+        "type": "ui_group",
+        "name": "Connessione",
+        "tab": "new_home_tab",
+        "order": 4,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "gauge_temp_home",
         "type": "ui_gauge",
         "z": "c753122a205bffa9",
@@ -418,7 +430,7 @@
         "z": "c753122a205bffa9",
         "name": "",
         "group": "grp_sensors",
-        "order": 2,
+        "order": 3,
         "width": "3",
         "height": "3",
         "gtype": "donut",
@@ -446,7 +458,7 @@
         "z": "c753122a205bffa9",
         "name": "",
         "group": "grp_sensors",
-        "order": 3,
+        "order": 4,
         "width": "3",
         "height": "3",
         "gtype": "donut",
@@ -474,7 +486,7 @@
         "z": "c753122a205bffa9",
         "name": "",
         "group": "grp_sensors",
-        "order": 4,
+        "order": 5,
         "width": "3",
         "height": "3",
         "gtype": "donut",
@@ -501,7 +513,7 @@
         "type": "function",
         "z": "c753122a205bffa9",
         "name": "Logica Status Garden",
-        "func": "// Salva i valori in arrivo nel contesto di flusso\nlet topic = msg.topic;\nlet payload = parseFloat(msg.payload);\n\nif (topic.includes(\"temperature\")) flow.set(\"cur_temp\", payload);\nif (topic.includes(\"ground/humidity\")) flow.set(\"cur_soil\", payload);\nif (topic.includes(\"water_level\")) flow.set(\"cur_water\", payload);\nif (topic.includes(\"light\")) flow.set(\"cur_light\", payload);\n\n// 2. RECUPERO DATI ATTUALI DAL FLUSSO\nlet soil = flow.get(\"cur_soil\") || 0;\nlet water = flow.get(\"cur_water\") || 0;\nlet temp = flow.get(\"cur_temp\") || 0;\nlet light = flow.get(\"cur_light\") || 0;\n\n// 3. RECUPERO CONFIGURAZIONE UTENTE (Variabili Globali)\nlet conf_min_temp = global.get(\"conf_temp_min\") || 10;\nlet conf_max_temp = global.get(\"conf_temp_max\") || 35;\nlet conf_target_soil = global.get(\"conf_umidita_target\") || 30;\nlet nome_pianta = global.get(\"conf_nome_pianta\") || \"Smart Garden\";\nlet conf_lux = global.get(\"conf_daily_lux\") || 15;\n\n// 4. LOGICA DI CONTROLLO\n// Default: tutto ok\nlet status = \"Ottimale 🟢\";\nlet message = `Tutti i parametri di ${nome_pianta} sono nella norma.`;\nlet color = \"#2ecc71\"; // Green\n\nif (water < 20) {\n    // CRITICO: Senza acqua la pompa non va e la pianta muore\n    status = \"CRITICO: Acqua Bassa 🔴\";\n    message = \"Serbatoio quasi vuoto! Riempi subito.\";\n    color = \"#e74c3c\"; // Red\n\n}\n\nif (temp > conf_max_temp) {\n    // ALLARME: Temperatura troppo alta\n    status = \"Allarme: Caldo Eccessivo 🟠\";\n    message = `Temp. ${temp.toFixed(2) }°C sopra il limite di ${conf_max_temp}°C`;\n    color = \"#e67e22\"; // Orange\n\n}\n\nif (temp < conf_min_temp) {\n    // ALLARME: Temperatura troppo bassa\n    status = \"Allarme: Troppo Freddo 🔵\";\n    message = `Temp. ${temp.toFixed(2) }°C sotto il minimo di ${conf_min_temp}°C`;\n    color = \"#3498db\"; // Blue\n\n}\n\nif (soil < conf_target_soil) {\n    // ATTENZIONE: Terreno secco (Nuova logica aggiunta)\n    status = \"Attenzione: Terreno Secco 🟤\";\n    message = `Umidità terreno ${soil.toFixed(2) }% inferiore al target ${conf_target_soil}%`;\n    color = \"#d35400\"; // Brown/Dark Orange\n\n} \n\nif (light < conf_lux) {\n    // ATTENZIONE: Non per forza un allarme\n    status = \"Ambiente Buio / Notte 🌑\";\n    message = `Rilevati solo ${light.toFixed(2) } lux rispetto ai ${conf_lux} lux necessari.`;\n    color = \"#7f8c8d\"; // Grey\n\n}\n\nmsg.payload = {\n    status: status,\n    message: message,\n    color: color\n};\n\nreturn msg;",
+        "func": "// 1. SALVATAGGIO VALORI NEL FLUSSO (Invariato)\nlet topic = msg.topic;\nlet payload = parseFloat(msg.payload);\n\nif (topic.includes(\"temperature\")) flow.set(\"cur_temp\", payload);\nif (topic.includes(\"ground/humidity\")) flow.set(\"cur_soil\", payload);\nif (topic.includes(\"water_level\")) flow.set(\"cur_water\", payload);\nif (topic.includes(\"light\")) flow.set(\"cur_light\", payload);\n\n// 2. RECUPERO DATI E CONFIGURAZIONI (Invariato)\nlet soil = flow.get(\"cur_soil\") || 0;\nlet water = flow.get(\"cur_water\") || 0;\nlet temp = flow.get(\"cur_temp\") || 0;\nlet light = flow.get(\"cur_light\") || 0;\n\nlet conf_min_temp = global.get(\"conf_temp_min\") || 10;\nlet conf_max_temp = global.get(\"conf_temp_max\") || 35;\nlet conf_target_soil = global.get(\"conf_umidita_target\") || 30;\nlet nome_pianta = global.get(\"conf_nome_pianta\") || \"Smart Garden\";\nlet conf_lux = global.get(\"conf_daily_lux\") || 15;\n\n// 3. NUOVA LOGICA: LISTA DI ALLARMI\nlet alerts = []; // Inizializziamo una lista vuota\n\n// Controllo ACQUA (Priorità Alta)\nif (water < 20) {\n    alerts.push({\n        status: \"CRITICO: Acqua Bassa 🔴\",\n        message: \"Serbatoio quasi vuoto! Riempi subito.\",\n        color: \"#e74c3c\" // Red\n    });\n}\n\n// Controllo TEMPERATURA ALTA\nif (temp > conf_max_temp) {\n    alerts.push({\n        status: \"Allarme: Caldo Eccessivo 🟠\",\n        message: `Temp. ${temp.toFixed(1)}°C sopra il limite di ${conf_max_temp}°C`,\n        color: \"#e67e22\" // Orange\n    });\n}\n\n// Controllo TEMPERATURA BASSA\nif (temp < conf_min_temp) {\n    alerts.push({\n        status: \"Allarme: Troppo Freddo 🔵\",\n        message: `Temp. ${temp.toFixed(1)}°C sotto il minimo di ${conf_min_temp}°C`,\n        color: \"#3498db\" // Blue\n    });\n}\n\n// Controllo TERRENO SECCO\nif (soil < conf_target_soil) {\n    alerts.push({\n        status: \"Attenzione: Terreno Secco 🟤\",\n        message: `Umidità ${soil.toFixed(1)}% inferiore al target ${conf_target_soil}%`,\n        color: \"#d35400\" // Brown\n    });\n}\n\n// Controllo LUCE (Opzionale, se vuoi considerarlo un allarme)\nif (light < conf_lux) {\n    alerts.push({\n        status: \"Ambiente Buio / Notte 🌑\",\n        message: `Luce scarsa (${light.toFixed(0)} lux).`,\n        color: \"#7f8c8d\" // Grey\n    });\n}\n\n// 4. SE NON CI SONO ALLARMI, MOSTRA STATO OTTIMALE\nif (alerts.length === 0) {\n    alerts.push({\n        status: \"Ottimale 🟢\",\n        message: `Tutti i parametri di ${nome_pianta} sono nella norma.`,\n        color: \"#2ecc71\" // Green\n    });\n}\n\n// Passiamo l'intero array di allarmi al payload\nmsg.payload = alerts;\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -524,8 +536,8 @@
         "name": "Status Card",
         "order": 1,
         "width": "12",
-        "height": "2",
-        "format": "<div style=\"display:flex; align-items:center; height:100%\">\n    <div style=\"\n        width: 10px; \n        height: 100%; \n        background-color: {{msg.payload.color}};\n        margin-right: 15px;\n        border-radius: 5px;\">\n    </div>\n    <div>\n        <h3 style=\"margin:0; color: {{msg.payload.color}}\">{{msg.payload.status}}</h3>\n        <p style=\"margin:0; color: var(--nr-dashboard-widgetColorText)\">{{msg.payload.message}}</p>\n    </div>\n</div>",
+        "height": "7",
+        "format": "<div style=\"height:100%; overflow-y: auto; overflow-x: hidden;\">\n\n    <div ng-repeat=\"alert in msg.payload\" style=\"\n            display: flex; \n            align-items: center; \n            margin-bottom: 8px; \n            margin-right: 2px; \n            background: rgba(255,255,255,0.1); \n            padding: 8px; \n            border-radius: 4px; \n            border-left: 5px solid {{alert.color}};\n         \">\n\n        <div style=\"flex-grow: 1; padding-left: 10px;\">\n            <h3 style=\"margin: 0; font-size: 16px; font-weight: 600; color: {{alert.color}}\">\n                {{alert.status}}\n            </h3>\n            <p\n                style=\"margin: 0; margin-top: 2px; font-size: 13px; opacity: 0.8; color: var(--nr-dashboard-widgetColorText); white-space: normal;\">\n                {{alert.message}}\n            </p>\n        </div>\n    </div>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -630,7 +642,7 @@
         "z": "c753122a205bffa9",
         "name": "",
         "group": "grp_sensors",
-        "order": 1,
+        "order": 2,
         "width": "3",
         "height": "3",
         "gtype": "donut",
@@ -724,12 +736,12 @@
         "id": "status_text",
         "type": "ui_text",
         "z": "c753122a205bffa9",
-        "group": "grp_status",
-        "order": 2,
+        "group": "5af5ef097f1c3b0e",
+        "order": 1,
         "width": "0",
         "height": "0",
         "name": "",
-        "label": "Connessione:",
+        "label": "Stato Connessione:",
         "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
@@ -737,7 +749,7 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 720,
+        "x": 730,
         "y": 600,
         "wires": []
     },
@@ -811,8 +823,8 @@
         "height": 0,
         "passthru": true,
         "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
+        "topic": "pump_alert",
+        "topicType": "str",
         "style": "",
         "onvalue": "true",
         "onvalueType": "bool",
@@ -825,7 +837,7 @@
         "animate": false,
         "className": "",
         "x": 320,
-        "y": 380,
+        "y": 400,
         "wires": [
             [
                 "set_global_vars"
@@ -845,8 +857,8 @@
         "height": 0,
         "passthru": true,
         "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
+        "topic": "water_alert",
+        "topicType": "str",
         "style": "",
         "onvalue": "true",
         "onvalueType": "bool",
@@ -859,7 +871,7 @@
         "animate": false,
         "className": "",
         "x": 330,
-        "y": 440,
+        "y": 460,
         "wires": [
             [
                 "set_global_vars"
@@ -871,13 +883,15 @@
         "type": "function",
         "z": "2ff232a50dfd5c85",
         "name": "Set Global",
-        "func": "if(msg.topic === \"pump_alert\") global.set(\"notify_pump\", msg.payload);\n// Qui puoi aggiungere logica per salvare le preferenze\nreturn msg;",
+        "func": "// Salva lo stato degli switch nelle variabili globali\nif (msg.topic === \"pump_alert\") {\n    global.set(\"notify_pump\", msg.payload);\n}\n\nif (msg.topic === \"water_alert\") {\n    global.set(\"notify_water\", msg.payload);\n}\n\nif (msg.topic === \"led_alert\") {\n    global.set(\"notify_led\", msg.payload);\n}\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 610,
-        "y": 400,
+        "y": 460,
         "wires": [
             []
         ]
@@ -889,16 +903,16 @@
         "group": "grp_logs",
         "name": "System Log",
         "order": 1,
-        "width": "0",
-        "height": "0",
-        "format": "<div style=\"max-height: 200px; overflow-y: scroll; font-family: monospace; font-size: 12px; background: #f1f1f1; padding: 5px; border-radius: 4px;\">\n    <div ng-repeat=\"log in msg.payload track by $index\">\n        <span style=\"color: #666\">[{{log.time}}]</span> \n        <span style=\"font-weight: bold\">{{log.msg}}</span>\n    </div>\n</div>",
+        "width": "6",
+        "height": "15",
+        "format": "<div style=\"\n    max-height: 250px; \n    overflow-y: auto; \n    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; \n    font-size: 13px; \n    background: var(--nr-dashboard-groupBgColor); \n    padding: 5px; \n    border-radius: 4px;\">\n\n    <div ng-repeat=\"log in msg.payload track by $index\" style=\"\n        border-bottom: 1px solid var(--nr-dashboard-pageBackgroundColor);\n        padding: 6px 0;\n        display: flex;\n        align-items: center;\">\n\n        <span style=\"\n            color: var(--nr-dashboard-widgetColorText); \n            opacity: 0.6; \n            min-width: 65px; \n            font-size: 11px;\">\n            {{log.time}}\n        </span>\n\n        <span style=\"font-size: 16px; margin-right: 8px;\">\n            {{log.icon}}\n        </span>\n\n        <span style=\"\n            font-weight: 500; \n            color: var(--nr-dashboard-widgetColorText);\">\n            {{log.msg}}\n        </span>\n    </div>\n\n    <div ng-if=\"!msg.payload.length\" style=\"text-align:center; padding:20px; opacity:0.5;\">\n        Nessun evento recente\n    </div>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
         "x": 750,
-        "y": 520,
+        "y": 620,
         "wires": [
             []
         ]
@@ -908,13 +922,15 @@
         "type": "function",
         "z": "2ff232a50dfd5c85",
         "name": "Gestione Log",
-        "func": "let logs = flow.get(\"system_logs\") || [];\nlet now = new Date().toLocaleTimeString(\"it-IT\");\n\nlogs.unshift({time: now, msg: msg.payload});\n\n// Mantieni solo ultimi 20 log\nif (logs.length > 20) logs.pop();\n\nflow.set(\"system_logs\", logs);\nmsg.payload = logs;\nreturn msg;",
+        "func": "// CONFIGURAZIONE\nconst config = {\n    \"pump\": \"notify_pump\",\n    \"water\": \"notify_water\",\n    \"led\": \"notify_led\",\n    \"system\": null\n};\n\n// 1. RECUPERO DATI\nlet category = msg.topic || \"system\";\nlet message = msg.payload;\n\n// 2. CONTROLLO PERMESSI (FILTRO ROBUSTO)\nif (config[category]) {\n    let isEnabled = global.get(config[category]);\n\n    // BLOCCO ROBUSTO: Ferma se è false (bool), \"false\" (stringa) o 0\n    // Se è undefined (es. appena acceso), passa (comportamento default: abilitato)\n    if (isEnabled === false || isEnabled === \"false\" || isEnabled === 0) {\n        return null;\n    }\n}\n\n// 3. GESTIONE LISTA LOG (Icone e Formattazione)\nlet logs = flow.get(\"system_logs\") || [];\nlet now = new Date().toLocaleTimeString(\"it-IT\", { hour: '2-digit', minute: '2-digit', second: '2-digit' });\n\nlet iconMap = {\n    \"pump\": \"💧\",\n    \"water\": \"🌊\",\n    \"led\": \"💡\",\n    \"system\": \"⚙️\"\n};\nlet icon = iconMap[category] || \"📝\";\n\nlogs.unshift({\n    time: now,\n    msg: message,\n    category: category,\n    icon: icon\n});\n\n// Mantieni solo ultimi 20 log\nif (logs.length > 20) logs.pop();\n\nflow.set(\"system_logs\", logs);\nmsg.payload = logs;\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 440,
-        "y": 520,
+        "y": 620,
         "wires": [
             [
                 "log_template"
@@ -926,9 +942,11 @@
         "type": "link in",
         "z": "2ff232a50dfd5c85",
         "name": "in log",
-        "links": [],
+        "links": [
+            "af376480fc96b92d"
+        ],
         "x": 245,
-        "y": 520,
+        "y": 620,
         "wires": [
             [
                 "log_manager"
@@ -1055,7 +1073,7 @@
         "type": "ui_text_input",
         "z": "2ff232a50dfd5c85",
         "name": "",
-        "label": "Livello Luce Giornaliero",
+        "label": "Livello Luce Giornaliero (lux)",
         "tooltip": "Inserisci un numero (es. 12)",
         "group": "grp_plant_config",
         "order": 5,
@@ -1068,7 +1086,7 @@
         "sendOnBlur": true,
         "className": "",
         "topicType": "msg",
-        "x": 350,
+        "x": 360,
         "y": 320,
         "wires": [
             [
@@ -1199,6 +1217,40 @@
         "y": 260,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "92b57b4722113728",
+        "type": "ui_switch",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Avvisi Luminosità",
+        "tooltip": "",
+        "group": "grp_notifications",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "led_alert",
+        "topicType": "str",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 330,
+        "y": 520,
+        "wires": [
+            [
+                "set_global_vars"
+            ]
         ]
     },
     {
@@ -1950,12 +2002,13 @@
         "max": "100",
         "step": 1,
         "className": "",
-        "x": 230,
+        "x": 130,
         "y": 1780,
         "wires": [
             [
                 "61469d951d7dafe7",
-                "fba0edac3653ad17"
+                "fba0edac3653ad17",
+                "57fcf10cf6720435"
             ]
         ]
     },
@@ -1973,7 +2026,7 @@
         "correl": "",
         "expiry": "",
         "broker": "90bf6dc88fc77b25",
-        "x": 510,
+        "x": 410,
         "y": 1780,
         "wires": []
     },
@@ -2031,7 +2084,7 @@
         "id": "0f4d0de79c2eb4fe",
         "type": "trigger",
         "z": "07ae8ea1c5a7b65b",
-        "name": "Blocco 30 min",
+        "name": "Blocco 5 min",
         "op1": "",
         "op2": "0",
         "op1type": "pay",
@@ -2044,7 +2097,7 @@
         "bytopic": "all",
         "topic": "topic",
         "outputs": 1,
-        "x": 1000,
+        "x": 990,
         "y": 1240,
         "wires": [
             [
@@ -2062,7 +2115,14 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "⚠️ CRITICO: Livello Acqua Basso (<20%)",
+                "to": "Livello Acqua Critico (<20%)",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "water",
                 "tot": "str"
             }
         ],
@@ -2529,8 +2589,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 510,
-        "y": 1840,
+        "x": 410,
+        "y": 1960,
         "wires": []
     },
     {
@@ -2645,6 +2705,64 @@
                 "b840bf71fff787ef"
             ]
         ]
+    },
+    {
+        "id": "57fcf10cf6720435",
+        "type": "delay",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 410,
+        "y": 1880,
+        "wires": [
+            [
+                "cc6a5eb6310cf461"
+            ]
+        ]
+    },
+    {
+        "id": "cc6a5eb6310cf461",
+        "type": "function",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "Formatta Log Led",
+        "func": "let level = parseInt(msg.payload);\n\nmsg.topic = \"led\"; \nmsg.payload = `Luminosità impostata al ${level}%`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 1880,
+        "wires": [
+            [
+                "af376480fc96b92d"
+            ]
+        ]
+    },
+    {
+        "id": "af376480fc96b92d",
+        "type": "link out",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "led out",
+        "mode": "link",
+        "links": [
+            "257a152acbed7208"
+        ],
+        "x": 895,
+        "y": 1880,
+        "wires": []
     },
     {
         "id": "978c8e45da4b2bc4",
@@ -2818,13 +2936,20 @@
         "id": "4ee11e0d6554b522",
         "type": "change",
         "z": "4c02f01e2dcd8d5d",
-        "name": "",
+        "name": "Msg: Pompa Attiva",
         "rules": [
             {
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "pompa d'irrigazione attivata",
+                "to": "Pompa d'irrigazione attivata",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "pump",
                 "tot": "str"
             }
         ],
@@ -2833,7 +2958,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1200,
+        "x": 1270,
         "y": 460,
         "wires": [
             [
@@ -3051,7 +3176,7 @@
         "wires": []
     },
     {
-        "id": "eb3e505f84ad980b",
+        "id": "f42fab4147ce2537",
         "type": "global-config",
         "env": [],
         "modules": {
