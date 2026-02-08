@@ -37,33 +37,25 @@ class HomeScreen:
     def show(self):
         self.display.clear()
 
-        warning_messages = []
-
         if (self.water_height < 0):
             self.water_height=0
 
         if (not self.wifi_connected):
-            warning_messages.append("Wifi disconnesso!!")
-
-        if (len(warning_messages) > 0):
-            self.show_warnings(warning_messages)
-            return
-
+            self.show_warnings(["Wifi Disconnesso!"])
+            time.sleep(1)
+            self.wifi.connect()
        
         messages1 = [
-                "Light: {:.2f} lux".format(self.light_value),
-                "Water: {:.2f} mm".format(self.water_height),
-                "Air Temp: {:.0f} C".format(self.air_temperature),
-                "Air Hum: {:.0f} " .format(self.air_humidity),
-                "Dirt Hum: {:.0f} %" .format(self.terrain_humidity)
+                "Luce: {:.2f} lux".format(self.light_value),
+                "Acqua: {:.2f} mm".format(self.water_height),
+                "Temp Aria: {:.0f} C".format(self.air_temperature),
+                "Hum Aria: {:.0f} %" .format(self.air_humidity),
+                "Hum Terra: {:.0f} %" .format(self.terrain_humidity)
          ]
 
         self.text_all(messages1)
         self.display.show()
        
-        
-        
-
     def measure(self):
         now = time.ticks_ms()
         if time.ticks_diff(now, self.last_measure_timestamp) < 1500:

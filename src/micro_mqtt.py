@@ -72,9 +72,14 @@ class MicroMQTT:
             
             self.display.fill(0)
             self.display.text("Iscritto a:", 0, 0) 
-            self.display.text(topic, 0, 15)
-            self.display.show()
+            parts = topic.split('/')
             
+            y_pos = 15
+            for part in parts:
+                self.display.text(f"- {part}", 0, y_pos)
+                y_pos += 10
+
+            self.display.show()
             print("Iscritto al topic: " + topic)
         except OSError as e:
             print("Errore durante la sottoscrizione: ", e)

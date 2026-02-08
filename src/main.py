@@ -20,7 +20,7 @@ display.draw_logo()
 display.show()
 time.sleep(3)
 
-wifi.connect("nicola", "nicola-hotspot2")
+wifi.connect()
 
 def mqtt_handler(topic, msg):  
     global pump
