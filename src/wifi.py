@@ -4,9 +4,10 @@ import time
 from ssd1306 import SSD1306_I2C
 
 class Wifi:
-    def __init__(self, ssd1306: SSD1306_I2C):
+    def __init__(self, ssid: str, password: str, ssd1306: SSD1306_I2C):
         self.station = network.WLAN(network.STA_IF)
-        self.ssid = ""
+        self.ssid = ssid
+        self.password = password
         self.display = ssd1306
         self.drawn_low = False
         self.wifi_low = bytearray([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0xe0, 0x0f, 0xf0, 0x18, 0x18, 0x03, 0xc0, 0x07, 0xe0, 0x04, 0x20, 0x01, 0x80, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, ])
@@ -15,19 +16,18 @@ class Wifi:
     def set_active(self, is_active):
         self.station.active(is_active)
 
-    def connect(self, ssid, password):
+    def connect(self):
         # resettiamo l'interfaccia
         self.set_active(False)
         time.sleep_ms(100)
         self.set_active(True)
 
-        self.station.connect(ssid, password)
-        self.ssid = ssid
+        self.station.connect(self.get_ssid(), self.password)
 
         while not self.is_connected():
             self.display.clear()
             self.toggle_icon()
-            self.display.text("Connecting to", 0, 4, 1)
+            self.display.text("Connessione a", 0, 4, 1)
             self.display.text("[" + self.get_ssid() + "]", 0, 14, 1)
             
             self.display.show()
@@ -35,7 +35,7 @@ class Wifi:
 
         self.display.clear()
         self.draw_wifi_high()
-        self.display.text("Connected to", 0, 4, 1)
+        self.display.text("Connesso a", 0, 4, 1)
         self.display.text("[" + self.get_ssid() + "]", 0, 14, 1)
         self.display.show()
 
