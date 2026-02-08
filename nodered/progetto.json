@@ -374,25 +374,15 @@
         "collapse": false
     },
     {
-        "id": "home_header_template",
-        "type": "ui_template",
-        "z": "c753122a205bffa9",
-        "group": "grp_header",
-        "name": "Header Grafico",
+        "id": "grp_plant_config",
+        "type": "ui_group",
+        "name": "Profilo Pianta",
+        "tab": "tab_general",
         "order": 1,
-        "width": "12",
-        "height": "3",
-        "format": "<div style=\"\n    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n    color: white;\n    padding: 20px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0,0,0,0.2);\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n\">\n    <div>\n        <h2 style=\"margin:0; font-weight:bold;\">🌿 Smart Garden</h2>\n        <p style=\"margin:5px 0 0 0; opacity:0.9;\">Monitoraggio Live - Gruppo 12</p>\n    </div>\n    <div style=\"text-align:right;\">\n        <i class=\"fa fa-pagelines\" style=\"font-size: 40px; opacity: 0.8;\"></i>\n    </div>\n</div>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 420,
-        "y": 40,
-        "wires": [
-            []
-        ]
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "gauge_temp_home",
@@ -511,7 +501,7 @@
         "type": "function",
         "z": "c753122a205bffa9",
         "name": "Logica Status Garden",
-        "func": "// Salva i valori nel contesto globale\nlet topic = msg.topic;\nlet payload = parseFloat(msg.payload);\n\nif (topic.includes(\"temperature\")) {\n    flow.set(\"cur_temp\", payload);\n}\n\nif (topic.includes(\"ground/humidity\")) {\n    flow.set(\"cur_soil\", payload);\n}\n\nif (topic.includes(\"water_level\")) {\n    flow.set(\"cur_water\", payload);\n}\n\n// Recupera valori\nlet soil = flow.get(\"cur_soil\") || 0;\nlet water = flow.get(\"cur_water\") || 0;\nlet temp = flow.get(\"cur_temp\") || 0;\n\n// Logica decisionale\nlet status = \"Ottimale 🟢\";\nlet message = \"Tutti i parametri sono nella norma.\";\nlet color = \"#2ecc71\"; // Green\n\nif (water < 20) {\n    status = \"CRITICO: Acqua Bassa 🔴\";\n    message = \"Il serbatoio è quasi vuoto! Riempi subito.\";\n    color = \"#e74c3c\";\n} else if (temp > 35) {\n    status = \"Attenzione: Caldo Eccessivo 🟠\";\n    message = \"Temperatura troppo alta per la pianta.\";\n    color = \"#e67e22\";\n}\n\nmsg.payload = {\n    status: status,\n    message: message,\n    color: color\n};\n\nreturn msg;",
+        "func": "// Salva i valori in arrivo nel contesto di flusso\nlet topic = msg.topic;\nlet payload = parseFloat(msg.payload);\n\nif (topic.includes(\"temperature\")) flow.set(\"cur_temp\", payload);\nif (topic.includes(\"ground/humidity\")) flow.set(\"cur_soil\", payload);\nif (topic.includes(\"water_level\")) flow.set(\"cur_water\", payload);\nif (topic.includes(\"light\")) flow.set(\"cur_light\", payload);\n\n// 2. RECUPERO DATI ATTUALI DAL FLUSSO\nlet soil = flow.get(\"cur_soil\") || 0;\nlet water = flow.get(\"cur_water\") || 0;\nlet temp = flow.get(\"cur_temp\") || 0;\nlet light = flow.get(\"cur_light\") || 0;\n\n// 3. RECUPERO CONFIGURAZIONE UTENTE (Variabili Globali)\nlet conf_min_temp = global.get(\"conf_temp_min\") || 10;\nlet conf_max_temp = global.get(\"conf_temp_max\") || 35;\nlet conf_target_soil = global.get(\"conf_umidita_target\") || 30;\nlet nome_pianta = global.get(\"conf_nome_pianta\") || \"Smart Garden\";\nlet conf_lux = global.get(\"conf_daily_lux\") || 15;\n\n// 4. LOGICA DI CONTROLLO\n// Default: tutto ok\nlet status = \"Ottimale 🟢\";\nlet message = `Tutti i parametri di ${nome_pianta} sono nella norma.`;\nlet color = \"#2ecc71\"; // Green\n\nif (water < 20) {\n    // CRITICO: Senza acqua la pompa non va e la pianta muore\n    status = \"CRITICO: Acqua Bassa 🔴\";\n    message = \"Serbatoio quasi vuoto! Riempi subito.\";\n    color = \"#e74c3c\"; // Red\n\n}\n\nif (temp > conf_max_temp) {\n    // ALLARME: Temperatura troppo alta\n    status = \"Allarme: Caldo Eccessivo 🟠\";\n    message = `Temp. ${temp.toFixed(2) }°C sopra il limite di ${conf_max_temp}°C`;\n    color = \"#e67e22\"; // Orange\n\n}\n\nif (temp < conf_min_temp) {\n    // ALLARME: Temperatura troppo bassa\n    status = \"Allarme: Troppo Freddo 🔵\";\n    message = `Temp. ${temp.toFixed(2) }°C sotto il minimo di ${conf_min_temp}°C`;\n    color = \"#3498db\"; // Blue\n\n}\n\nif (soil < conf_target_soil) {\n    // ATTENZIONE: Terreno secco (Nuova logica aggiunta)\n    status = \"Attenzione: Terreno Secco 🟤\";\n    message = `Umidità terreno ${soil.toFixed(2) }% inferiore al target ${conf_target_soil}%`;\n    color = \"#d35400\"; // Brown/Dark Orange\n\n} \n\nif (light < conf_lux) {\n    // ATTENZIONE: Non per forza un allarme\n    status = \"Ambiente Buio / Notte 🌑\";\n    message = `Rilevati solo ${light.toFixed(2) } lux rispetto ai ${conf_lux} lux necessari.`;\n    color = \"#7f8c8d\"; // Grey\n\n}\n\nmsg.payload = {\n    status: status,\n    message: message,\n    color: color\n};\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -629,27 +619,7 @@
         "y": 360,
         "wires": [
             [
-                "gauge_light_home"
-            ]
-        ]
-    },
-    {
-        "id": "mqtt_water_h",
-        "type": "mqtt in",
-        "z": "c753122a205bffa9",
-        "name": "",
-        "topic": "pot/water/water_level",
-        "qos": "1",
-        "datatype": "auto-detect",
-        "broker": "90bf6dc88fc77b25",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 280,
-        "y": 500,
-        "wires": [
-            [
+                "gauge_light_home",
                 "status_logic"
             ]
         ]
@@ -699,7 +669,8 @@
         "y": 120,
         "wires": [
             [
-                "325eace901ec8161"
+                "325eace901ec8161",
+                "status_logic"
             ]
         ]
     },
@@ -771,6 +742,63 @@
         "wires": []
     },
     {
+        "id": "33b29980bfc65de3",
+        "type": "link in",
+        "z": "c753122a205bffa9",
+        "name": "Init nome",
+        "links": [
+            "96a57c0d32d2c3d3"
+        ],
+        "x": 205,
+        "y": 40,
+        "wires": [
+            [
+                "4c69ac42c195b080"
+            ]
+        ]
+    },
+    {
+        "id": "4c69ac42c195b080",
+        "type": "function",
+        "z": "c753122a205bffa9",
+        "name": "Get Nome Pianta",
+        "func": "// Recupera solo il nome impostato.\n// Se non è impostato (undefined), manda quello.\n// NON usiamo più il default \"Smart Garden\" qui.\nmsg.payload = global.get(\"conf_nome_pianta\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 40,
+        "wires": [
+            [
+                "1d47ca78242eeeca"
+            ]
+        ]
+    },
+    {
+        "id": "1d47ca78242eeeca",
+        "type": "ui_template",
+        "z": "c753122a205bffa9",
+        "group": "grp_header",
+        "name": "Header Grafico",
+        "order": 1,
+        "width": "12",
+        "height": "3",
+        "format": "<div style=\"\n    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n    color: white;\n    padding: 20px;\n    border-radius: 10px;\n    box-shadow: 0 4px 15px rgba(0,0,0,0.2);\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    font-family: 'Helvetica Neue', Arial, sans-serif;\n\">\n    <div>\n\n        <div style=\"\n            font-size: 24px; \n            font-weight: bold; \n            margin: 0; \n            line-height: 1.2;\n            color: white;\n            background: transparent;\n        \">\n            🌿 Smart Garden\n        </div>\n\n        <div ng-if=\"msg.payload\" style=\"margin-top: 4px;\">\n            <span style=\"font-size: 1.2em; font-weight: 500; color: #e6fff2;\">\n                {{msg.payload}}\n            </span>\n        </div>\n\n        <div style=\"\n            margin-top: 5px; \n            opacity: 0.9; \n            font-size: 14px;\n            color: white;\n            background: transparent;\n        \">\n            Monitoraggio Live - Gruppo 12\n        </div>\n\n    </div>\n\n    <div style=\"text-align:right;\">\n        <i class=\"fa fa-pagelines\" style=\"font-size: 40px; opacity: 0.8;\"></i>\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 640,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "sw_pump_notify",
         "type": "ui_switch",
         "z": "2ff232a50dfd5c85",
@@ -796,8 +824,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 350,
-        "y": 240,
+        "x": 320,
+        "y": 380,
         "wires": [
             [
                 "set_global_vars"
@@ -830,8 +858,8 @@
         "offcolor": "",
         "animate": false,
         "className": "",
-        "x": 350,
-        "y": 300,
+        "x": 330,
+        "y": 440,
         "wires": [
             [
                 "set_global_vars"
@@ -849,7 +877,7 @@
         "initialize": "",
         "finalize": "",
         "x": 610,
-        "y": 260,
+        "y": 400,
         "wires": [
             []
         ]
@@ -869,8 +897,8 @@
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 810,
-        "y": 380,
+        "x": 750,
+        "y": 520,
         "wires": [
             []
         ]
@@ -885,8 +913,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 550,
-        "y": 380,
+        "x": 440,
+        "y": 520,
         "wires": [
             [
                 "log_template"
@@ -899,12 +927,278 @@
         "z": "2ff232a50dfd5c85",
         "name": "in log",
         "links": [],
-        "x": 355,
-        "y": 380,
+        "x": 245,
+        "y": 520,
         "wires": [
             [
                 "log_manager"
             ]
+        ]
+    },
+    {
+        "id": "ui_inp_name",
+        "type": "ui_text_input",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Nome Pianta",
+        "tooltip": "Es. Basilico, Peperoncino...",
+        "group": "grp_plant_config",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "topic",
+        "className": "",
+        "topicType": "msg",
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "chg_save_name"
+            ]
+        ]
+    },
+    {
+        "id": "chg_save_name",
+        "type": "change",
+        "z": "2ff232a50dfd5c85",
+        "name": "Set Global Name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "conf_nome_pianta",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 80,
+        "wires": [
+            [
+                "96a57c0d32d2c3d3"
+            ]
+        ]
+    },
+    {
+        "id": "96a57c0d32d2c3d3",
+        "type": "link out",
+        "z": "2ff232a50dfd5c85",
+        "name": "Out nome",
+        "mode": "link",
+        "links": [
+            "33b29980bfc65de3"
+        ],
+        "x": 865,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "8a4194cc609e0b75",
+        "type": "ui_text_input",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Temp. Minima Ideale (°C)",
+        "tooltip": "Inserisci un numero (es. 15)",
+        "group": "grp_plant_config",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "topic",
+        "className": "",
+        "topicType": "msg",
+        "x": 350,
+        "y": 140,
+        "wires": [
+            [
+                "1f13039064d4a73b"
+            ]
+        ]
+    },
+    {
+        "id": "2cb56e6918f12c0b",
+        "type": "ui_text_input",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Temp. Massima Ideale (°C)",
+        "tooltip": "Inserisci un numero (es. 30)",
+        "group": "grp_plant_config",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "topic",
+        "className": "",
+        "topicType": "msg",
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "9831cc3833636b86"
+            ]
+        ]
+    },
+    {
+        "id": "73cedc5e3cbb5787",
+        "type": "ui_text_input",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Livello Luce Giornaliero",
+        "tooltip": "Inserisci un numero (es. 12)",
+        "group": "grp_plant_config",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 350,
+        "y": 320,
+        "wires": [
+            [
+                "ae8aeb4aadcfc9c4"
+            ]
+        ]
+    },
+    {
+        "id": "1f13039064d4a73b",
+        "type": "change",
+        "z": "2ff232a50dfd5c85",
+        "name": "Global Temp Min",
+        "rules": [
+            {
+                "t": "set",
+                "p": "conf_temp_min",
+                "pt": "global",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9831cc3833636b86",
+        "type": "change",
+        "z": "2ff232a50dfd5c85",
+        "name": "Global Temp Max",
+        "rules": [
+            {
+                "t": "set",
+                "p": "conf_temp_max",
+                "pt": "global",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ae8aeb4aadcfc9c4",
+        "type": "change",
+        "z": "2ff232a50dfd5c85",
+        "name": "Global Lux",
+        "rules": [
+            {
+                "t": "set",
+                "p": "conf_daily_lux",
+                "pt": "global",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ui_inp_soil_target",
+        "type": "ui_text_input",
+        "z": "2ff232a50dfd5c85",
+        "name": "",
+        "label": "Umidità Terreno Ideale (%)",
+        "tooltip": "Inserisci un numero (es. 40)",
+        "group": "grp_plant_config",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": "300",
+        "topic": "topic",
+        "className": "",
+        "topicType": "msg",
+        "x": 360,
+        "y": 260,
+        "wires": [
+            [
+                "chg_save_soil_target"
+            ]
+        ]
+    },
+    {
+        "id": "chg_save_soil_target",
+        "type": "change",
+        "z": "2ff232a50dfd5c85",
+        "name": "Global Hum Target",
+        "rules": [
+            {
+                "t": "set",
+                "p": "conf_umidita_target",
+                "pt": "global",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 630,
+        "y": 260,
+        "wires": [
+            []
         ]
     },
     {
@@ -1003,15 +1297,15 @@
         "label": "Media Temperatura (°C)",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm:ss",
+        "xformat": "auto",
         "interpolate": "linear",
         "nodata": "No Data",
         "dot": false,
         "ymin": "-10",
         "ymax": "50",
         "removeOlder": 1,
-        "removeOlderPoints": "10",
-        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": true,
         "useUTC": false,
@@ -1051,8 +1345,8 @@
         "interpolate": "bezier",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
+        "ymin": "0",
+        "ymax": "100",
         "removeOlder": 1,
         "removeOlderPoints": "10",
         "removeOlderUnit": "3600",
@@ -1091,15 +1385,15 @@
         "label": "Media Umidità Aria (%)",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm:ss",
+        "xformat": "auto",
         "interpolate": "linear",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
+        "ymin": "0",
+        "ymax": "100",
         "removeOlder": 1,
-        "removeOlderPoints": "10",
-        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": true,
         "useUTC": false,
@@ -1135,15 +1429,15 @@
         "label": "Livello Acqua (mm)",
         "chartType": "line",
         "legend": "false",
-        "xformat": "dd HH:mm",
+        "xformat": "auto",
         "interpolate": "linear",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
-        "removeOlder": "10",
-        "removeOlderPoints": "10",
-        "removeOlderUnit": "3600",
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": true,
         "useUTC": false,
@@ -1406,28 +1700,6 @@
         ]
     },
     {
-        "id": "ec8f6333a2b1d302",
-        "type": "function",
-        "z": "07ae8ea1c5a7b65b",
-        "name": "light_percentage",
-        "func": "let light_points = context.get(\"light_points\") || 0;\nlet dark_points = context.get(\"dark_points\") || 0;\n\nif (msg.reset) {\n    dark_points = 0;\n    light_points = 0;\n}\n\nlet value = msg.payload;\n\n// percentage\n// 3 è in lux!!\nvalue > 3 ? light_points += 1 : dark_points += 1;\n\ncontext.set(\"light_points\", light_points);\ncontext.set(\"dark_points\", dark_points);\n\nlet light_percentage = light_points / (light_points + dark_points) * 100;\nmsg.payload = {\n    \"light_percentage\": parseInt(light_percentage),\n    \"light_points\": light_points,\n    \"dark_points\": dark_points,\n};\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 650,
-        "y": 1540,
-        "wires": [
-            [
-                "fb081114b01d5b7e",
-                "c122b24453a9c1ab",
-                "aa7825ab50cbf90e"
-            ]
-        ]
-    },
-    {
         "id": "e546d9726f308767",
         "type": "ui_chart",
         "z": "07ae8ea1c5a7b65b",
@@ -1541,26 +1813,6 @@
         "wires": []
     },
     {
-        "id": "680491c6e4305c52",
-        "type": "function",
-        "z": "07ae8ea1c5a7b65b",
-        "name": "light_hour_counter",
-        "func": "let now = Date.now();\nlet lastTime = context.get(\"lastTime\") || now;\nlet light_hours = context.get(\"light_hours\") || 0;\n\n// Calcola differenza in ore tra l'ultimo messaggio e ora\nlet diffHours = (now - lastTime) / (1000 * 60 * 60);\ncontext.set(\"lastTime\", now);\n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    return { payload: 0 };\n}\n\nlet lux = parseFloat(msg.payload);\n\n// Se c'è luce, aggiunge il tempo trascorso al totale\nif (lux > 3) {\n    light_hours += diffHours;\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 430,
-        "y": 1620,
-        "wires": [
-            [
-                "b840bf71fff787ef"
-            ]
-        ]
-    },
-    {
         "id": "b840bf71fff787ef",
         "type": "ui_chart",
         "z": "07ae8ea1c5a7b65b",
@@ -1578,7 +1830,7 @@
         "dot": false,
         "ymin": "0",
         "ymax": "24",
-        "removeOlder": "7",
+        "removeOlder": "1",
         "removeOlderPoints": "",
         "removeOlderUnit": "86400",
         "cutout": 0,
@@ -1743,9 +1995,10 @@
         "wires": [
             [
                 "09153dbf0153d043",
-                "ec8f6333a2b1d302",
-                "680491c6e4305c52",
-                "9ad45bd8c8343bc1"
+                "9ad45bd8c8343bc1",
+                "fun_light_trend",
+                "e79752eecfbe6fd1",
+                "aa0a0f4e9707ab28"
             ]
         ]
     },
@@ -1957,8 +2210,8 @@
         "interpolate": "bezier",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
+        "ymin": "0",
+        "ymax": "100",
         "removeOlder": 1,
         "removeOlderPoints": "10",
         "removeOlderUnit": "3600",
@@ -1997,15 +2250,15 @@
         "label": "Media Umidità Terreno (%)",
         "chartType": "line",
         "legend": "false",
-        "xformat": "HH:mm:ss",
+        "xformat": "auto",
         "interpolate": "linear",
         "nodata": "No Data",
         "dot": false,
-        "ymin": "",
-        "ymax": "",
+        "ymin": "0",
+        "ymax": "100",
         "removeOlder": 1,
-        "removeOlderPoints": "10",
-        "removeOlderUnit": "3600",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
         "cutout": 0,
         "useOneColor": true,
         "useUTC": false,
@@ -2225,8 +2478,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 170,
-        "y": 1020,
+        "x": 350,
+        "y": 1000,
         "wires": []
     },
     {
@@ -2250,7 +2503,7 @@
         "id": "9ad45bd8c8343bc1",
         "type": "debug",
         "z": "07ae8ea1c5a7b65b",
-        "name": "pot/light/sensor",
+        "name": "pot/light/light_level",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -2259,8 +2512,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 420,
-        "y": 1460,
+        "x": 350,
+        "y": 1420,
         "wires": []
     },
     {
@@ -2305,8 +2558,91 @@
         "y": 1600,
         "wires": [
             [
-                "680491c6e4305c52",
-                "ec8f6333a2b1d302"
+                "e79752eecfbe6fd1",
+                "aa0a0f4e9707ab28"
+            ]
+        ]
+    },
+    {
+        "id": "fun_light_trend",
+        "type": "function",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "Calcola Trend Luce",
+        "func": "let current = parseFloat(msg.payload);\nlet previous = context.get(\"lastValue\") || current;\nlet trend = \"\";\n\n// La luce varia più velocemente, usiamo una soglia di 5 lux per il trend\nif (current > previous + 5) {\n    trend = \" ↗️\"; // In salita\n} else if (current < previous - 5) {\n    trend = \" ↘️\"; // In discesa\n} else {\n    trend = \" ➡️\"; // Stabile\n}\n\n// Memorizza il valore per la prossima volta\ncontext.set(\"lastValue\", current);\n\n// Crea la stringa finale\nmsg.payload = current.toFixed(0) + \" lux\" + trend;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 1440,
+        "wires": [
+            [
+                "ui_text_light_val"
+            ]
+        ]
+    },
+    {
+        "id": "ui_text_light_val",
+        "type": "ui_text",
+        "z": "07ae8ea1c5a7b65b",
+        "group": "91d9056983d973a5",
+        "order": 0,
+        "width": "0",
+        "height": "0",
+        "name": "",
+        "label": "Luminosità Attuale:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 14,
+        "color": "#000000",
+        "x": 890,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "e79752eecfbe6fd1",
+        "type": "function",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "light_percentage",
+        "func": "let light_points = context.get(\"light_points\") || 0;\nlet dark_points = context.get(\"dark_points\") || 0;\n// RECUPERO LA SOGLIA DALLE IMPOSTAZIONI (Default 3 lux)\nlet conf_lux = global.get(\"conf_daily_lux\") || 3;\n\nif (msg.reset) {\n    dark_points = 0;\n    light_points = 0;\n}\n\nlet value = msg.payload;\n\n// Usa la soglia dinamica invece del valore fisso\nvalue > conf_lux ? light_points += 1 : dark_points += 1;\n\ncontext.set(\"light_points\", light_points);\ncontext.set(\"dark_points\", dark_points);\n\nlet total = light_points + dark_points;\nlet light_percentage = total === 0 ? 0 : (light_points / total * 100);\n\nmsg.payload = {\n    \"light_percentage\": parseInt(light_percentage),\n    \"light_points\": light_points,\n    \"dark_points\": dark_points,\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 1540,
+        "wires": [
+            [
+                "c122b24453a9c1ab",
+                "fb081114b01d5b7e",
+                "aa7825ab50cbf90e"
+            ]
+        ]
+    },
+    {
+        "id": "aa0a0f4e9707ab28",
+        "type": "function",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "light_hour_counter",
+        "func": "let now = Date.now();\nlet lastTime = context.get(\"lastTime\") || now;\nlet light_hours = context.get(\"light_hours\") || 0;\n// RECUPERO LA SOGLIA DALLE IMPOSTAZIONI (Default 3 lux)\nlet conf_lux = global.get(\"conf_daily_lux\") || 3;\n\n// Calcola differenza in ore tra l'ultimo messaggio e ora\nlet diffHours = (now - lastTime) / (1000 * 60 * 60);\ncontext.set(\"lastTime\", now);\n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    return { payload: 0 };\n}\n\nlet lux = parseFloat(msg.payload);\n\n// Se la luce supera la soglia impostata dall'utente, aggiunge il tempo\nif (lux > conf_lux) {\n    light_hours += diffHours;\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1620,
+        "wires": [
+            [
+                "b840bf71fff787ef"
             ]
         ]
     },
@@ -2715,7 +3051,7 @@
         "wires": []
     },
     {
-        "id": "5767f6f54f7b2be7",
+        "id": "eb3e505f84ad980b",
         "type": "global-config",
         "env": [],
         "modules": {
