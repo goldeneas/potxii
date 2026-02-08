@@ -1545,7 +1545,7 @@
         "type": "function",
         "z": "07ae8ea1c5a7b65b",
         "name": "light_hour_counter",
-        "func": "const sensor_interval_minutes = 2; \n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    msg.payload = 0;\n    return msg;\n}\n\nlet value = parseFloat(msg.payload);\nlet light_hours = context.get(\"light_hours\") || 0;\n\nif (value > 20) {\n    light_hours += (sensor_interval_minutes / 60);\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
+        "func": "let now = Date.now();\nlet lastTime = context.get(\"lastTime\") || now;\nlet light_hours = context.get(\"light_hours\") || 0;\n\n// Calcola differenza in ore tra l'ultimo messaggio e ora\nlet diffHours = (now - lastTime) / (1000 * 60 * 60);\ncontext.set(\"lastTime\", now);\n\nif (msg.payload === \"reset\") {\n    context.set(\"light_hours\", 0);\n    return { payload: 0 };\n}\n\nlet lux = parseFloat(msg.payload);\n\n// Se c'è luce, aggiunge il tempo trascorso al totale\nif (lux > 3) {\n    light_hours += diffHours;\n}\n\ncontext.set(\"light_hours\", light_hours);\nmsg.payload = parseFloat(light_hours.toFixed(2));\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2023,7 +2023,7 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 600,
+        "x": 660,
         "y": 940,
         "wires": [
             []
@@ -2279,6 +2279,36 @@
         "x": 510,
         "y": 1840,
         "wires": []
+    },
+    {
+        "id": "3eafda5dfb89c0f4",
+        "type": "inject",
+        "z": "07ae8ea1c5a7b65b",
+        "name": "reset",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 00 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "reset",
+        "payload": "reset",
+        "payloadType": "str",
+        "x": 190,
+        "y": 1600,
+        "wires": [
+            [
+                "680491c6e4305c52",
+                "ec8f6333a2b1d302"
+            ]
+        ]
     },
     {
         "id": "978c8e45da4b2bc4",
@@ -2685,7 +2715,7 @@
         "wires": []
     },
     {
-        "id": "0549c9832fb3dd81",
+        "id": "5767f6f54f7b2be7",
         "type": "global-config",
         "env": [],
         "modules": {
